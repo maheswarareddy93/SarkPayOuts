@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Schedular\**" />
+    <Content Remove="Schedular\**" />
+    <EmbeddedResource Remove="Schedular\**" />
+    <None Remove="Schedular\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.0.0" />
+    <PackageReference Include="Quartz" Version="3.0.1" />
+    <PackageReference Include="System.Data.OleDb" Version="4.7.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\ApplicationDocs\UnitsData\" />
+  </ItemGroup>
+
+</Project>

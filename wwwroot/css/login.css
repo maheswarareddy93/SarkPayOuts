@@ -1,0 +1,107 @@
+.login {
+    background-image: url('../img/bg-login.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.titleh3 
+{
+    color: #fff;
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+.custom-form 
+{
+    background: #fff;
+    min-height: 44.8px;
+    padding-left: 36px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    color: #fff;
+    font-weight: 600;
+}
+.custom-form :hover 
+{
+    box-shadow: none;
+    outline: none;
+}
+.custom-form :focus 
+{
+    box-shadow: none;
+    outline: none;
+}
+.label-text 
+{
+    font-weight: 600;
+    color: #fff;
+    font-size: 18px;
+    text-transform: capitalize;
+}
+::placeholder 
+{
+    font-weight: 600;
+    color: #203A4385;
+    font-size: 15px;
+}
+.form-group 
+{
+    position: relative;
+}
+.user-icon,
+.user-pwd 
+{
+    position: absolute;
+    color: #203A4385;
+    z-index: 999;
+    left: 14px;
+    top:49px;
+}
+.custom-btn
+{
+    border-radius: 0.3125rem;
+    transition: all .4s ease-in-out;
+    border: none;
+    font-size: 20px;
+    transition: all .4s ease-in-out;
+    background-color: #fff;
+    color: #203A43;
+    text-transform: uppercase;
+    width: 100%;
+    font-weight: 600;
+}
+
+.custom-btn:hover 
+{
+    box-shadow: none; 
+    outline: none;
+    color: #203A43;
+}
+.custom-btn:focus 
+{
+    box-shadow: none;
+    outline: none;
+    color: #203A43;
+}
+.forgot-block 
+{
+    text-align: right;
+}
+.forgot 
+{
+    text-transform: capitalize;
+    color: #fff;
+    text-align: end;
+    text-decoration: none;
+}
+.forgot:hover,
+.forgot:focus
+{
+    color: #fff;
+    text-decoration: none;
+}

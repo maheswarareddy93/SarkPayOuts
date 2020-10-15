@@ -1,0 +1,259 @@
+﻿@model AgentViewModel
+@{
+    ViewData["Title"] = "Agents";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css">
+    <link rel="stylesheet" href="/css/agents.css">
+}
+<section>
+    <section class="new-book">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title-block mb-md-4 mt-md-5 mb-2 mt-2">
+                        <h4 class="section-title">Agents</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-right my-2 mt-md-0 mb-md-5">
+                <div class="col-md-12">
+                    <div class="agent-create">
+                        <button class="btn agent-delete mr-3">Delete</button>
+                        <button class="btn agent-create-btn" data-toggle="modal" data-target="#staticBackdrop">Create Agent</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <table id="agent" class="display responsive " style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Mobile</th>
+                                <th>Aadhar Card</th>
+                                <th>PAN Card</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.AgentsList != null && Model.AgentsList.Count > 0)
+                            {
+                                @foreach (var data in Model.AgentsList)
+                                {
+                                    <tr>
+                                        <td>@data.AgentName </td>
+                                        <td>@data.Mobile</td>
+                                        <td>@data.Email</td>
+                                        <td>@data.Aadhar</td>
+                                        <td>@data.Pan</td>
+                                        <td>@data.Password</td>
+                                        @if (data.IsActive)
+                                        {
+                                            <td>
+                                                <label class="switch">
+                                                    <input type="checkbox" class="inputtype" id="@data.AgentId+'_'@data.IsActive" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <label class="switch">
+                                                    <input type="checkbox" class="inputtype" id="'@data.AgentId'_@data.IsActive">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                        }
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <form>
+                <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header agent-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Create-Agent</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="agent-form">
+
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label class="label-text">Name</label>
+                                        <input type="text" asp-for="Registration.AgentName" id="name" class="form-control custom-form" placeholder="Your Name">
+                                        <span asp-validation-for="Registration.AgentName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-text">Mobile</label>
+                                        <input type="text" asp-for="Registration.Mobile" id="mobile" class="form-control custom-form" placeholder="Mobile Number">
+                                        <span asp-validation-for="Registration.Mobile" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group email-group" >
+                                        <label class="label-text">Aadhar Card</label>
+                                        <input type="text" asp-for="Registration.Aaadhar" id="aadhar" class="form-control custom-form" placeholder="Aadhar Card">
+                                        <span asp-validation-for="Registration.Aaadhar" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-text">PanCard</label>
+                                        <input type="text" asp-for="Registration.PAN" id="pan" class="form-control custom-form" placeholder="PanCard">
+                                        <span asp-validation-for="Registration.PAN" class="text-danger"></span>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-text">AccountHolderName</label>
+                                        <input type="text" asp-for="Registration.AccountHolderName " id="accountholdername" class="form-control custom-form" placeholder="PanCard">
+                                        <span asp-validation-for="Registration.AccountHolderName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-text">AccountNumber</label>
+                                        <input type="text" asp-for="Registration.BankAccountNumber "  id="accountnumber"class="form-control custom-form" placeholder="PanCard">
+                                        <span asp-validation-for="Registration.BankAccountNumber" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-text">IFSC Code</label>
+                                        <input type="text" asp-for="Registration.IFSCCode " id="ifsccode" class="form-control custom-form" placeholder="PanCard">
+                                        <span asp-validation-for="Registration.IFSCCode" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-text">Email</label>
+                                        <input type="text" asp-for="Registration.Email" id="email" class="form-control custom-form" placeholder="Email">
+                                        <span asp-validation-for="Registration.Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-text">Password</label>
+                                        <input type="password" asp-for="Registration.Password" id="password" class="form-control custom-form" placeholder="Password">
+                                        <span asp-validation-for="Registration.Password" class="text-danger"></span>
+                                    </div>
+
+                                    <button type="submit" class="btn agent-submit-btn" onclick="RegisterAgentNew()">Submit</button>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                @*<button type="submit" class="btn agent-submit-btn">Submit</button>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</section>
+
+@section Scripts{
+    <script src="~/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script>
+        //  $('#table_id_agent').DataTable( {
+        //         responsive: true
+        //     } );
+
+        $(document).ready(function () {
+            $("#timer").hide();
+            $(".confirm-btn").hide();
+            $(".custom-btn").hide();
+            $(".success-msg").hide();
+
+            $("#user-form").hide();
+
+            $('#agent').DataTable({
+                responsive: true
+            });
+            $('#agent tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
+            $('#button').click(function () {
+                alert(table.rows('.selected').data().length + ' row(s) selected');
+            });
+
+            $("polygon").click(function () {
+                $(this).toggleClass("bg-red");
+            });
+            $("rect").click(function () {
+                $(this).toggleClass("bg-red");
+            });
+            $("path").click(function () {
+                $(this).toggleClass("bg-red");
+            });
+
+            $(".book-btn").click(function () {
+                $(this).hide();
+                $(".confirm-btn").addClass("book-text-show");
+                $(".cancel-btn").addClass("cancel-btn-show");
+                $("#timer").show();
+                $(".confirm-btn").show();
+            });
+
+            $(".booking-btn").click(function () {
+                $(".plot-info").hide();
+                $("#user-form").show();
+            });
+            $(".confirm-btn ").click(function () {
+                $(".plot-info").hide();
+                $("#user-form").show();
+                $(".custom-btn").show();
+                $(this).hide();
+
+            });
+
+            $(".custom-btn").click(function () {
+                $(".plot-info").hide();
+                $("#user-form").hide();
+                $(".cancel-btn").hide();
+                $(".success-msg").show();
+                $(this).hide();
+
+            });
+            $(".hamburger").click(function () {
+                $(this).toggleClass("is-active");
+                $(".sidebar").toggleClass("open-sidebar");
+            });
+
+            $("#sidebar-menu").click(function () {
+                $(".sidebar").toggleClass("open-sidebar");
+            });
+            $(".main-body").click(function () {
+                if ($('.sidebar').hasClass('open-sidebar')) {
+                    $(".sidebar").toggleClass('open-sidebar')
+                    $(".hamburger").toggleClass("is-active");
+                }
+            });
+            $(".inputtype").click(function () {
+                alert(this.id);
+            })
+        });
+    </script>
+<script >
+            function RegisterAgentNew() {                
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminOperations/RegisterAgent",
+                    data: JSON.stringify({ "AgentName": $("#name").val(), "Email": $("#email").val(), "Mobile": $("#mobile").val(), "PAN": $("#pan").val(), "Aaadhar": $("#aadhar").val(), "AccountHolderName": $("#accountholdername").val(), "BankAccountNumber": $("#accountnumber").val(), "IFSCCode": $("#ifsccode").val(), "Password": $("#password").val() }),
+                    success: function (response) { },
+                    error: function (error) { }
+                });
+            }
+       
+</script>
+    
+}

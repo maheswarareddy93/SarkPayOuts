@@ -1,0 +1,75 @@
+﻿@model List<NewBookingViewModel>
+@{
+    ViewData["Title"] = "NewBookings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<NewBookingViewModel> lst = Model;
+}
+@section Styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css">
+    <link rel="stylesheet" href="/css/new-booking.css">
+}
+<section class="new-book">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title-block mb-4 mt-5">
+                    <h4 class="section-title">New Bookings</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+
+                <table id="new-book" class="display responsive" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Layout 1</th>
+                            <th>Unit No</th>
+                            <th>Size</th>
+                            <th>Agent Name</th>
+                            <th>Status</th>
+                            <th>Booking</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (lst != null && lst.Count > 0)
+                        {
+                            foreach (var data in lst) { 
+                            <tr>
+                                <td>@data.ProjectName</td>
+                                <td>@data.UnitNumber </td>
+                                <td>@data.UnitSize</td>
+                                <td>@data.AgentName</td>
+                                <td>@data.Status</td>
+                                <td>
+                                    <button class="btn custom-table-btn btn-success ml-md-0 ml-1">Confirm</button>
+                                    <button class="btn custom-table-btn btn-danger ml-md-3 ml-1">Reject</button>
+                                </td>
+                            </tr>
+                            }
+                        }
+                        else {
+                        <tr>No Bookings Found</tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#new-book').DataTable({
+                responsive: true
+            });
+
+
+        });
+    </script>
+}

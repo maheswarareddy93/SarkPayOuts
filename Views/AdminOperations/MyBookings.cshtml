@@ -1,0 +1,258 @@
+﻿
+@{
+    Layout = "/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles{ }
+<section class="booking-slots">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title-block mb-4 mt-3">
+                    <h4 class="section-title">My Bookings</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+          
+            <div class="col-md-12 col-lg-4">
+                <div class="accordion my-4 mt-lg-0" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                        data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                        aria-controls="collapseOne">
+                                    Bookings Blocked<i class="fas fa-caret-down"></i>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                              
+                                <div class="block-1">
+                                    <h3 class="sub-title">Layout 1</h3>
+                                    <hr>
+
+                                    <div class="layout-1">
+                                        <span class="layout-1-unit">134</span>
+
+                                        <div class="timer-block">
+                                            <div id="timer">
+                                                <div id="hours0"></div>
+                                                <div id="minutes0"></div>
+                                                <div id="seconds0"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="cancel">
+                                            <button class="btn cancel-btn" data-toggle="modal" data-target="#exampleModal">Cancel</button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="layout-1 my-3">
+                                        <span class="layout-1-unit">134</span>
+
+                                        <div class="timer-block">
+                                            <div id="timer">
+                                                <div id="hours1"></div>
+                                                <div id="minutes1"></div>
+                                                <div id="seconds1"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="cancel">
+                                            <button class="btn cancel-btn">Cancel</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                
+                          
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header cancel-modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Cancel Conformation...</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body cancel-modal-body">
+                                                <div class="cancel-popup">
+                                                    <i class="far fa-window-close modal-close"></i>
+                                                </div>
+                                                <h4>Your Booking Cancel Successfully..!</h4>
+                                            </div>
+                                            <!-- <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+
+                <div class="accordion my-4 mt-lg-0" id="accordionExample2">
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                        data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+                                        aria-controls="collapseTwo">
+                                    Confirm Booking<i class="fas fa-caret-down"></i>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                             data-parent="#accordionExample2">
+                            <div class="card-body">
+                                <div class="block-1">
+
+                                    <h3 class="sub-title">Layout 1</h3>
+                                    <hr>
+
+                                    <div class="layout-1">
+
+                                        <span class="layout-1-unit-confirm">134</span>
+
+                                        <div class="date-display">
+                                            <span>28/Sep/2020</span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="layout-1 my-3">
+
+                                        <span class="layout-1-unit-confirm">134</span>
+
+                                        <div class="date-display">
+                                            <span>28/Sep/2020</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="block-1">
+
+                                    <h3 class="sub-title">Layout 2</h3>
+                                    <hr>
+
+                                    <div class="layout-1">
+
+                                        <span class="layout-1-unit-confirm">134</span>
+
+                                        <div class="date-display">
+                                            <span>28/Sep/2020</span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="layout-1 my-3">
+
+                                        <span class="layout-1-unit-confirm">134</span>
+
+                                        <div class="date-display">
+                                            <span>28/Sep/2020</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12 col-lg-4">
+
+                <div class="accordion my-4 mt-lg-0" id="accordionExample3">
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                        data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+                                        aria-controls="collapseThree">
+                                    Rejected Booking<i class="fas fa-caret-down"></i>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                             data-parent="#accordionExample3">
+                            <div class="card-body">
+                                <div class="block-1">
+
+                                    <h3 class="sub-title">Layout 1</h3>
+                                    <hr>
+
+                                    <div class="layout-1">
+
+                                        <span class="layout-1-unit-reject">134</span>
+
+                                        <div class="time-out">
+                                            <span>Time Out</span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="layout-1 my-3">
+
+                                        <span class="layout-1-unit-reject">134</span>
+
+                                        <div class="time-out">
+                                            <span>Time Out</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="block-1 mt-3">
+
+                                    <h3 class="sub-title">Layout 2</h3>
+                                    <hr>
+
+                                    <div class="layout-1">
+
+                                        <span class="layout-1-unit-reject">134</span>
+
+                                        <div class="time-out">
+                                            <span>Time Out</span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="layout-1 my-3">
+
+                                        <span class="layout-1-unit-reject">134</span>
+
+                                        <div class="time-out">
+                                            <span>Time Out</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+@section Scripts{ }
