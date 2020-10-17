@@ -1,6 +1,6 @@
 ﻿
-@model LoginViewModel ;  
-@{ 
+@model LoginViewModel ;
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -18,8 +18,6 @@
 </head>
 
 <body>
-
-
     <section class="login">
         <div class="container">
             <div class="row justify-content-center">
@@ -45,14 +43,17 @@
                                 </div>
                                 <div class="form-group email-group" id="email">
                                     <label class="label-text">Email</label>
-                                    <input type="email" id="txtemail" class="form-control custom-form" placeholder="Email ID">
-
+                                    <input type="text" class="form-control custom-form" placeholder="Email ID" id="userName" required>
                                     <i class="fas fa-lock user-pwd"></i>
                                 </div>
                                 <div class="forgot-block">
                                     <a href="javascript:void(0)" class="forgot">Forgot Password</a>
                                 </div>
-                                <button type="submit" class="btn custom-btn my-3">Login</button>
+                                <button id="login-btn" type="submit" class="btn custom-btn my-3">Login</button>
+                                <a href="#" id="submit" class="btn custom-btn my-3" onclick="ForgotPasswordSend()">Submit</a>
+                                <div class="back-btn-login">
+                                    <button id="back" class="back-bbttnn" type="submit"><i class="fas fa-arrow-circle-left"></i></button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -60,9 +61,6 @@
             </div>
         </div>
     </section>
-
-
-
     <script src="/js/jquery-3.5.1.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
@@ -70,30 +68,44 @@
     <script src="~/jquery-validation/dist/additional-methods.min.js"></script>
     <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $("#email").hide();
+            $("#submit").hide();
+            $("#back").hide();
             $(".forgot").click(function () {
                 $("#fname").hide();
                 $("#pwd").hide();
+                $("#login-btn").hide();
                 $("#email").show();
+                $("#submit").show();
+                $("#back").show();
+            });
+            $("#back").click(function () {
+                $("#fname").show();
+                $("#pwd").show();
+                $("#login-btn").show();
+                $("#email").hide();
+                $("#submit").hide();
+                $("#back").hide();
             });
         });
         function ForgotPasswordSend() {
+            var email = $("#userName").val();
+            alert(email);
+            if (email == "") {
+                alert("Please Enter Email");
+                return false;
+            }
             $.ajax({
                 type: "POST",
                 url: "/AgentLogin/ForgotPassword",
-                data: {"id":""},
-                success: function (response) {
-                },
-                failure: function (response) {
-                },
-                error: function (response) {
-
-                }
+                data: { "id": email },
+                success: function (response) { },
+                error: function (error) { },
             });
         }
     </script>
-
 </body>
 </html>

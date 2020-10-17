@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SarkPayOuts.Helper;
 using SarkPayOuts.Interface;
+using SarkPayOuts.MailsAndMessages;
 using SarkPayOuts.Models;
 using SarkPayOuts.Models.DbModels;
 
@@ -15,14 +16,17 @@ namespace SarkPayOuts.Controllers
     {
         private readonly IAgentInterface _agent;
         private readonly ApplicationDBContext _context;
+        private readonly IEmailSender _sender;
+        MessageCreater cs = new MessageCreater();
         const string SessionName = "_Name";
         const string SessionEmail = "_Age";
         const string SessionAgentId = "_AgentId";
         const string SessionType = "_Type";
-        public AgentLogin(IAgentInterface agent, ApplicationDBContext context)
+        public AgentLogin(IAgentInterface agent, ApplicationDBContext context,IEmailSender sender)
         {
             _context = context;
             _agent = agent;
+            _sender = sender;
         }
         public IActionResult Index()
         {
@@ -76,6 +80,24 @@ namespace SarkPayOuts.Controllers
         {
             HttpContext.Session.SetString(SessionAgentId,"");
             return RedirectToAction("Index","AgentLogin");
+        }
+        public JsonResult ForgotPassword(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                AgentRegistration data = _agent.CheckAdminExitsSendPassword(id);
+                if (data != null)
+                {
+                    //string message = cs.ForgotPasswordSMS(data, "https://Sarkpayouts.in/AdminLogin");
+                    //_sender.SendEmail(data.Email, "", "ForgotPassword", message, null);
+                    //_sender.SendSMS(data.Name, message, data.Mobile);
+                }
+                else
+                {
+                    return Json("Please Enter Valid Email");
+                }
+            }
+            return Json("Please Enter Email Id");
         }
     }
 }

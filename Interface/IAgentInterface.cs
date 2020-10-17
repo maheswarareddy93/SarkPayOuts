@@ -1,4 +1,5 @@
 ﻿using SarkPayOuts.Models;
+using SarkPayOuts.Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace SarkPayOuts.Interface
         LoginViewModel LoginCheck(string userName,string password);
         bool RegisterAgent(RegistrationModel model);
         ProjectDetails   AddBlockedUnitsToDb(UnitModel model );
-        List<ProjectDetails> GetAgentsUnits(string agentId);
+        MyBookinsViewModel GetAgentsUnits(string agentId,string type);
+       AgentRegistration CheckAdminExitsSendPassword(string id);
     }
 }

@@ -22,5 +22,10 @@ namespace SarkPayOuts.Models.DbModels
         public DbSet<AdminDetails> AdminDetails { get; set; }
         public DbSet<ProjectsData > ProjectsData { get; set; }
         public DbSet<ProjectUnitsData > ProjectUnitsData { get; set; }
+
+        public DbSet<AutharityData> AutharityData { get; set; }
+
+        public DbSet<CommonSetting> CommonSetting { get; set; }
+        public DbSet<MailTemplate> MailTemplate { get; set; }
     }
 }

@@ -45,7 +45,8 @@ namespace SarkPayOuts.Controllers
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_AgentId")))
             {
                 string id = HttpContext.Session.GetString("_AgentId");
-                List<ProjectDetails> units = _agentOperations.GetAgentsUnits(id);
+                string type= HttpContext.Session.GetString("_Type");
+                MyBookinsViewModel units = _agentOperations.GetAgentsUnits(id,type);
                 return View(units);
             }
             return RedirectToAction("Index","AgentLogin");

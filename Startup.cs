@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SarkPayOuts.Interface;
+using SarkPayOuts.MailsAndMessages;
+using SarkPayOuts.Models;
 using SarkPayOuts.Models.DbModels;
 using SarkPayOuts.Repository;
 
@@ -35,12 +37,8 @@ namespace SarkPayOuts
             services.AddTransient<IAdminOperations, AdminOperationsRepository>();
             services.AddTransient<IAgentInterface, AgentRepository>();
             services.AddTransient<IProjectsData, ProjectRepository>();
-            //services.AddControllers();
-            //services.AddSingleton<IJobFactory, QuartzJobFactory>();
-            //services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-            //services.AddSingleton<schedulerJob>();
-            //services.AddSingleton(new JobMetadata(Guid.NewGuid(), typeof(schedulerJob), "scheduler Job", "0/10 * * * * ?"));
-            //services.AddHostedService<QuartzHostedService>();
+            services.AddTransient<IEmailSender,EmailService>();
+            services.Configure<smtp>(Configuration.GetSection("Smtp"));
             services.AddControllersWithViews();
         }
 

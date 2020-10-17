@@ -36,17 +36,29 @@
                     <tbody>
                         @if (lst != null && lst.Count > 0)
                         {
-                            foreach (var data in lst) { 
+                            foreach (var data in lst) {
+                                string type = string.Empty;
+                                @if(data.AgentName=="Self")
+                                {
+                                    type = "Admin";
+                                }
+                                else { type = "Agent"; }
                             <tr>
                                 <td>@data.ProjectName</td>
                                 <td>@data.UnitNumber </td>
                                 <td>@data.UnitSize</td>
                                 <td>@data.AgentName</td>
                                 <td>@data.Status</td>
+                                @if (data.Status=="Booked" || data.Status=="Rejected")
+                                {
+                                    <td></td>
+                                }
+                                else { 
                                 <td>
-                                    <button class="btn custom-table-btn btn-success ml-md-0 ml-1">Confirm</button>
-                                    <button class="btn custom-table-btn btn-danger ml-md-3 ml-1">Reject</button>
+                                    <button class="btn custom-table-btn btn-success ml-md-0 ml-1" onclick="UpdateStatus('@data.AgentId','@data.ProjectId','@data.UnitNumber','Confirmed','@type')">Confirm</button>
+                                    <button class="btn custom-table-btn btn-danger ml-md-3 ml-1" onclick="UpdateStatus('@data.AgentId','@data.ProjectId','@data.UnitNumber','Rejected','@type')">Reject</button>
                                 </td>
+                                }
                             </tr>
                             }
                         }
@@ -68,8 +80,20 @@
             $('#new-book').DataTable({
                 responsive: true
             });
-
-
         });
+        function UpdateStatus(aid, pid,un,status,type) {
+            $.ajax({
+                type: "POST",
+                url: "/AdminOperations/UpdateBookingStatus",
+                data: { "aid":aid, "pid":pid, "un":un,"state":status,"type":type},
+                success: function (response) {
+                    result = response;
+                },
+                error: function (error) {
+                    result = error;
+                },
+            });
+        }
+       
     </script>
 }

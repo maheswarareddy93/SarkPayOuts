@@ -1,4 +1,5 @@
-﻿using SarkPayOuts.Common;
+﻿using Microsoft.AspNetCore.Http;
+using SarkPayOuts.Common;
 using SarkPayOuts.Enums;
 using SarkPayOuts.Interface;
 using SarkPayOuts.Models;
@@ -57,7 +58,7 @@ namespace SarkPayOuts.Repository
             }
             return null;
         }
-
+        //Excel data populating into database
         public void PopulateUnitsDataToDb(List<ProjectUnitsData> model)
         {
             try
@@ -109,11 +110,12 @@ namespace SarkPayOuts.Repository
         public bool CheckAgentExists(string phone, string email)
         {
             var agentDetails=_context.AgentRegistration.Where(x => x.Mobile == phone && x.Email == email).FirstOrDefault();
-            if (agentDetails!=null) {
-                return true ;
+            if (agentDetails==null) {
+                return false  ;
             }
-            return false  ;
+            return true  ;
         }
+        //Register New Agents 
         public bool RegisterNewAgent(RegistrationModel model)
         {
             try
@@ -145,7 +147,7 @@ namespace SarkPayOuts.Repository
             }
             
         }
-
+        //
         public bool UpdatingBlockingUnitsStatus()
         {
             try
@@ -155,14 +157,19 @@ namespace SarkPayOuts.Repository
                 {
                     foreach (var agent in agents)
                     {
-                        if (agent.BlockedUnits!=null)
+                        if (!string.IsNullOrEmpty(agent.BlockedUnits))
                         {
                             List<ProjectDetails> lstNewList = new List<ProjectDetails>();
                             List<BlockedUnits> lstNewBlockedUnits = new List<BlockedUnits>();
-                            
                             AgentRegistration agentUpdate = _context.AgentRegistration.Where(x => x.AgentId == agent.AgentId).FirstOrDefault();
                             List<ProjectDetails> lstDetails = JsonSerializer.Deserialize<List<ProjectDetails>>(agent.BlockedUnits);
+                            List<ProjectDetails> lstNewDetails = lstDetails;
                             List<ProjectDetails> lstRejectedUnits = new List<ProjectDetails>();
+                            ProjectDetails Newdetails = new ProjectDetails();
+                            BlockedUnits rejected = new BlockedUnits();
+                            if (!string.IsNullOrEmpty(agent.RejectedUnits)) {
+                                lstRejectedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(agent.RejectedUnits);
+                            }
                             if (lstDetails!=null && lstDetails.Count>0)
                             {
                                 foreach (var project  in lstDetails)
@@ -174,8 +181,8 @@ namespace SarkPayOuts.Repository
                                         DateTime expiryDate = DateTime.Parse(unitdata.ExpiryDate);
                                         if (DateTime.Now>expiryDate)
                                         {
-                                            BlockedUnits rejected = new BlockedUnits();
                                             rejected.Id = unitdata.Id;
+                                            rejected.Status  =StatusEnum.Rejected.ToString();
                                             rejected.UnitNumber = unitdata.UnitNumber;
                                             rejected.UnitSize = unitdata.UnitSize;
                                             rejected.Facing = unitdata.Facing;
@@ -187,29 +194,37 @@ namespace SarkPayOuts.Repository
                                             unitsData.AgentId = "";
                                             unitsData.BlockedDate = "";
                                             unitsData.ExpiredDate = "";
-                                            _context.SaveChanges();
+                                            rejectedUnits.ProjectId = project.ProjectId;
+                                            rejectedUnits.ProjectName = project.ProjectName;
                                             if (!string.IsNullOrEmpty(agentUpdate.RejectedUnits))
-                                            {
-                                                lstRejectedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(agentUpdate.RejectedUnits);                                               
-                                                rejectedUnits.ProjectId = project.ProjectId;
-                                                rejectedUnits.ProjectName = project.ProjectName;
-                                                rejectedUnits.UnitsData = lstRejected;
-                                                lstRejectedUnits.Add(rejectedUnits);
+                                            {                                                                                                                                                                          
+                                                if (lstRejectedUnits != null)
+                                                {
+                                                    foreach (var data in lstRejectedUnits)
+                                                    {
+                                                        data.UnitsData.Add(rejected);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    lstRejectedUnits.Add(rejectedUnits);
+                                                }
                                             }
                                             else
                                             {
                                                 rejectedUnits.UnitsData = lstRejected;
                                                 lstRejectedUnits.Add(rejectedUnits);
                                             }
-                                            
+                                            Newdetails = project;
                                             //UpdateProjectUnitStatus(agent, project, project.ProjectId, unitdata.UnitNumber);
                                         }
                                         else
                                         {
-
                                         }
                                     }
                                 }
+                                Newdetails.UnitsData.Remove(rejected);
+                                lstDetails.Remove(Newdetails);
                                 agentUpdate.RejectedUnits = JsonSerializer.Serialize(lstRejectedUnits);
                                 agentUpdate.BlockedUnits = JsonSerializer.Serialize(lstDetails);
                                 _context.SaveChanges();
@@ -224,7 +239,7 @@ namespace SarkPayOuts.Repository
             }
             return false;
         }
-
+        //
         public bool   UpdateProjectUnitStatus(AgentRegistration  agentDetails,ProjectDetails project,string projectId,string unitId) {
 
             try
@@ -297,18 +312,88 @@ namespace SarkPayOuts.Repository
             }
             return null;
         }
-
-        public List<NewBookingViewModel> GetNewBookings()
+        //Getting the NewBookings Data 
+        public List<NewBookingViewModel> GetNewBookings(string id)
         {
             List<NewBookingViewModel> lst = new List<NewBookingViewModel>();
-            
+            List<ProjectDetails> lstProjectDetails = new List<ProjectDetails>();
+            List<ProjectDetails> lstRejProjectDetails = new List<ProjectDetails>();
+            List<ProjectDetails> lstbookedProjectDetails = new List<ProjectDetails>();
+            List<ProjectDetails> lstSelfProjectDetails = new List<ProjectDetails>();
+            List<ProjectDetails> lstadbookedProjectDetails = new List<ProjectDetails>();
+            List<ProjectDetails> lstRejectesProjectDetails = new List<ProjectDetails>();
+            var admins = _context.AdminDetails.Where(x=>x.AdminUUID==id).FirstOrDefault();
+            if (admins !=null)
+            {
+                if (!string.IsNullOrEmpty(admins.BlockedUnits))
+                {
+                    lstSelfProjectDetails = JsonSerializer.Deserialize<List<ProjectDetails>>(admins.BlockedUnits);
+                    foreach (var projectData in lstSelfProjectDetails)
+                    {
+                        foreach (var unit in projectData.UnitsData)
+                        {
+                            NewBookingViewModel agentDetails = new NewBookingViewModel();
+                            agentDetails.AgentId = admins .AdminUUID;
+                            agentDetails.AgentName = "Self";
+                            agentDetails.UnitSize = unit.UnitSize;
+                            agentDetails.CreatedDate = unit.CreatedDate;
+                            agentDetails.UnitNumber = unit.UnitNumber;
+                            agentDetails.Facing = unit.Facing;
+                            agentDetails.ProjectId = projectData.ProjectId;
+                            agentDetails.ProjectName = projectData.ProjectName;
+                            agentDetails.Status = unit.Status;
+                            lst.Add(agentDetails);
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(admins.RejectedUnits))
+                {
+                    lstRejectesProjectDetails = JsonSerializer.Deserialize<List<ProjectDetails>>(admins.RejectedUnits);
+                    foreach (var projectData in lstRejectesProjectDetails)
+                    {
+                        foreach (var unit in projectData.UnitsData)
+                        {
+                            NewBookingViewModel agentDetails = new NewBookingViewModel();
+                            agentDetails.AgentId = admins.AdminUUID;
+                            agentDetails.AgentName = "Self";
+                            agentDetails.UnitSize = unit.UnitSize;
+                            agentDetails.CreatedDate = unit.CreatedDate;
+                            agentDetails.UnitNumber = unit.UnitNumber;
+                            agentDetails.Facing = unit.Facing;
+                            agentDetails.ProjectId = projectData.ProjectId;
+                            agentDetails.ProjectName = projectData.ProjectName;
+                            agentDetails.Status = unit.Status;
+                            lst.Add(agentDetails);
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(admins.BookingConfirmed))
+                {
+                    lstadbookedProjectDetails = JsonSerializer.Deserialize<List<ProjectDetails>>(admins.BookingConfirmed);
+                    foreach (var projectData in lstadbookedProjectDetails)
+                    {
+                        foreach (var unit in projectData.UnitsData)
+                        {
+                            NewBookingViewModel agentDetails = new NewBookingViewModel();
+                            agentDetails.AgentId = admins.AdminUUID;
+                            agentDetails.AgentName = "Self";
+                            agentDetails.UnitSize = unit.UnitSize;
+                            agentDetails.CreatedDate = unit.CreatedDate;
+                            agentDetails.UnitNumber = unit.UnitNumber;
+                            agentDetails.Facing = unit.Facing;
+                            agentDetails.ProjectId = projectData.ProjectId;
+                            agentDetails.ProjectName = projectData.ProjectName;
+                            agentDetails.Status = unit.Status;
+                            lst.Add(agentDetails);
+                        }
+                    }
+                }
+            }
             var agents =_context.AgentRegistration.ToList();
             foreach (var agent in agents)
             {
-                List<ProjectDetails> lstProjectDetails = new List<ProjectDetails>();
                 if (!string.IsNullOrEmpty(agent.BlockedUnits))
-                {
-                    
+                {                    
                     lstProjectDetails = JsonSerializer.Deserialize<List<ProjectDetails>>(agent.BlockedUnits);
                     foreach (var projectData in lstProjectDetails )
                     {
@@ -327,10 +412,146 @@ namespace SarkPayOuts.Repository
                             lst.Add(agentDetails);
                         }
                     }
-                    
+                }
+                if (!string.IsNullOrEmpty(agent.RejectedUnits))
+                {
+                    lstRejProjectDetails  = JsonSerializer.Deserialize<List<ProjectDetails>>(agent.RejectedUnits);
+                    foreach (var projectData in lstRejProjectDetails)
+                    {
+                        foreach (var unit in projectData.UnitsData)
+                        {
+                            NewBookingViewModel agentDetails = new NewBookingViewModel();
+                            agentDetails.AgentId = agent.AgentId;
+                            agentDetails.AgentName = agent.AgetName;
+                            agentDetails.UnitSize = unit.UnitSize;
+                            agentDetails.CreatedDate = unit.CreatedDate;
+                            agentDetails.UnitNumber = unit.UnitNumber;
+                            agentDetails.Facing = unit.Facing;
+                            agentDetails.ProjectId = projectData.ProjectId;
+                            agentDetails.ProjectName = projectData.ProjectName;
+                            agentDetails.Status = unit.Status;
+                            lst.Add(agentDetails);
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(agent.BookingConfirmed))
+                {
+                    lstbookedProjectDetails = JsonSerializer.Deserialize<List<ProjectDetails>>(agent.BookingConfirmed);
+                    foreach (var projectData in lstbookedProjectDetails)
+                    {
+                        foreach (var unit in projectData.UnitsData)
+                        {
+                            NewBookingViewModel agentDetails = new NewBookingViewModel();
+                            agentDetails.AgentId = agent.AgentId;
+                            agentDetails.AgentName = agent.AgetName;
+                            agentDetails.UnitSize = unit.UnitSize;
+                            agentDetails.CreatedDate = unit.CreatedDate;
+                            agentDetails.UnitNumber = unit.UnitNumber;
+                            agentDetails.Facing = unit.Facing;
+                            agentDetails.ProjectId = projectData.ProjectId;
+                            agentDetails.ProjectName = projectData.ProjectName;
+                            agentDetails.Status = unit.Status;
+                            lst.Add(agentDetails);
+                        }
+                    }
                 }
             }
             return lst;
+        }
+        //Here Updating the Status of Unit either Confir or Rejected
+        public bool UpdateStatusOfBooking(string aid,string pid,string un,string status,string type)
+        {
+            dynamic  agentDetails=null;
+            if (type == "Admin")
+            {
+               agentDetails= _context.AdminDetails.Where(x => x.AdminUUID == aid).FirstOrDefault();
+            }
+            else {
+                agentDetails = _context.AgentRegistration.Where(x => x.AgentId == aid).FirstOrDefault();
+            }
+           
+          var unitDetails = _context.ProjectUnitsData.Where(x => x.AgentId == aid && x.Projectuuid == pid && x.UnitNumber == un).FirstOrDefault();
+            List<ProjectDetails> lstbookedData = new List<ProjectDetails>();
+            List<ProjectDetails> lstrejectedData = new List<ProjectDetails>();
+            if (agentDetails!=null)
+            {
+                if (!string.IsNullOrEmpty(agentDetails.BlockedUnits))
+                {
+                    List<ProjectDetails> lstDetails = JsonSerializer.Deserialize<List<ProjectDetails>>(agentDetails.BlockedUnits);
+                    ProjectDetails BookedProject = new ProjectDetails();                   
+                    List<BlockedUnits> lstBookedUnits = new List<BlockedUnits>();
+                    ProjectDetails  project= lstDetails.Where(x=>x.ProjectId==pid).FirstOrDefault();
+                    BlockedUnits  unit = project.UnitsData.Where(y=>y.UnitNumber==un).FirstOrDefault();
+                    if (status =="Confirmed") {
+                        BookedProject.ProjectId = project.ProjectId;
+                        BookedProject.ProjectName = project.ProjectName;
+                        unit.Status = StatusEnum.Booked.ToString();
+                        unitDetails.status= StatusEnum.Booked.ToString();
+                        lstBookedUnits.Add(unit);
+                        BookedProject.UnitsData =lstBookedUnits ;                    
+                        if (!string.IsNullOrEmpty(agentDetails.BookingConfirmed)) {
+                            lstbookedData = JsonSerializer.Deserialize<List<ProjectDetails>>(agentDetails.BookingConfirmed);
+                            lstbookedData = lstbookedData.Where(x => x.ProjectId == pid).ToList();
+                            if (lstbookedData != null) {
+                                foreach (var data in lstbookedData)
+                                {
+                                    data.UnitsData.Add(unit);
+                                }
+                            }
+                            else
+                            {
+                                lstbookedData.Add(BookedProject);
+                            }
+                        }
+                        else
+                        {
+                            lstbookedData.Add(BookedProject);
+                        }
+                        agentDetails.BookingConfirmed = JsonSerializer.Serialize(lstbookedData);
+                    }
+                    else if(status =="Rejected") {
+                        BookedProject.ProjectId = project.ProjectId;
+                        BookedProject.ProjectName = project.ProjectName;
+                        unit.Status = StatusEnum.Rejected.ToString();
+                        unitDetails.status = StatusEnum.Available.ToString();
+                        lstBookedUnits.Add(unit);
+                        BookedProject.UnitsData = lstBookedUnits;
+                        if (!string.IsNullOrEmpty(agentDetails.RejectedUnits)) {
+                            lstrejectedData= JsonSerializer.Deserialize<List<ProjectDetails>>(agentDetails.RejectedUnits);
+                            lstrejectedData = lstrejectedData.Where(x => x.ProjectId == pid).ToList();
+                            if (lstrejectedData != null && lstrejectedData.Count>0)
+                            {
+                                foreach (var data in lstrejectedData)
+                                {
+                                    data.UnitsData.Add(unit);
+                                }
+                            }
+                            else
+                            {
+                                lstrejectedData.Add(BookedProject);
+                            }
+                        }
+                        else {
+                            lstrejectedData.Add(BookedProject);
+                        }
+                        agentDetails.RejectedUnits = JsonSerializer.Serialize(lstrejectedData);
+                    }
+                    project.UnitsData.Remove(unit);                    
+                    agentDetails.BlockedUnits = JsonSerializer.Serialize(lstDetails);
+                    _context.SaveChanges();
+                }
+            }
+            return false;
+        }
+        //Forgot Password 
+        public AdminDetails  CheckAdminExitsSendPassword(string id)
+        {
+             AdminDetails details  = _context.AdminDetails.Where(x => x.Email == id).FirstOrDefault();
+            if (details!=null)
+            {
+                return details;
+            }
+            return null;
         }
     }
 }

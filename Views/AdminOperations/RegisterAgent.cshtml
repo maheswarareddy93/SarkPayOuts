@@ -1,0 +1,125 @@
+﻿@model RegistrationModel  
+@{
+    ViewData["Title"] = "RegisterAgent";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css">
+    <link rel="stylesheet" href="/css/agents.css">
+}
+<section class="new-book">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title-block mb-md-4 mt-md-5 mb-2 mt-2">
+                    <h4 class="section-title">Create Agents</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <form method="post" asp-action="RegisterAgent" asp-controller="AdminOperations">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="label-text">Name</label>
+                            <input type="text" asp-for="AgentName" class="form-control custom-form" placeholder="Your Name">
+                            <span asp-validation-for="AgentName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="label-text">Mobile</label>
+                            <input type="text" asp-for="Mobile" class="form-control custom-form" placeholder="Mobile Number">
+                            <span asp-validation-for="Mobile" class="text-danger"></span>
+                        </div>
+                        <div class="form-group email-group col-md-6" id="email">
+                            <label class="label-text">Aadhar Card</label>
+                            <input type="text" asp-for="Aaadhar" class="form-control custom-form" placeholder="Aadhar Card">
+                            <span asp-validation-for="Aaadhar" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="label-text">PanCard</label>
+                            <input type="text" asp-for="PAN" class="form-control custom-form" placeholder="PanCard" style="text-transform:uppercase" >
+                            <span asp-validation-for="PAN" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="label-text">Email</label>
+                            <input type="text" asp-for="Email" class="form-control custom-form" placeholder="Email">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="label-text">Password</label>
+                            <input type="text" asp-for="Password" class="form-control custom-form" placeholder="Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="label-text">AccountHolderName</label>
+                            <input type="text" asp-for="AccountHolderName " id="accountholdername" class="form-control custom-form" placeholder="Account Holder Name">
+                            <span asp-validation-for="AccountHolderName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="label-text">AccountNumber</label>
+                            <input type="text" asp-for="BankAccountNumber" id="accountnumber" class="form-control custom-form" placeholder="Account Number">
+                            <span asp-validation-for="BankAccountNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="label-text">IFSC Code</label>
+                            <input type="text" asp-for="IFSCCode" id="ifsccode" class="form-control custom-form" placeholder="Ifsc Code">
+                            <span asp-validation-for="IFSCCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn agent-submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#timer").hide();
+            $(".confirm-btn").hide();
+            $(".custom-btn").hide();
+            $(".success-msg").hide();
+
+            $("#user-form").hide();
+
+            $('#agent').DataTable({
+                responsive: true
+            });
+            $('#agent tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+
+            $('#button').click(function () {
+                alert(table.rows('.selected').data().length + ' row(s) selected');
+            });
+
+
+            $(".hamburger").click(function () {
+                $(this).toggleClass("is-active");
+                $(".sidebar").toggleClass("open-sidebar");
+            });
+
+            $("#sidebar-menu").click(function () {
+                $(".sidebar").toggleClass("open-sidebar");
+            });
+            $(".main-body").click(function () {
+                if ($('.sidebar').hasClass('open-sidebar')) {
+                    $(".sidebar").toggleClass('open-sidebar')
+                    $(".hamburger").toggleClass("is-active");
+                }
+            });
+        });
+    </script>
+}

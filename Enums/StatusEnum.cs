@@ -9,6 +9,7 @@ namespace SarkPayOuts.Enums
     {
         Blocked,
         Available,
-        Booked
+        Booked,
+        Rejected
     }
 }

@@ -6117,16 +6117,17 @@
                 var className = $(this).attr("class");
                 if (className == "st35 bg-red") {
                     alert("This unit was already blocked");
-                } else if (className == "st35 bg-red-booked") { alert("This Unit already booked by some one"); } else {
+                } else if (className == "st35 bg-booked") { alert("This Unit already booked by some one"); } else {
                     $(this).toggleClass("bg-red")
                     ModelBinding(this.id);
                     }
             });
             $("rect").click(function () {
+                debugger
                 var className = $(this).attr("class");
                 if (className == "st35 bg-red") {
                     alert("This unit was already blocked");
-                } else if (className == "st35 bg-red-booked") { alert("This Unit already booked by some one"); } else {
+                } else if (className == "st35 bg-booked") { alert("This Unit already booked by some one"); } else {
                     $(this).toggleClass("bg-red")
                     ModelBinding(this.id);
                 }
@@ -6136,7 +6137,7 @@
                 var className = $(this).attr("class");
                 if (className == "st35 bg-red") {
                     alert("This unit was already blocked");
-                } else if (className == "st35 bg-red-booked") { alert("This Unit already booked by some one"); } else {
+                } else if (className == "st35 bg-booked") { alert("This Unit already booked by some one"); } else {
                     $(this).toggleClass("bg-red")
                     ModelBinding(this.id);
                 }
@@ -6153,15 +6154,16 @@
             $.ajax({
                 type: "POST",
                 url: "/ProjectLayout/GetUnitDataFromDb",
-                data: { "id": $("#ProjectId").val() },
-                success: function (response) {                    
+                data: { "id":$("#ProjectId").val() },
+                success: function (response) { 
+                    debugger
                     for (var i = 0; i <= response.length - 1; i++) {
                         if (response[i]!=null) {
                             if (response[i].status == "Blocked") {
-                                $("#" + response[i].projectName.toLowerCase()+"-"+ response[i].unitNumber).addClass("st35 bg-red");
+                                $("#" + response[i].projectName.toLowerCase()+"-"+response[i].unitNumber).addClass("st35 bg-red");
                             }
-                            if (response[i].status == "Booking") {
-                                $("#" + response[i].projectName.toLowerCase() + "-" + response[i].unitNumber).addClass("st35 bg-red-booked");
+                            if (response[i].status == "Booked") {
+                                $("#" + response[i].projectName.toLowerCase() + "-" + response[i].unitNumber).addClass("st35 bg-booked");
                             }
                         }
             }

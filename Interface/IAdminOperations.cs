@@ -19,6 +19,9 @@ namespace SarkPayOuts.Interface
         bool RegisterNewAgent(RegistrationModel model);
         bool UpdatingBlockingUnitsStatus();
         ProjectDetails AddBlockedUnitsToDb(UnitModel model);
-        List<NewBookingViewModel> GetNewBookings();
+        List<NewBookingViewModel> GetNewBookings(string id);
+
+        AdminDetails CheckAdminExitsSendPassword(string id);
+        public bool UpdateStatusOfBooking(string agentId,string projectId,string UnitNumber,string status,string type);
     }
 }

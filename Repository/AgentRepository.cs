@@ -60,7 +60,7 @@ namespace SarkPayOuts.Repository
             projectDetails.ProjectId = model.ProjectId;
              var unitDetails =_context.AgentRegistration.Where(x => x.AgentId == model.AgentId).FirstOrDefault();
              var unitDetailsStatus = _context.ProjectUnitsData.Where(x => x.UnitNumber == model.UnitNumber && x.Projectuuid==model.ProjectId).FirstOrDefault();
-            if (unitDetailsStatus!=null  && unitDetailsStatus.status== StatusEnum.Available.ToString())
+            if (unitDetailsStatus!=null  || unitDetailsStatus.status== StatusEnum.Available.ToString())
             {
                 unitDetailsStatus.status = StatusEnum.Blocked.ToString();
                 unitDetailsStatus.BlockedDate = units.CreatedDate;
@@ -97,29 +97,47 @@ namespace SarkPayOuts.Repository
             }
             return null;
         }
-        public List<ProjectDetails> GetAgentsUnits(string agentId)
+        public MyBookinsViewModel GetAgentsUnits(string agentId,string type)
         {
-            List<ProjectDetails> blockedUnits = new List<ProjectDetails>();
+            MyBookinsViewModel units = new MyBookinsViewModel();
+            dynamic list = null;
+            if (type=="Admin") {
+                list = _context.AdminDetails.Where(x => x.AdminUUID == agentId).FirstOrDefault(); } 
+            else { 
+                list = _context.AgentRegistration.Where(x => x.AgentId == agentId).FirstOrDefault(); }
+            
             if (!string.IsNullOrEmpty(agentId))
             {
-              var list = _context.AgentRegistration.Where(x => x.AgentId == agentId).FirstOrDefault();
                 if (list != null)
                 {
                     if (!string.IsNullOrEmpty (list.BlockedUnits))
                     {
-                         blockedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.BlockedUnits);
-                    }
-                    if (!string.IsNullOrEmpty(list.BookingConfirmed))
-                    {
-                         blockedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.BlockedUnits);
+                        List<ProjectDetails> lstblockedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.BlockedUnits);
+                        units.lstBlocked = lstblockedUnits;
                     }
                     if (!string.IsNullOrEmpty(list.RejectedUnits))
                     {
-                       blockedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.BlockedUnits);
+                        List<ProjectDetails> lstrejectedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.RejectedUnits);
+                        units.lstRejected = lstrejectedUnits;
+                    }
+                    if (!string.IsNullOrEmpty(list.BookingConfirmed ))
+                    {
+                        List<ProjectDetails> lstBookedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.BookingConfirmed);
+                        units.lstBooked = lstBookedUnits;
                     }
                 }
             }
-            return blockedUnits;
+            return units;
         }
+        public AgentRegistration CheckAdminExitsSendPassword(string id)
+        {
+            AgentRegistration details = _context.AgentRegistration.Where(x => x.Email == id).FirstOrDefault();
+            if (details != null)
+            {
+                return details;
+            }
+            return null;
+        }
+       
     }
 }

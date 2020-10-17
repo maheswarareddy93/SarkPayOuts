@@ -38,7 +38,7 @@
                             <img src="/img/logo.png" class="img-fluid logo-main">
                             <ul class="navbar-nav ml-md-auto ml-0 desktop-menu">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="map.html">Home</a>
+                                    <a class="nav-link" asp-action="Dashboard" asp-controller="AdminOperations">Home</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Layouts</a>
@@ -57,9 +57,9 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Booking</a>
                                     <ul class="dropdown-menu">
-                                        <a class="dropdown-item" href="mybooking.html">Current Booking</a>
-                                        <a class="dropdown-item" href="mybooking.html">Previous Booking</a>
-                                        <a class="dropdown-item" href="mybooking.html">Cancel Booking</a>
+                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Current Booking</a>
+                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Previous Booking</a>
+                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Cancel Booking</a>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
@@ -106,13 +106,13 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Booking</a>
                                     <ul class="dropdown-menu">
-                                        <a class="dropdown-item" href="mybooking.html">Current Booking</a>
-                                        <a class="dropdown-item" href="mybooking.html">Previous Booking</a>
-                                        <a class="dropdown-item" href="mybooking.html">Cancel Booking</a>
+                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Current Booking</a>
+                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Previous Booking</a>
+                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Cancel Booking</a>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="map.html">Logout</a>
+                                    <a class="nav-link" asp-action="Logout" asp-controller="AdminLogin">Logout</a>
                                 </li>
 
                             </ul>

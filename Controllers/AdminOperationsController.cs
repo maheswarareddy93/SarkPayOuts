@@ -20,11 +20,13 @@ namespace SarkPayOuts.Controllers
         [Obsolete]
         private IHostingEnvironment _hostingEnv;
         private IAdminOperations _operation;
+        private readonly IAgentInterface _agentOperations;
         [Obsolete]
-        public AdminOperationsController(IHostingEnvironment hostingEnv, IAdminOperations operation)
+        public AdminOperationsController(IHostingEnvironment hostingEnv, IAdminOperations operation,IAgentInterface agentOperations)
         {
             _hostingEnv = hostingEnv;
             _operation = operation;
+            _agentOperations = agentOperations;
         }
         public IActionResult Index()
         {
@@ -110,6 +112,7 @@ namespace SarkPayOuts.Controllers
                                         UnitSize = area,
                                         Facing = facing,
                                         Projectuuid = Id,
+                                        Mortigaze=mortigaze,
                                     });
                                     i = i + 1;
                                 }
@@ -133,7 +136,10 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
-                return View();
+                string id = HttpContext.Session.GetString("AdminId");
+                string type = HttpContext.Session.GetString("_Type");
+                MyBookinsViewModel units = _agentOperations.GetAgentsUnits(id, type);
+                return View(units);
             }
             return RedirectToAction("Index", "AdminLogin");
         }
@@ -152,7 +158,7 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
-                List<NewBookingViewModel> lstDetails =_operation.GetNewBookings();
+                List<NewBookingViewModel> lstDetails =_operation.GetNewBookings(HttpContext.Session.GetString("AdminId"));
                 return View(lstDetails);
             }
             return RedirectToAction("Index", "AdminLogin");
@@ -165,17 +171,27 @@ namespace SarkPayOuts.Controllers
             }
             return RedirectToAction("Index", "AdminLogin");
         }
-        [HttpPost]
-        public JsonResult  RegisterAgent(RegistrationModel model)
+        public IActionResult   RegisterAgent()
         {
-           string response = string.Empty;
-           if(! _operation.CheckAgentExists(model.Mobile, model.Email))
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
-                if(_operation.RegisterNewAgent(model))
-                    response = "Agent Registered Successfully";
+                RegistrationModel model = new RegistrationModel();
+                return View(model);
             }
-            else { response = "Agent Already Exits with Email/Mobile"; }
-            return Json(response);
+            return RedirectToAction("Index", "AdminLogin");
+        }
+        [HttpPost ]
+        public IActionResult RegisterAgent(RegistrationModel model)
+        {
+            if (!_operation.CheckAgentExists(model.Mobile, model.Email))
+            {
+                if (ModelState.IsValid) {
+                    if (_operation.RegisterNewAgent(model)) {
+                        return RedirectToAction("Agents","AdminOperations");
+                    }
+                }
+            }
+            return View();
         }
         [HttpPost]
         public JsonResult UpdatingBlockingUnitsStatus()
@@ -201,6 +217,18 @@ namespace SarkPayOuts.Controllers
                 return Json("", units);
             }
             return RedirectToAction("Index","AdminLogin");
+        }
+
+        public IActionResult UpdateBookingStatus(string aid,string pid,string un,string state,string type)
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
+            {
+                if (!string.IsNullOrEmpty(aid) && !string.IsNullOrEmpty(pid) && !string.IsNullOrEmpty(un))
+                {
+                    _operation.UpdateStatusOfBooking(aid,pid,un,state,type);
+                }
+            }
+            return RedirectToAction("Index", "AdminLogin");
         }
     }
 }

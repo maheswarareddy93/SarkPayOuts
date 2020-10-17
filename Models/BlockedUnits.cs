@@ -19,4 +19,11 @@ namespace SarkPayOuts.Models
         public string ProjectId { get; set; }
         public List<BlockedUnits> UnitsData { get; set; }
     }
+
+    public class MyBookinsViewModel
+    {
+        public List<ProjectDetails> lstBlocked { get; set; }
+        public List<ProjectDetails> lstRejected { get; set; }
+        public List<ProjectDetails> lstBooked { get; set; }
+    }
 }

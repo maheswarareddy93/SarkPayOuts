@@ -34,14 +34,35 @@ namespace SarkPayOuts.Controllers
             _projectOperations = projectOperations;
         }
         public IActionResult Index_1(string id)
-        {           
-                HttpContext.Session.SetString("_ProjectId", id);
-                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_Type"))) {
-                ViewBag.Type = HttpContext.Session.GetString("_Type");
-                }
-                ViewBag.ProjectId = id;
-                return View();
-            
+        {
+            HttpContext.Session.SetString("_ProjectId", id);
+            ViewBag.Type = GetSessionId();
+            ViewBag.ProjectId = id;
+            return View();
+
+        }
+        public IActionResult Index_2(string id)
+        {
+            HttpContext.Session.SetString("_ProjectId", id);
+            ViewBag.Type = GetSessionId();
+            ViewBag.ProjectId = id;
+            return View();
+        }
+        public IActionResult Index_3(string id)
+        {
+            HttpContext.Session.SetString("_ProjectId", id);
+            ViewBag.Type = GetSessionId();
+            ViewBag.ProjectId = id;
+            return View();
+        }
+        public string GetSessionId()
+        {
+            string agentType = string.Empty;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_Type")))
+            {
+                agentType = HttpContext.Session.GetString("_Type");
+            }
+            return agentType;
         }
         [HttpPost]
         public JsonResult GetUnitDetails(string id)
