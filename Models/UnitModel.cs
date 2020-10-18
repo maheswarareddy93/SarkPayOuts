@@ -13,7 +13,7 @@ namespace SarkPayOuts.Models
         public string  AgentId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectId { get; set; }
-
+        public string Status { get; set; }
         public string  AdminId { get; set; }
 
     }

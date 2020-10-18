@@ -23,5 +23,7 @@ namespace SarkPayOuts.Interface
 
         AdminDetails CheckAdminExitsSendPassword(string id);
         public bool UpdateStatusOfBooking(string agentId,string projectId,string UnitNumber,string status,string type);
+        public bool UpdateActiveStatus(string agentId,bool status);
+        public bool DeleteAgentFromDb(string agentId);
     }
 }

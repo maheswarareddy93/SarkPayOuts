@@ -36,24 +36,27 @@ namespace SarkPayOuts.Controllers
         public IActionResult Index_1(string id)
         {
             HttpContext.Session.SetString("_ProjectId", id);
-            ViewBag.Type = GetSessionId();
-            ViewBag.ProjectId = id;
-            return View();
+            LayOutViewModel view = _projectOperations.GetProjectUnitsStatusCount(id);
+            view.Type = GetSessionId();
+            view.ProjectId = id;
+            return View(view);
 
         }
         public IActionResult Index_2(string id)
         {
             HttpContext.Session.SetString("_ProjectId", id);
-            ViewBag.Type = GetSessionId();
-            ViewBag.ProjectId = id;
+            LayOutViewModel view = _projectOperations.GetProjectUnitsStatusCount(id);
+            view.Type = GetSessionId();
+            view.ProjectId = id;
             return View();
         }
         public IActionResult Index_3(string id)
         {
             HttpContext.Session.SetString("_ProjectId", id);
-            ViewBag.Type = GetSessionId();
-            ViewBag.ProjectId = id;
-            return View();
+            LayOutViewModel view = _projectOperations.GetProjectUnitsStatusCount(id);
+            view.Type = GetSessionId();
+            view.ProjectId = id;
+            return View(view);
         }
         public string GetSessionId()
         {
@@ -72,7 +75,7 @@ namespace SarkPayOuts.Controllers
                 string[] strArr = id.Split("-");
                 string projectName = strArr[0];
                 string unitId = strArr[1];
-                string ProjectId= _projectOperations.GetProjectIdByName(projectName);
+                string ProjectId= _projectOperations.GetProjectIdByName(projectName);                
                 model= _projectOperations.GetUnitdetailsByProjectId(ProjectId,unitId);
                 return Json(model);
             }

@@ -45,6 +45,7 @@ namespace SarkPayOuts.Repository
             BlockedUnits units = new BlockedUnits();
             List<BlockedUnits> lstunits = new List<BlockedUnits>();
             List<ProjectDetails> lstDetails = new List<ProjectDetails>();
+            List<ProjectDetails> newlstDetails = new List<ProjectDetails>();
             units.Id = CommonMethods.GenerateuniqueId();
             units.UnitNumber = model.UnitNumber;
             units.UnitSize = model.UnitSize;
@@ -73,19 +74,23 @@ namespace SarkPayOuts.Repository
                 if (!string.IsNullOrEmpty (unitDetails.BlockedUnits))
                 {
                   List<ProjectDetails> unitsData =JsonSerializer.Deserialize<List<ProjectDetails>>(unitDetails.BlockedUnits);
-                  unitsData=unitsData.Where(x=>x.ProjectId ==model.ProjectId).ToList ();
-                    if (unitsData != null)
+                    lstDetails = unitsData;
+                   unitsData=unitsData.Where(x=>x.ProjectId ==model.ProjectId).ToList ();
+                    if (unitsData != null && unitsData.Count>0)
                     {
                         foreach (var data in unitsData)
                         {
                             data.UnitsData.Add(units); 
-                        }                        
+                        }
+                        newlstDetails = lstDetails;
+                        unitDetails.BlockedUnits = JsonSerializer.Serialize(newlstDetails);
                     }
                     else
                     {
-                        unitsData.Add(projectDetails);
+                        lstDetails.Add(projectDetails);
+                        unitDetails.BlockedUnits = JsonSerializer.Serialize(lstDetails);
+                        
                     }
-                    unitDetails.BlockedUnits = JsonSerializer.Serialize(unitsData);
                 }
                 else
                 {

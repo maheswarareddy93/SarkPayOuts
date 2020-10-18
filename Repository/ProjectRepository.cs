@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using System;
+using SarkPayOuts.Enums;
 
 namespace SarkPayOuts.Repository
 {
@@ -34,6 +35,7 @@ namespace SarkPayOuts.Repository
                                  UnitSize = units.UnitSize,
                                  Facing = units.Facing,
                                  ProjectId = units.Projectuuid,
+                                 Status = units.status
                              }).FirstOrDefault();
                 return model;
             }
@@ -96,6 +98,19 @@ namespace SarkPayOuts.Repository
                 lstUnits.Add(unit);
             }
             return lstUnits;
+        }
+        public  LayOutViewModel GetProjectUnitsStatusCount(string projectId)
+        {
+            LayOutViewModel objData = new LayOutViewModel();
+            List<ProjectUnitsData> lstUnits =_context.ProjectUnitsData.Where(x=>x.Projectuuid==projectId).ToList();
+            if (lstUnits!=null && lstUnits.Count >0) {
+                objData.BolckedUnits = lstUnits.Count();
+                objData.AvailableUnits = lstUnits.Where(x => x.status == StatusEnum.Available.ToString() || x.status == null).Count();
+                objData.BolckedUnits = lstUnits.Where(x => x.status == StatusEnum.Blocked.ToString()).Count();
+                objData.BookedUnits = lstUnits.Where(x => x.status == StatusEnum.Booked.ToString()).Count();
+                return objData;
+            }
+            return null;
         }
     }
 

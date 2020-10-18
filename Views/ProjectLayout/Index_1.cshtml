@@ -1,7 +1,6 @@
-﻿
+﻿@model  LayOutViewModel
 @{
-      Layout=null;
-     
+      Layout=null; 
 }
 
 <!DOCTYPE html>
@@ -6030,9 +6029,6 @@
 
 
         <polygon class="st35" id="venkatapur_thanda-141" points="536.69,490.45 501.14,489.41 501.14,448.74 525.71,448.74 " onclick="ModelBinding(this)" />
-
-
-
         <text transform="matrix(1 0 0 1 485.8171 471.5248)" class="st36 st37 st38">142</text>
         <text transform="matrix(1 0 0 1 509.7004 472.4291)" class="st36 st37 st38">141</text>
         <text transform="matrix(1 0 0 1 89.269 733.4138)" class="st36 st37 st38">308</text>
@@ -6040,8 +6036,6 @@
         <text transform="matrix(1 0 0 1 295.1646 189.7215)" class="st36 st37 st38">105</text>
             </svg>
     </section>
-
-
 
     <!-- Popup -->
     <section class="popup">
@@ -6095,12 +6089,11 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <input type="hidden"  id="ProjectId" value="@ViewBag.ProjectId" />
-        <input type="hidden" id="Type" value="@ViewBag.Type" />
+        <input type="hidden"  id="ProjectId" value="Model.ProjectId" />
+        <input type="hidden" id="Type" value="Model.Type" />
     </section>
     <input type="hidden" id="hdnProjectName" />
     <input type="hidden" id="hdnProjectId" />
@@ -6122,8 +6115,7 @@
                     ModelBinding(this.id);
                     }
             });
-            $("rect").click(function () {
-                debugger
+            $("rect").click(function () {                
                 var className = $(this).attr("class");
                 if (className == "st35 bg-red") {
                     alert("This unit was already blocked");
@@ -6155,18 +6147,20 @@
                 type: "POST",
                 url: "/ProjectLayout/GetUnitDataFromDb",
                 data: { "id":$("#ProjectId").val() },
-                success: function (response) { 
-                    debugger
-                    for (var i = 0; i <= response.length - 1; i++) {
-                        if (response[i]!=null) {
-                            if (response[i].status == "Blocked") {
-                                $("#" + response[i].projectName.toLowerCase()+"-"+response[i].unitNumber).addClass("st35 bg-red");
-                            }
-                            if (response[i].status == "Booked") {
-                                $("#" + response[i].projectName.toLowerCase() + "-" + response[i].unitNumber).addClass("st35 bg-booked");
+                success: function (response) {   
+                    if (response.length>0) {
+                        for (var i = 0; i <= response.length - 1; i++) {
+                            if (response[i] != null) {
+                                if (response[i].status == "Blocked") {
+                                    $("#" + response[i].projectName.toLowerCase() + "-" + response[i].unitNumber).addClass("st35 bg-red");
+                                }
+                                if (response[i].status == "Booked") {
+                                    $("#" + response[i].projectName.toLowerCase() + "-" + response[i].unitNumber).addClass("st35 bg-booked");
+                                }
                             }
                         }
-            }
+                    }
+                   
                 },
                 failure: function (response) {                   
                 },
@@ -6175,16 +6169,13 @@
                 }
             });
         }
-       
         function ModelBinding(id) {
             $("#hdnProjectName").val(id);
-           
             $.ajax({
                 type: "POST",
                 url: "/ProjectLayout/GetUnitDetails",
                 data: { "id": id },
                 success: function (response) {
-
                     $("#hdnProjectId").val(response.projectId);
                     debugger
                     $("#plotNo").html("<span id='spnplot'>Plot No:</span>&nbsp;&nbsp;" + response.unitNumber + "");
@@ -6200,7 +6191,6 @@
                 }
             });
         }
-
         function DataBinding() {
             var plotNo = $("#plotNo").text();
             var Size = $("#Size").text();

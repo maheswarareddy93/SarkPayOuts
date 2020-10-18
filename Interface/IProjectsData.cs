@@ -14,5 +14,6 @@ namespace SarkPayOuts.Interface
         List<ProjectsData> GetProjectsData();
         bool CheckBlockedUnits();
         List<BlockedUnits> GetUnitsDataForView(string id);
+      LayOutViewModel  GetProjectUnitsStatusCount(string projectId);
     }
 }

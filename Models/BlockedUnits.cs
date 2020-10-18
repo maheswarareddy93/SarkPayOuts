@@ -11,7 +11,7 @@ namespace SarkPayOuts.Models
         public string CreatedDate { get; set; }
         public string ExpiryDate { get; set; }
         public string Reason { get; set; }
-        public string Status { get; set; }
+        public string StatusConfiredDate { get; set; }
     }
     public class ProjectDetails 
     {

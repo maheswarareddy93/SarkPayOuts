@@ -180,6 +180,7 @@ namespace SarkPayOuts.Controllers
             }
             return RedirectToAction("Index", "AdminLogin");
         }
+        //Register New Agent
         [HttpPost ]
         public IActionResult RegisterAgent(RegistrationModel model)
         {
@@ -193,15 +194,16 @@ namespace SarkPayOuts.Controllers
             }
             return View();
         }
+        //Auto Update Function To update data After 48 hours
         [HttpPost]
         public JsonResult UpdatingBlockingUnitsStatus()
         {
             _operation.UpdatingBlockingUnitsStatus();
             return Json("");
         }
+        //Admin Blocked UnitData Insertion Operation
         public IActionResult AdminsDataIntoDb(string id)
         {
-
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
                 string  adminId = HttpContext.Session.GetString("AdminId");
@@ -218,17 +220,43 @@ namespace SarkPayOuts.Controllers
             }
             return RedirectToAction("Index","AdminLogin");
         }
-
+        //Updating Booking Status either "Booked" or "Rejected" based on Admin Action
         public IActionResult UpdateBookingStatus(string aid,string pid,string un,string state,string type)
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
                 if (!string.IsNullOrEmpty(aid) && !string.IsNullOrEmpty(pid) && !string.IsNullOrEmpty(un))
                 {
-                    _operation.UpdateStatusOfBooking(aid,pid,un,state,type);
+                    if (_operation.UpdateStatusOfBooking(aid, pid, un, state, type))
+                    {
+                        return Json("Status Updated Successfully");
+                    }
+                    else { return Json(""); }
                 }
             }
             return RedirectToAction("Index", "AdminLogin");
+        }
+        //Updating the Active Status of Agent
+        public JsonResult UpdateStatus(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                string[] strArray = id.Split("_");
+                if(_operation.UpdateActiveStatus(strArray[0], bool.Parse(strArray[1])))
+                {
+                    return Json("Agent Status  Updated Successfully.");
+                }
+            }
+            return Json("");
+        }
+        //Removing the Agent Data from Db
+        public JsonResult UpdatingDeletedStatus(string id)
+        {
+            if (_operation.DeleteAgentFromDb(id))
+            {
+                return Json("Agent Removed Successfully");
+            }
+            return Json("something went wrong Please Contact Admin");
         }
     }
 }

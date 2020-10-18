@@ -32,12 +32,11 @@
                                         </button>
                                     </h2>
                                 </div>
-                                @foreach (var data in Model.lstBlocked)
-                                {
-                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-                                         data-parent="#accordionExample">
-                                        <div class="card-body">
-
+                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        @foreach (var data in Model.lstBlocked)
+                                        {
                                             <div class="block-1">
                                                 <h3 class="sub-title">@data.ProjectName</h3>
                                                 <hr> @foreach (var dataite in data.UnitsData)
@@ -70,31 +69,31 @@
                                                     }
                                                 }
                                             </div>
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header cancel-modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Cancel Conformation...</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body cancel-modal-body">
-                                                            <div class="cancel-popup">
-                                                                <i class="far fa-window-close modal-close"></i>
-                                                            </div>
-                                                            <h4>Your Booking Cancel Successfully..!</h4>
-                                                        </div>
-                                                        <!-- <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                </div> -->
+                                        }
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header cancel-modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Cancel Conformation...</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
+                                                    <div class="modal-body cancel-modal-body">
+                                                        <div class="cancel-popup">
+                                                            <i class="far fa-window-close modal-close"></i>
+                                                        </div>
+                                                        <h4>Your Booking Cancel Successfully..!</h4>
+                                                    </div>
+                                                    <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> -->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -111,14 +110,14 @@
                                                 aria-controls="collapseTwo">
                                             Confirm Booking<i class="fas fa-caret-down"></i>
                                         </button>
-                                    </h2>
-                                    @foreach (var data in Model.lstBooked)
-                                    {
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                             data-parent="#accordionExample2">
-                                            <div class="card-body">
-                                                <div class="block-1">
+                                    </h2> 
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                               data-parent="#accordionExample2">
+                                        <div class="card-body">
+                                            @foreach (var data in Model.lstBooked)
+                                            {
 
+                                                <div class="block-1">
                                                     <h3 class="sub-title">@data.ProjectName </h3>
                                                     <hr>
                                                     @foreach (var dataite in data.UnitsData)
@@ -126,20 +125,18 @@
                                                         @if (dataite.Status == "Booked")
                                                         {
                                                             <div class="layout-1">
-
                                                                 <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
-
                                                                 <div class="date-display">
-                                                                    <span>28/Sep/2020</span>
+                                                                    <span>@dataite.StatusConfiredDate </span>
                                                                 </div>
-
                                                             </div>
                                                         }
                                                     }
                                                 </div>
-                                            </div>
+
+                                            }
                                         </div>
-                                    }
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -159,30 +156,30 @@
                                         </button>
                                     </h2>
                                 </div>
-                                @foreach (var data in Model.lstRejected)
-                                {
-                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                         data-parent="#accordionExample3">
-                                        <div class="card-body">
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                     data-parent="#accordionExample3">
+                                    <div class="card-body">
+                                        @foreach (var data in Model.lstRejected)
+                                        {
                                             <div class="block-1">
                                                 <h3 class="sub-title">@data.ProjectName</h3>
                                                 <hr>
                                                 @foreach (var dataite in data.UnitsData)
                                                 {
-                                                    @if (dataite.Status=="Rejected")
+                                                    @if (dataite.Status == "Rejected")
                                                     {
                                                         <div class="layout-1">
                                                             <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
                                                             <div class="time-out">
                                                                 <span>Time Out</span>
                                                             </div>
-                                                        </div>                                                        
+                                                        </div>
                                                     }
                                                 }
-                                                    </div>                                            
-                                        </div>
+                                            </div>
+                                        }
                                     </div>
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>

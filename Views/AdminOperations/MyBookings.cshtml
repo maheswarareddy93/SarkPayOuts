@@ -5,70 +5,70 @@
     Layout = "/Views/Shared/_AdminLayout.cshtml";
 }
 @section Styles{ }
-<section class="booking-slots">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-title-block mb-4 mt-3">
-                    <h4 class="section-title">My Bookings</h4>
+    <section class="booking-slots">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title-block mb-4 mt-3">
+                        <h4 class="section-title">My Bookings</h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row mb-5">
-            @if (Model != null)
-            {
-                if (Model.lstBlocked != null && Model.lstBlocked.Count > 0)
+            <div class="row mb-5">
+                @if (Model != null)
                 {
-                    <div class="col-md-12 col-lg-4">
-                        <div class="accordion my-4 mt-lg-0" id="accordionExample">
-                            <div class="card">
-                                <div class="card-header" id="headingOne">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                                data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                            Bookings Blocked<i class="fas fa-caret-down"></i>
-                                        </button>
-                                    </h2>
-                                </div>
-                                @foreach (var data in Model.lstBlocked)
-                                {
+                    if (Model.lstBlocked != null && Model.lstBlocked.Count > 0)
+                    {
+                        <div class="col-md-12 col-lg-4">
+                            <div class="accordion my-4 mt-lg-0" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                    data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                                    aria-controls="collapseOne">
+                                                Bookings Blocked<i class="fas fa-caret-down"></i>
+                                            </button>
+                                        </h2>
+                                    </div>
                                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
                                          data-parent="#accordionExample">
                                         <div class="card-body">
-
-                                            <div class="block-1">
-                                                <h3 class="sub-title">@data.ProjectName</h3>
-                                                <hr> @foreach (var dataite in data.UnitsData)
-                                                {
-                                                    if (dataite.Status == "Blocked")
+                                            @foreach (var data in Model.lstBlocked)
+                                            {
+                                                <div class="block-1">
+                                                    <h3 class="sub-title">@data.ProjectName</h3>
+                                                    <hr> @foreach (var dataite in data.UnitsData)
                                                     {
-                                                        <input type="hidden" id="createdDate" value="" />
-                                                        DateTime createdDate = DateTime.Parse(dataite.CreatedDate);
-                                                        DateTime expiryDate = DateTime.Parse(dataite.ExpiryDate);
-                                                        TimeSpan tp = expiryDate.Subtract(createdDate);
-                                                        @if (DateTime.Now <= expiryDate)
+                                                        if (dataite.Status == "Blocked")
                                                         {
-                                                            <div class="layout-1">
-                                                                <span class="layout-1-unit">@dataite.UnitNumber </span>
-                                                                <div class="timer-block">
-                                                                    <div id="timer">
+                                                            <input type="hidden" id="createdDate" value="" />
+                                                            DateTime createdDate = DateTime.Parse(dataite.CreatedDate);
+                                                            DateTime expiryDate = DateTime.Parse(dataite.ExpiryDate);
+                                                            TimeSpan tp = expiryDate.Subtract(createdDate);
+                                                            @if (DateTime.Now <= expiryDate)
+                                                            {
+                                                                <div class="layout-1">
+                                                                    <span class="layout-1-unit">@dataite.UnitNumber </span>
+                                                                    <div class="timer-block">
+                                                                        <div id="timer">
 
-                                                                        @expiryDate.Subtract(createdDate)
+                                                                            @expiryDate.Subtract(createdDate)
 
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                                <div class="cancel">
-                                                                    <button class="btn cancel-btn" data-toggle="modal" data-target="#exampleModal">Cancel</button>
-                                                                </div>
+                                                                    <div class="cancel">
+                                                                        <button class="btn cancel-btn" data-toggle="modal" data-target="#exampleModal">Cancel</button>
+                                                                    </div>
 
-                                                            </div>
+                                                                </div>
+                                                            }
+                                                            else { }
                                                         }
-                                                        else { }
                                                     }
-                                                }
-                                            </div>
+                                                </div>
+                                            }
                                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -85,111 +85,108 @@
                                                             <h4>Your Booking Cancel Successfully..!</h4>
                                                         </div>
                                                         <!-- <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                                        </div> -->
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div> -->
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
-                if (Model.lstBooked != null && Model.lstBooked.Count > 0)
-                {
-                    <div class="col-md-12 col-lg-4">
-                        <div class="accordion my-4 mt-lg-0" id="accordionExample2">
-                            <div class="card">
-                                <div class="card-header" id="headingTwo">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-                                                aria-controls="collapseTwo">
-                                            Confirm Booking<i class="fas fa-caret-down"></i>
-                                        </button>
-                                    </h2>
-                                    @foreach (var data in Model.lstBooked)
-                                    {
+                    }
+                    if (Model.lstBooked != null && Model.lstBooked.Count > 0)
+                    {
+                        <div class="col-md-12 col-lg-4">
+                            <div class="accordion my-4 mt-lg-0" id="accordionExample2">
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                    data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+                                                    aria-controls="collapseTwo">
+                                                Confirm Booking<i class="fas fa-caret-down"></i>
+                                            </button>
+                                        </h2>
                                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                                              data-parent="#accordionExample2">
                                             <div class="card-body">
-                                                <div class="block-1">
-
-                                                    <h3 class="sub-title">@data.ProjectName </h3>
-                                                    <hr>
-                                                    @foreach (var dataite in data.UnitsData)
-                                                    {
-                                                        @if (dataite.Status == "Booked")
-                                                        {
-                                                            <div class="layout-1">
-
-                                                                <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
-
-                                                                <div class="date-display">
-                                                                    <span>28/Sep/2020</span>
-                                                                </div>
-
-                                                            </div>
-                                                        }
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                if (Model.lstRejected != null && Model.lstRejected.Count > 0)
-                {
-                    <div class="col-md-12 col-lg-4">
-                        <div class="accordion my-4 mt-lg-0" id="accordionExample3">
-                            <div class="card">
-                                <div class="card-header" id="headingThree">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                                data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
-                                                aria-controls="collapseThree">
-                                            Rejected Booking<i class="fas fa-caret-down"></i>
-                                        </button>
-                                    </h2>
-                                </div>
-                                @foreach (var data in Model.lstRejected)
-                                {
-                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                         data-parent="#accordionExample3">
-                                        <div class="card-body">
-                                            <div class="block-1">
-                                                <h3 class="sub-title">@data.ProjectName</h3>
-                                                <hr>
-                                                @foreach (var dataite in data.UnitsData)
+                                                @foreach (var data in Model.lstBooked)
                                                 {
-                                                    @if (dataite.Status == "Rejected")
-                                                    {
-                                                        <div class="layout-1">
-                                                            <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
-                                                            <div class="time-out">
-                                                                <span>Time Out</span>
-                                                            </div>
-                                                        </div>
-                                                    }
+
+                                                    <div class="block-1">
+                                                        <h3 class="sub-title">@data.ProjectName </h3>
+                                                        <hr>
+                                                        @foreach (var dataite in data.UnitsData)
+                                                        {
+                                                            @if (dataite.Status == "Booked")
+                                                            {
+                                                                <div class="layout-1">
+                                                                    <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
+                                                                    <div class="date-display">
+                                                                        <span>@dataite.StatusConfiredDate </span>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+
                                                 }
                                             </div>
                                         </div>
                                     </div>
-                                }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                    if (Model.lstRejected != null && Model.lstRejected.Count > 0)
+                    {
+                        <div class="col-md-12 col-lg-4">
+                            <div class="accordion my-4 mt-lg-0" id="accordionExample3">
+                                <div class="card">
+                                    <div class="card-header" id="headingThree">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                    data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+                                                    aria-controls="collapseThree">
+                                                Rejected Booking<i class="fas fa-caret-down"></i>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                         data-parent="#accordionExample3">
+                                        <div class="card-body">
+                                            @foreach (var data in Model.lstRejected)
+                                            {
+                                                <div class="block-1">
+                                                    <h3 class="sub-title">@data.ProjectName</h3>
+                                                    <hr>
+                                                    @foreach (var dataite in data.UnitsData)
+                                                    {
+                                                        @if (dataite.Status == "Rejected")
+                                                        {
+                                                            <div class="layout-1">
+                                                                <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
+                                                                <div class="time-out">
+                                                                    <span>Time Out</span>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 }
-            }
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 @section Scripts{
     <script>
         $(document).ready(function () {

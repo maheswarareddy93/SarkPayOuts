@@ -259,6 +259,7 @@ namespace SarkPayOuts.Repository
             BlockedUnits units = new BlockedUnits();
             List<BlockedUnits> lstunits = new List<BlockedUnits>();
             List<ProjectDetails> lstDetails = new List<ProjectDetails>();
+            List<ProjectDetails> newlstDetails = new List<ProjectDetails>();
             units.Id = CommonMethods.GenerateuniqueId();
             units.UnitNumber = model.UnitNumber;
             units.UnitSize = model.UnitSize;
@@ -266,21 +267,20 @@ namespace SarkPayOuts.Repository
             units.CreatedDate = DateTime.Now.ToString("MM-dd-yyyy hh:mm tt");
             units.ExpiryDate = DateTime.Now.AddDays(2).ToString("MM-dd-yyyy hh:mm tt");
             units.AgentId = model.AgentId;
-            units.AdminId = model.AdminId ;
             units.Status = StatusEnum.Blocked.ToString();
             units.ProjectName = model.ProjectName;
             projectDetails.ProjectName = model.ProjectName;
             lstunits.Add(units);
             projectDetails.UnitsData = lstunits;
             projectDetails.ProjectId = model.ProjectId;
-            var unitDetails = _context.AdminDetails .Where(x => x.AdminUUID  == model.AgentId ).FirstOrDefault();
+            var unitDetails = _context.AdminDetails.Where(x => x.AdminUUID == model.AgentId).FirstOrDefault();
             var unitDetailsStatus = _context.ProjectUnitsData.Where(x => x.UnitNumber == model.UnitNumber && x.Projectuuid == model.ProjectId).FirstOrDefault();
-            if (unitDetailsStatus != null && unitDetailsStatus.status == StatusEnum.Available.ToString())
+            if (unitDetailsStatus != null || unitDetailsStatus.status == StatusEnum.Available.ToString())
             {
                 unitDetailsStatus.status = StatusEnum.Blocked.ToString();
                 unitDetailsStatus.BlockedDate = units.CreatedDate;
                 unitDetailsStatus.ExpiredDate = units.ExpiryDate;
-                unitDetailsStatus.AgentId =model.AgentId ;
+                unitDetailsStatus.AgentId = model.AgentId;
             }
 
             if (unitDetails != null)
@@ -288,19 +288,23 @@ namespace SarkPayOuts.Repository
                 if (!string.IsNullOrEmpty(unitDetails.BlockedUnits))
                 {
                     List<ProjectDetails> unitsData = JsonSerializer.Deserialize<List<ProjectDetails>>(unitDetails.BlockedUnits);
+                    lstDetails = unitsData;
                     unitsData = unitsData.Where(x => x.ProjectId == model.ProjectId).ToList();
-                    if (unitsData != null)
+                    if (unitsData != null && unitsData.Count > 0)
                     {
                         foreach (var data in unitsData)
                         {
                             data.UnitsData.Add(units);
                         }
+                        newlstDetails = lstDetails;
+                        unitDetails.BlockedUnits = JsonSerializer.Serialize(newlstDetails);
                     }
                     else
                     {
-                        unitsData.Add(projectDetails);
+                        lstDetails.Add(projectDetails);
+                        unitDetails.BlockedUnits = JsonSerializer.Serialize(lstDetails);
+
                     }
-                    unitDetails.BlockedUnits = JsonSerializer.Serialize(unitsData);
                 }
                 else
                 {
@@ -466,13 +470,18 @@ namespace SarkPayOuts.Repository
             {
                agentDetails= _context.AdminDetails.Where(x => x.AdminUUID == aid).FirstOrDefault();
             }
-            else {
+            else if(type=="Agent") {
                 agentDetails = _context.AgentRegistration.Where(x => x.AgentId == aid).FirstOrDefault();
+            }
+            else
+            {
+                return false;
             }
            
           var unitDetails = _context.ProjectUnitsData.Where(x => x.AgentId == aid && x.Projectuuid == pid && x.UnitNumber == un).FirstOrDefault();
             List<ProjectDetails> lstbookedData = new List<ProjectDetails>();
             List<ProjectDetails> lstrejectedData = new List<ProjectDetails>();
+            List<ProjectDetails> lstNewrejectedData = new List<ProjectDetails>();
             if (agentDetails!=null)
             {
                 if (!string.IsNullOrEmpty(agentDetails.BlockedUnits))
@@ -480,19 +489,22 @@ namespace SarkPayOuts.Repository
                     List<ProjectDetails> lstDetails = JsonSerializer.Deserialize<List<ProjectDetails>>(agentDetails.BlockedUnits);
                     ProjectDetails BookedProject = new ProjectDetails();                   
                     List<BlockedUnits> lstBookedUnits = new List<BlockedUnits>();
+                    List<ProjectDetails> lstNewBookedUnits = new List<ProjectDetails>();                   
                     ProjectDetails  project= lstDetails.Where(x=>x.ProjectId==pid).FirstOrDefault();
                     BlockedUnits  unit = project.UnitsData.Where(y=>y.UnitNumber==un).FirstOrDefault();
                     if (status =="Confirmed") {
                         BookedProject.ProjectId = project.ProjectId;
                         BookedProject.ProjectName = project.ProjectName;
                         unit.Status = StatusEnum.Booked.ToString();
+                        unit.StatusConfiredDate = DateTime.Now.ToString();
                         unitDetails.status= StatusEnum.Booked.ToString();
                         lstBookedUnits.Add(unit);
                         BookedProject.UnitsData =lstBookedUnits ;                    
                         if (!string.IsNullOrEmpty(agentDetails.BookingConfirmed)) {
                             lstbookedData = JsonSerializer.Deserialize<List<ProjectDetails>>(agentDetails.BookingConfirmed);
+                            lstNewBookedUnits = lstbookedData;
                             lstbookedData = lstbookedData.Where(x => x.ProjectId == pid).ToList();
-                            if (lstbookedData != null) {
+                            if (lstbookedData != null && lstbookedData.Count>0) {
                                 foreach (var data in lstbookedData)
                                 {
                                     data.UnitsData.Add(unit);
@@ -500,24 +512,27 @@ namespace SarkPayOuts.Repository
                             }
                             else
                             {
-                                lstbookedData.Add(BookedProject);
+                                lstNewBookedUnits.Add(BookedProject);
                             }
+                            agentDetails.BookingConfirmed = JsonSerializer.Serialize(lstNewBookedUnits);
                         }
                         else
                         {
                             lstbookedData.Add(BookedProject);
+                            agentDetails.BookingConfirmed = JsonSerializer.Serialize(lstbookedData);
                         }
-                        agentDetails.BookingConfirmed = JsonSerializer.Serialize(lstbookedData);
                     }
                     else if(status =="Rejected") {
                         BookedProject.ProjectId = project.ProjectId;
                         BookedProject.ProjectName = project.ProjectName;
                         unit.Status = StatusEnum.Rejected.ToString();
+                        unit.StatusConfiredDate = DateTime.Now.ToString();
                         unitDetails.status = StatusEnum.Available.ToString();
                         lstBookedUnits.Add(unit);
                         BookedProject.UnitsData = lstBookedUnits;
                         if (!string.IsNullOrEmpty(agentDetails.RejectedUnits)) {
                             lstrejectedData= JsonSerializer.Deserialize<List<ProjectDetails>>(agentDetails.RejectedUnits);
+                            lstNewrejectedData = lstrejectedData;
                             lstrejectedData = lstrejectedData.Where(x => x.ProjectId == pid).ToList();
                             if (lstrejectedData != null && lstrejectedData.Count>0)
                             {
@@ -528,18 +543,21 @@ namespace SarkPayOuts.Repository
                             }
                             else
                             {
-                                lstrejectedData.Add(BookedProject);
+                                lstNewrejectedData.Add(BookedProject);
                             }
+                            agentDetails.RejectedUnits = JsonSerializer.Serialize(lstNewrejectedData);
                         }
                         else {
                             lstrejectedData.Add(BookedProject);
+                            agentDetails.RejectedUnits = JsonSerializer.Serialize(lstrejectedData);
                         }
-                        agentDetails.RejectedUnits = JsonSerializer.Serialize(lstrejectedData);
+                        
                     }
                     project.UnitsData.Remove(unit);                    
                     agentDetails.BlockedUnits = JsonSerializer.Serialize(lstDetails);
                     _context.SaveChanges();
                 }
+                return true;
             }
             return false;
         }
@@ -552,6 +570,32 @@ namespace SarkPayOuts.Repository
                 return details;
             }
             return null;
+        }
+        public bool UpdateActiveStatus(string agentId,bool status)
+        {
+          AgentRegistration agent=_context.AgentRegistration.Where(x => x.AgentId == agentId).FirstOrDefault();
+            if (agent!=null)
+            {
+                if (status)
+                {
+                    agent.IsActive = false;
+                }
+                else { agent.IsActive = true; }
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+       public bool  DeleteAgentFromDb(string agentId)
+        {
+           AgentRegistration agent =_context.AgentRegistration.Where(x => x.AgentId == agentId).FirstOrDefault();
+            if (agent!=null)
+            {
+                agent.Status = true;
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
         }
     }
 }
