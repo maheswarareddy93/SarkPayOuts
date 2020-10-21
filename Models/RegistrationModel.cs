@@ -24,7 +24,7 @@ namespace SarkPayOuts.Models
         public string Mobile { get; set; }
         [Required(ErrorMessage ="PAN Number is Required")]
         [Display(Name ="PAN Number")]
-        [RegularExpression (@"[A-Z]{5}[0-9]{4}[A-Z]{1}",ErrorMessage ="Enter Valid PAN Number")]
+        //[RegularExpression (@"[A-Z]{5}[0-9]{4}[A-Z]{1}",ErrorMessage ="Enter Valid PAN Number")]
         public string PAN { get; set; }
         [Required ]
         [RegularExpression (@"^[0-9]*$", ErrorMessage ="Enter Valid Aadhar")]

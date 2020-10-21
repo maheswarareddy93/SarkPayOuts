@@ -48,7 +48,7 @@ namespace SarkPayOuts.Controllers
             LayOutViewModel view = _projectOperations.GetProjectUnitsStatusCount(id);
             view.Type = GetSessionId();
             view.ProjectId = id;
-            return View();
+            return View(view);
         }
         public IActionResult Index_3(string id)
         {

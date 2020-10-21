@@ -135,6 +135,7 @@ namespace SarkPayOuts.Repository
                     reg.IFSCCode = model.IFSCCode;
                     reg.CreatedDate = DateTime.Now.ToString("dd-MM-yyyy");
                     reg.IsActive = false;
+                    reg.Status = false;
                     _context.AgentRegistration.Add(reg);
                     _context.SaveChanges();
                     return true;
@@ -338,7 +339,7 @@ namespace SarkPayOuts.Repository
                         {
                             NewBookingViewModel agentDetails = new NewBookingViewModel();
                             agentDetails.AgentId = admins .AdminUUID;
-                            agentDetails.AgentName = "Self";
+                            agentDetails.AgentName = "SarkProject";
                             agentDetails.UnitSize = unit.UnitSize;
                             agentDetails.CreatedDate = unit.CreatedDate;
                             agentDetails.UnitNumber = unit.UnitNumber;
@@ -498,6 +499,7 @@ namespace SarkPayOuts.Repository
                         unit.Status = StatusEnum.Booked.ToString();
                         unit.StatusConfiredDate = DateTime.Now.ToString();
                         unitDetails.status= StatusEnum.Booked.ToString();
+                        unitDetails.StatusConfiredDate = DateTime.Now.ToString();
                         lstBookedUnits.Add(unit);
                         BookedProject.UnitsData =lstBookedUnits ;                    
                         if (!string.IsNullOrEmpty(agentDetails.BookingConfirmed)) {
@@ -596,6 +598,54 @@ namespace SarkPayOuts.Repository
                 return true;
             }
             return false;
+        }
+
+        public DashboardViewModel DashboardData()
+        {
+            DashboardViewModel model = new DashboardViewModel();
+            var units=_context.ProjectUnitsData.ToList();
+            model.Agents= _context.AgentRegistration.ToList().Count();
+            model.TotalBookings= units.Where(x => x.status == "Booked").Count();
+            model.TotalBlocked = units.Where(x => x.status == "Blocked").Count();            
+            model.NewBookings = units.Where(x => x.status == "Blocked" && x.BlockedDate==DateTime.Now.ToString()).Count();
+            return model;
+        }
+        public List<ViewLayoutModel> GetAllUnitsData(string id)
+        {
+            dynamic   units =null;
+            List<ViewLayoutModel> lst = new List<ViewLayoutModel>();
+            if (!string.IsNullOrEmpty(id) && id!="Select Project") {
+                string projectId = id.Split("/")[1].ToString();
+                units = _context.ProjectUnitsData.Where(x=>x.Projectuuid ==projectId).ToList();
+            }
+            else { units = _context.ProjectUnitsData.ToList(); }
+            
+            foreach (var unit in units)
+            {               
+                ViewLayoutModel model = new ViewLayoutModel();
+                model.UnitNumber = unit.UnitNumber;
+                model.UnitSize  = unit.UnitSize;
+                model.Projectuuid = unit.Projectuuid;              
+                model.UnitNumber = unit.UnitNumber;
+                model.status = unit.status;
+                model.Facing = unit.Facing;
+                model.BlockedDate = unit.BlockedDate;
+                model.StatusConfiredDate = unit.StatusConfiredDate;
+                lst.Add(model);
+            }
+            return lst;
+        }
+        public List<ProjectsData> GetProjectsData()
+        {
+            List<ProjectsData> lst = new List<ProjectsData>();
+            foreach (var data in _context.ProjectsData.ToList())
+            {
+                ProjectsData obj = new ProjectsData();
+                obj.projectuuid = data.projectuuid;
+                obj.ProjectName  = data.ProjectName;
+                lst.Add(obj);
+            }
+            return lst;
         }
     }
 }

@@ -20,7 +20,9 @@ namespace SarkPayOuts
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .UseUrls("http://0.0.0.0:5020")
+                    .UseStartup<Startup>();
                 });
     }
 }

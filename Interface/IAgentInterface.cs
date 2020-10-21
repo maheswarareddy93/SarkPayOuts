@@ -14,5 +14,6 @@ namespace SarkPayOuts.Interface
         ProjectDetails   AddBlockedUnitsToDb(UnitModel model );
         MyBookinsViewModel GetAgentsUnits(string agentId,string type);
        AgentRegistration CheckAdminExitsSendPassword(string id);
+        public DashboardViewModel DashboardData(string id);
     }
 }

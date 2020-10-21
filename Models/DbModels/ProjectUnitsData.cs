@@ -26,6 +26,8 @@ namespace SarkPayOuts.Models.DbModels
         public string BlockedDate { get; set; }
         [StringLength(60)]
         public string ExpiredDate { get; set; }
+        [StringLength(60)]
+        public string StatusConfiredDate { get; set; }
         
     }
 }

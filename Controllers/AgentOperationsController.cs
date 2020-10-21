@@ -33,9 +33,9 @@ namespace SarkPayOuts.Controllers
             model.AgentId = agentId;
             model.ProjectName = arr[3].Split("-")[0].ToUpper();
             model.ProjectId = arr[4];
-            
-            ProjectDetails  units=  _agentOperations.AddBlockedUnitsToDb(model);
-            return Json("", units);
+            ProjectDetails units = new ProjectDetails();
+            units=  _agentOperations.AddBlockedUnitsToDb(model);
+             new JsonResult(new { data = units });
             }
             return RedirectToAction("Index", "AgentLogin");
         }
@@ -50,6 +50,17 @@ namespace SarkPayOuts.Controllers
                 return View(units);
             }
             return RedirectToAction("Index","AgentLogin");
+        }
+
+        public IActionResult Dashboard()
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_AgentId")))
+            {
+                string id = HttpContext.Session.GetString("_AgentId");
+                DashboardViewModel model = _agentOperations.DashboardData(id);
+                return View(model);
+            }
+            return RedirectToAction("Index", "AdminLogin");
         }
         
     }

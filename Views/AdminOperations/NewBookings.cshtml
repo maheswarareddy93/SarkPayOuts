@@ -88,9 +88,11 @@
                 data: { "aid":aid, "pid":pid, "un":un,"state":status,"type":type},
                 success: function (response) {
                     result = response;
+                    alert(result);
                 },
                 error: function (error) {
                     result = error;
+                    alert(result);
                 },
             });
         }

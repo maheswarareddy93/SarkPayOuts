@@ -143,6 +143,14 @@ namespace SarkPayOuts.Repository
             }
             return null;
         }
-       
+        public DashboardViewModel DashboardData(string id)
+        {
+            DashboardViewModel model = new DashboardViewModel();
+            var units = _context.ProjectUnitsData.ToList();
+            model.TotalBookings = units.Where(x => x.status == "Booked" && x.AgentId==id).Count();
+            model.TotalBlocked = units.Where(x => x.status == "Blocked" && x.AgentId == id).Count();
+            model.NewBookings = units.Where(x => x.status == "Blocked" && x.BlockedDate.Contains(DateTime.Now.ToString("dd-MM-yyyy")) && x.AgentId == id).Count();
+            return model;
+        }
     }
 }

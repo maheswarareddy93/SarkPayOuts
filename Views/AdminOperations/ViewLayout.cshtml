@@ -1,0 +1,87 @@
+﻿
+@using SarkPayOuts.Models.DbModels;
+@inject SarkPayOuts.Interface.IAdminOperations repo;
+@{
+    ViewData["Title"] = "ViewLayout";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<ProjectsData> lst = repo.GetProjectsData();
+}
+@section Styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css">
+    <!-- <link rel="stylesheet" href="css/jquery.dataTables.css"> -->
+    <link rel="stylesheet" href="/css/Layout-data.css">
+}
+<section class="new-book">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title-block mb-md-4 mt-md-5 mb-2 mt-2">
+                    <h4 class="section-title" ></h4>
+                </div>
+            </div>
+        </div>       
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <form>
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text  name-select-layout">Select Layout</div>
+                                        </div>
+                                        <select class="form-control layouts-data-dropdown" id="ddlProjects">
+                                            @if (lst != null && lst.Count > 0)
+                                            {<option value="">Select Project</option>
+                                                foreach (var project in lst) { 
+                                                <option value="@project.projectuuid">@project.ProjectName</option>
+                                                }
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-12 mt-5" id="unitsData">
+                        
+                    </div>
+                </div>        
+    </div>
+    <input type="hidden" id="SelectedId" />
+</section>
+@section Scripts{
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script src="/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#layout-table').DataTable();
+            GetUnits();
+        });
+        $("#ddlProjects").change(function () {
+            var selectedText = $(this).find("option:selected").text();
+            var selectedValue = $(this).val();
+            var id = selectedText + "/" + selectedValue;
+            $("#SelectedId").val(id);
+            GetUnits();
+            alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+        });
+        function GetUnits() {
+            var id = $("#SelectedId").val();
+            alert(id.split("/")[0]);
+            $.ajax({
+                type:"POST",
+                url: "/AdminOperations/GetUnits",
+                data: { "id":id},
+                success: function (response) {
+                    if (id != null) { $("#headerText").text(id.split("/")[0]); } else { $("#headerText").text("All  Layouts Data"); }
+                    $("#unitsData").html(response);
+                },
+                error: function (error) {}
+            });
+        }
+    </script>
+}

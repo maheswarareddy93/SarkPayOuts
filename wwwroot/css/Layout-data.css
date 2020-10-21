@@ -1,0 +1,17 @@
+.layouts-data-dropdown{
+    background: #fff;
+    min-height: 44.8px;
+    padding-left: 15px;
+    border-radius: 5px;
+    border: 1px solid #203A43;
+    font-weight: 600;
+}
+
+.layouts-data-dropdown:focus{
+    box-shadow: none;
+    border-color: #495057;
+}
+
+.name-select-layout{
+    border: 1px solid #203A43;
+}

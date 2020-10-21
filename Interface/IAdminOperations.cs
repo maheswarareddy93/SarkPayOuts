@@ -25,5 +25,9 @@ namespace SarkPayOuts.Interface
         public bool UpdateStatusOfBooking(string agentId,string projectId,string UnitNumber,string status,string type);
         public bool UpdateActiveStatus(string agentId,bool status);
         public bool DeleteAgentFromDb(string agentId);
+        public DashboardViewModel   DashboardData();
+
+        public List<ViewLayoutModel> GetAllUnitsData(string id);
+        public List<ProjectsData> GetProjectsData();
     }
 }

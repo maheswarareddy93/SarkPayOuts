@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "AddLayOutData";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles{
+    <link rel="stylesheet" href="/css/add-layout.css">
+}
+<section class="new-book">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title-block mb-md-4 mt-md-5 mb-2 mt-2">
+                    <h4 class="section-title">Add Layout Data</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <form asp-controller="AdminOperations" asp-action="ImportExcelFile" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="label-text">Enter Layout Name</label>
+                            <input type="text" class="form-control custom-form" placeholder="Your Name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="label-text">Upload Layout Execl</label>
+                            <div class="input-group">
+                                <input type="text" name="filename" class="form-control custom-form custom-file-textbox" placeholder="No file selected" readonly>
+                                <span class="input-group-btn">
+                                    <div class="btn custom_btn-file  custom-file-uploader">
+                                        <input type="file" class="custom-form" name="file" onchange="this.form.filename.value = this.files.length ? this.files[0].name : ''" />
+                                        Select a file
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn agent-submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    
+}
+

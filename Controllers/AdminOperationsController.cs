@@ -22,13 +22,18 @@ namespace SarkPayOuts.Controllers
         private IAdminOperations _operation;
         private readonly IAgentInterface _agentOperations;
         [Obsolete]
-        public AdminOperationsController(IHostingEnvironment hostingEnv, IAdminOperations operation,IAgentInterface agentOperations)
+        public AdminOperationsController(IHostingEnvironment hostingEnv, IAdminOperations operation, IAgentInterface agentOperations)
         {
             _hostingEnv = hostingEnv;
             _operation = operation;
             _agentOperations = agentOperations;
         }
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult AddLayOutData()
         {
             return View();
         }
@@ -112,8 +117,9 @@ namespace SarkPayOuts.Controllers
                                         UnitSize = area,
                                         Facing = facing,
                                         Projectuuid = Id,
-                                        Mortigaze=mortigaze,
-                                    });
+                                        Mortigaze = mortigaze,
+                                        status = "Available"
+                                    }) ;
                                     i = i + 1;
                                 }
                                 if (users.Count > 0)
@@ -130,7 +136,7 @@ namespace SarkPayOuts.Controllers
             {
                 //_emailService.SendEmail("maheswarareddyk93@gmail.com", "", "Excel Upload", ex.ToString(), null);
             }
-            return Json("Data Uploaded Successfully");
+            return RedirectToAction("","");
         }
         public IActionResult MyBookings()
         {
@@ -158,7 +164,7 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
-                List<NewBookingViewModel> lstDetails =_operation.GetNewBookings(HttpContext.Session.GetString("AdminId"));
+                List<NewBookingViewModel> lstDetails = _operation.GetNewBookings(HttpContext.Session.GetString("AdminId"));
                 return View(lstDetails);
             }
             return RedirectToAction("Index", "AdminLogin");
@@ -167,11 +173,12 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
-                return View();
+                DashboardViewModel model=_operation.DashboardData();
+                return View(model);
             }
             return RedirectToAction("Index", "AdminLogin");
         }
-        public IActionResult   RegisterAgent()
+        public IActionResult RegisterAgent()
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
@@ -181,14 +188,16 @@ namespace SarkPayOuts.Controllers
             return RedirectToAction("Index", "AdminLogin");
         }
         //Register New Agent
-        [HttpPost ]
+        [HttpPost]
         public IActionResult RegisterAgent(RegistrationModel model)
         {
             if (!_operation.CheckAgentExists(model.Mobile, model.Email))
             {
-                if (ModelState.IsValid) {
-                    if (_operation.RegisterNewAgent(model)) {
-                        return RedirectToAction("Agents","AdminOperations");
+                if (ModelState.IsValid)
+                {
+                    if (_operation.RegisterNewAgent(model))
+                    {
+                        return RedirectToAction("Agents", "AdminOperations");
                     }
                 }
             }
@@ -206,22 +215,22 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
-                string  adminId = HttpContext.Session.GetString("AdminId");
+                string adminId = HttpContext.Session.GetString("AdminId");
                 UnitModel model = new UnitModel();
                 string[] arr = id.Split(",");
                 model.UnitNumber = arr[0].Split(":  ")[1];
                 model.UnitSize = arr[1].Split(":  ")[1];
                 model.Facing = arr[2].Split(":  ")[1];
-                model.AgentId=adminId;
+                model.AgentId = adminId;
                 model.ProjectName = arr[3].Split("-")[0].ToUpper();
                 model.ProjectId = arr[4];
-                ProjectDetails units = _operation .AddBlockedUnitsToDb(model);
+                ProjectDetails units = _operation.AddBlockedUnitsToDb(model);
                 return Json("", units);
             }
-            return RedirectToAction("Index","AdminLogin");
+            return RedirectToAction("Index", "AdminLogin");
         }
         //Updating Booking Status either "Booked" or "Rejected" based on Admin Action
-        public IActionResult UpdateBookingStatus(string aid,string pid,string un,string state,string type)
+        public IActionResult UpdateBookingStatus(string aid, string pid, string un, string state, string type)
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
@@ -229,9 +238,16 @@ namespace SarkPayOuts.Controllers
                 {
                     if (_operation.UpdateStatusOfBooking(aid, pid, un, state, type))
                     {
-                        return Json("Status Updated Successfully");
+                        if (state  =="Confirmed")
+                        {
+                            return Json("Unit " + un + " Booked  Successfully");
+                        }
+                        else if (state  == "Rejected")
+                        {
+                            return Json("Unit " + un + " Rejected Please Contact Admin...");
+                        }
+                        else { return Json(""); }
                     }
-                    else { return Json(""); }
                 }
             }
             return RedirectToAction("Index", "AdminLogin");
@@ -242,7 +258,7 @@ namespace SarkPayOuts.Controllers
             if (!string.IsNullOrEmpty(id))
             {
                 string[] strArray = id.Split("_");
-                if(_operation.UpdateActiveStatus(strArray[0], bool.Parse(strArray[1])))
+                if (_operation.UpdateActiveStatus(strArray[0].Trim(), bool.Parse(strArray[1])))
                 {
                     return Json("Agent Status  Updated Successfully.");
                 }
@@ -257,6 +273,16 @@ namespace SarkPayOuts.Controllers
                 return Json("Agent Removed Successfully");
             }
             return Json("something went wrong Please Contact Admin");
+        }
+
+        public IActionResult ViewLayout()
+        {
+          return View();
+        }
+        public IActionResult GetUnits(string id)
+        {
+            List<ViewLayoutModel> model = _operation.GetAllUnitsData(id);
+            return PartialView("_ProjectsUnitsData",model);
         }
     }
 }

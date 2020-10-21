@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap"
           rel="stylesheet">
+    <link rel="stylesheet" href="~/css/create-agents.css"  />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/mybooking.css">
+    <link rel="shortcut icon" href="/img/sark.ico">
     @RenderSection("Styles", required: true)
 </head>
 
@@ -28,7 +30,6 @@
     </div>
     <section class="main-body">
         <header>
-
             <div class="container">
                 <div class="row">
 
@@ -66,10 +67,16 @@
                                     <a class="nav-link" asp-action="NewBookings" asp-controller="AdminOperations">NewBookings</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-action="Agents" asp-controller="AdminOperations" >Agents</a>
+                                    <a class="nav-link" asp-action="Agents" asp-controller="AdminOperations">Agents</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" asp-action="Logout" asp-controller="AdminLogin">Logout</a>
+                                </li>                                
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="AddLayOutData" asp-controller="AdminOperations">Add layout</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" asp-action="ViewLayout" asp-controller="AdminOperations">Layout Data</a>
                                 </li>
                             </ul>
                         </nav>
@@ -114,7 +121,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-action="Logout" asp-controller="AdminLogin">Logout</a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="AddLayOutData" asp-controller="AdminOperations">Add layout</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" asp-action="ViewLayout" asp-controller="AdminOperations">Layout Data</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
