@@ -5,98 +5,6 @@
 
 
 
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 6px;
-  }
-  
-  /* Track */
-   ::-webkit-scrollbar-track {
-    box-shadow: none; 
-    border-radius: 10px;
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #203A43; 
-    border-radius: 10px;
-  }
-  
-  /* Handle on hover */
-   ::-webkit-scrollbar-thumb:hover {
-    background: #203A43;
-  }
-polygon,
-rect, 
-circle,
-circle > text 
-{
-cursor: pointer;
-}
-
-.bg-red {
-    fill: #f47536 !important;
-}
-.bg-booked {
-    fill: #dc3545 !important;
-}
-
-
-.st0{clip-path:url(#SVGID_2_);fill:none;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	
-.st1{clip-path:url(#SVGID_2_);fill:none;stroke:#000000;stroke-width:0.48;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-
-.st2{clip-path:url(#SVGID_2_);fill:none;stroke:#545454;stroke-width:0.12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-
-.st3{clip-path:url(#SVGID_2_);fill:none;stroke:#FF0000;stroke-width:0.96;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-
-.st4{clip-path:url(#SVGID_2_);fill:none;stroke:#FF0000;stroke-width:0.72;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st5{clip-path:url(#SVGID_4_);}
-.st6{fill:#00FF00;}
-.st7{font-family:'ArialMT';}
-.st8{font-size:5.0155px;}
-.st9{clip-path:url(#SVGID_6_);}
-
-.st10{clip-path:url(#SVGID_6_);fill:none;stroke:#000000;stroke-width:0.48;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st11{font-size:4.6549px;}
-
-.st12{clip-path:url(#SVGID_6_);fill:none;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st13{font-size:6.2694px;}
-.st14{fill:#FF0000;}
-.st15{font-size:3.7616px;}
-
-.st16{clip-path:url(#SVGID_6_);fill:none;stroke:#000000;stroke-width:0.72;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st17{display:none;}
-.st18{display:inline;}
-.st19{display:inline;clip-path:url(#SVGID_8_);}
-.st20{font-family:'Castellar';}
-.st21{font-size:4.9347px;}
-.st22{clip-path:url(#SVGID_10_);}
-.st23{font-size:4.9346px;}
-
-.st24{clip-path:url(#SVGID_10_);fill:none;stroke:#000000;stroke-width:0.72;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-
-.st25{clip-path:url(#SVGID_10_);fill:none;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st26{font-size:3.7617px;}
-
-.st27{clip-path:url(#SVGID_10_);fill:none;stroke:#000000;stroke-width:0.48;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-
-.st28{clip-path:url(#SVGID_10_);fill:none;stroke:#000000;stroke-width:0.12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-
-.st29{clip-path:url(#SVGID_10_);fill:none;stroke:#000000;stroke-width:0.84;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-
-.st30{clip-path:url(#SVGID_10_);fill:none;stroke:#FF0000;stroke-width:0.96;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st31{display:none;clip-path:url(#SVGID_10_);}
-.st32{display:inline;fill:#FF00FF;}
-.st33{font-size:4.3885px;}
-
-.st34{display:none;clip-path:url(#SVGID_10_);fill:none;stroke:#FF00FF;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st35{fill:#4E8902;stroke:#E6E6E7;stroke-miterlimit:10;}
-.st36{fill:#FFFFFF;}
-.st37{font-family:'MyriadPro-Regular';}
-.st38{font-size:8px;}
-.st39{font-size:7px;}
-
 /* ============================================================= */
 /* ===============SVG DEFAULT STYLE END==========================*/
 /* ============================================================= */
@@ -292,7 +200,7 @@ padding: 10px 0px;
 {
   color: #fff;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 14px;
 }
 .navbar-nav > .nav-item > .nav-link:hover,
 .navbar-nav > .nav-item > .nav-link:focus  
@@ -347,168 +255,68 @@ ul > li
 /* ===========HEADER Design End From Here======================*/
 /* ============================================================= */
 
+.dash-block
+{
+    border: none;
+    box-shadow: 0px 0px 6px 2px #2c536465;
+    border-radius: 10px;
+    border-bottom: 5px solid #0F2027;
+    padding: 20px 0px;
+}
 
-
+.dash-block > h5 
+{
+  color: #0F2027;
+  font-weight: 600;
+  font-size: 18px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dash-block > .dash-count 
+{
+  font-weight: 700;
+  font-size: 35px;
+  margin: 15px 0px 0px;
+  display: block;
+  text-align: center;
+}
+.section-title-block {
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0px 0px 6px 2px #2c536465;
+  background: #0F2027;
+  background: -webkit-linear-gradient(to bottom, #2C5364, #203A43, #0F2027);
+  background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027);
+}
+.section-title {
+  color: #fff;
+  margin-bottom: 0px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
 /* ============================================================= */
 /* ===========Modal Design Start From Here======================*/
 /* ============================================================= */
-.modal-header 
-{
-  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  
-background: linear-gradient(to right, #2C5364, #203A43, #0F2027); 
-color: #fff;
-font-weight: 600;
-font-size: 18px;
-}
-.close > span
-{
-  color: #fff !important;
-}
-.modal-header > h5 
-{
-  color: #fff;
-font-weight: 600;
-font-size: 18px;
-}
 
-ul > li > span,
-.modal-title 
-{
-    font-weight: 600;
-    color: #47404f;
-}
- 
-.book-btn 
-{
-background-color: #4caf50;
-}
-
-.cancel-btn 
-{
-background-color: #f44336;
-}
-.book-btn,
-.cancel-btn 
-{
-    color: #fff;
-    font-size: 16px;
-    text-transform: capitalize;
-    box-shadow: none;
-    outline: none;
-    padding: 8px 30px;
-    border-radius: 5px;
-    font-weight: 600;
-}
-.book-btn:hover, 
-.cancel-btn:hover,
-.book-btn:focus, 
-.cancel-btn:focus 
-{
-    box-shadow: none;
-    outline: none;
-    color: #fff;
-}
-
-.book-text 
-{
-    display: none;
-    transition: 0.6s all;
-    font-weight: 600;
-    color: #4E8902;
-    margin-bottom: 0px;
-}
-.cancel-btn 
-{
-    display: none;
-    transition: 0.6s all;
-}
-.cancel-btn-show 
-{
-    display: block;
-    transition: 0.6s all;
-}
-.book-text-show 
-{
-    display: block;
-    transition: 0.6s all;
-}
-
-.book-icon 
-{
-    color: #4E8902;
-}
-
-.plot-info 
-{
-    display: flex;
-    justify-content: space-between;
-}
-
-#timer
-{
-    justify-content: flex-start;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: row;
-}
-
-span
-{
-    display: block;
-    font-size: 20px;
-    color: #47404f;
-    font-weight: 600;
-}
-  
-#days
-{
-    font-size: 24px;
-    color: #db4844;
-    text-align: center;
-}
-#hours
-{
-    font-size: 26px;
-    color: #f07c22;
-    text-align: center;
-    font-weight: 600;
-}
-#minutes
-{
-    font-size: 26px;
-    color: #f6da74;
-    text-align: center;
-    margin:0px 20px;
-    font-weight: 600;
-}
-#seconds 
-{
-    font-size: 26px;
-    color: #abcd58;
-    text-align: center;
-    font-weight: 600;
-}
-.modal-backdrop 
-{
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1040;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-}
-.block-info 
-{
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
 .mobile-menu 
 {
   display: none;
 }
+.active 
+{
+  color:#4E8902 !important;
+}
+/* ============================================================= */
+/* ===========Counter Design Start From Here======================*/
+/* ============================================================= */
+
+
+/* ============================================================= */
+/* ===========Counter Design End From Here======================*/
+/* ============================================================= */
+
 /* ============================================================= */
 /* ===========Modal Design End From Here======================*/
 /* ============================================================= */
@@ -573,6 +381,14 @@ span
     {
       flex-direction: row;
     }
+    .navbar-nav > .nav-item > .nav-link 
+    {
+      font-size: 16px;
+    }
+    .logo-main 
+    {
+      width: 180px;
+    }
 }
 @media screen and (max-width: 768px)
 {
@@ -587,6 +403,10 @@ span
   .logo-main 
   {
     margin-left: 15px;
+  }
+  .navbar-nav > .nav-item > .nav-link 
+  {
+    font-size: 10px;
   }
 }
 @media screen and (max-width: 767px)
@@ -626,7 +446,7 @@ span
   }
   .navbar-nav > .nav-item > .nav-link 
   {
-    font-size: 14px;
+    font-size: 16px;
     color: #000;
   }
   .navbar-nav > .nav-item > .nav-link:hover, 
@@ -637,6 +457,12 @@ span
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
+  }
+  .counter-block
+  {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
 }
 
@@ -649,6 +475,32 @@ span
   span 
   {
     font-size: 19px;
+  }
+  .counter 
+  {
+    font-size: 27px;
+  }
+  .hold > h4, .sold > h4, .available > h4 
+  {
+    font-size: 16px;
+  }
+  .nav-item {
+    flex-basis: 125px;
+  }
+  .navbar-nav > .nav-item > .nav-link 
+  {
+    font-size: 18px;
+  }
+  .navbar-nav > .nav-item:not(:last-child)
+  {
+    margin-right: 0px;
+  }
+.mobile-menu 
+  {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
   }
 }
 
@@ -687,6 +539,19 @@ span
   {
     max-width: 400px;
   }
+  /* .counter-block 
+  {
+    flex-direction: column;
+    align-items: center;
+  } */
+  .counter 
+  {
+    font-size: 29px;
+  }
+  .hold > h4, .sold > h4, .available > h4 
+  {
+    font-size: 18px;
+  }
 }
 
 @media screen and (max-width: 375px) 
@@ -695,15 +560,38 @@ span
   {
     max-width: 360px;
   }
+  .mobile-menu 
+  {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .nav-item {
+    flex-basis: 100px;
+  }
+  .navbar-nav > .nav-item > .nav-link 
+  {
+    font-size: 18px;
+  }
+  .navbar-nav > .nav-item:not(:last-child) {
+    margin-right: 0px;
+}
 }
 
 
 @media screen and (max-width: 414px)
 {
-  /* .map
+  .nav-item {
+    flex-basis: 100px;
+  }
+  .navbar-nav > .nav-item > .nav-link 
   {
-    max-width: 414px;
-  } */
+    font-size: 18px;
+  }
+  .navbar-nav > .nav-item:not(:last-child) {
+    margin-right: 0px;
+}
   .modal-content 
   {
     margin: 0 auto;
@@ -712,6 +600,9 @@ span
   .dropdown-menu 
   {
     transform: translate3d(-34px, 40px, 0px);
+  }
+  .nav-item {
+    flex-basis: 120px;
   }
 }
 @media screen and (max-width: 320px)
@@ -740,6 +631,9 @@ span
   .navbar-nav 
   {
     margin-top: 20px;
+  }
+  .nav-item {
+    flex-basis: 120px;
   }
 }
 

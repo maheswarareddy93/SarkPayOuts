@@ -53,7 +53,7 @@ namespace SarkPayOuts.Repository
             units.CreatedDate = DateTime.Now.ToString("MM-dd-yyyy hh:mm tt");
             units.ExpiryDate = DateTime.Now.AddDays(2).ToString("MM-dd-yyyy hh:mm tt");
             units.AgentId = model.AgentId;
-            units.Status = StatusEnum.Blocked.ToString();
+            units.Status = StatusEnum.Reserved.ToString();
             units.ProjectName = model.ProjectName;
             projectDetails.ProjectName = model.ProjectName;
             lstunits.Add(units);
@@ -63,7 +63,7 @@ namespace SarkPayOuts.Repository
              var unitDetailsStatus = _context.ProjectUnitsData.Where(x => x.UnitNumber == model.UnitNumber && x.Projectuuid==model.ProjectId).FirstOrDefault();
             if (unitDetailsStatus!=null  || unitDetailsStatus.status== StatusEnum.Available.ToString())
             {
-                unitDetailsStatus.status = StatusEnum.Blocked.ToString();
+                unitDetailsStatus.status = StatusEnum.Reserved.ToString();
                 unitDetailsStatus.BlockedDate = units.CreatedDate;
                 unitDetailsStatus.ExpiredDate  = units.ExpiryDate ;
                 unitDetailsStatus.AgentId = model.AgentId;
@@ -148,8 +148,9 @@ namespace SarkPayOuts.Repository
             DashboardViewModel model = new DashboardViewModel();
             var units = _context.ProjectUnitsData.ToList();
             model.TotalBookings = units.Where(x => x.status == "Booked" && x.AgentId==id).Count();
-            model.TotalBlocked = units.Where(x => x.status == "Blocked" && x.AgentId == id).Count();
-            model.NewBookings = units.Where(x => x.status == "Blocked" && x.BlockedDate.Contains(DateTime.Now.ToString("dd-MM-yyyy")) && x.AgentId == id).Count();
+            model.TotalBlocked = units.Where(x => x.status == "Reserved" && x.AgentId == id).Count();
+            model.NewBlockedUnits = units.Where(x => x.status == "Reserved" && x.BlockedDate.Contains(DateTime.Now.ToString("MM/dd/yyyy")) && x.AgentId == id).Count();
+            model.NewBookings = units.Where(x => x.status == "Booked" && x.StatusConfiredDate.Contains(DateTime.Now.ToString("MM/dd/yyyy")) && x.AgentId == id).Count();
             return model;
         }
     }

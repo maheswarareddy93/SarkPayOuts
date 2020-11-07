@@ -39,7 +39,7 @@ cursor: pointer;
 fill: #f44336 !important;
 }
 .bg-booked {
-    fill: #dc3545 !important;
+    fill: blue !important;
 }
 
 .st0{clip-path:url(#SVGID_2_);fill:none;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
@@ -91,27 +91,11 @@ fill: #f44336 !important;
 .st33{font-size:4.3885px;}
 
 .st34{display:none;clip-path:url(#SVGID_10_);fill:none;stroke:#FF00FF;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st35 {
-    fill: #4E8902;
-    stroke: #E6E6E7;
-    stroke-miterlimit: 10;
-}
-
-.st36 {
-    fill: #FFFFFF;
-}
-
-.st37 {
-    font-family: 'MyriadPro-Regular';
-}
-
-.st38 {
-    font-size: 8px;
-}
-
-.st39 {
-    font-size: 7px;
-}
+.st35{fill:#4E8902;stroke:#E6E6E7;stroke-miterlimit:10;}
+.st36{fill:#FFFFFF;}
+.st37{font-family:'MyriadPro-Regular';}
+.st38{font-size:8px;}
+.st39{font-size:7px;}
 
 /* ============================================================= */
 /* ===============SVG DEFAULT STYLE END==========================*/
@@ -308,7 +292,7 @@ padding: 10px 0px;
 {
   color: #fff;
   font-weight: 600;
-  font-size: 17px;
+  font-size: 14px;
 }
 .navbar-nav > .nav-item > .nav-link:hover,
 .navbar-nav > .nav-item > .nav-link:focus  
@@ -728,7 +712,7 @@ span
   }
   .navbar-nav > .nav-item > .nav-link 
   {
-    font-size: 16px;
+    font-size: 10px;
   }
 }
 @media screen and (max-width: 767px)

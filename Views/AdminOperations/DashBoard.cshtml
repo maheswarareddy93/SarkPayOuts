@@ -17,31 +17,37 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="dash-block">
-                    <h5>New Bookings</h5>
-                    <span class="dash-count">
-                        @Model.NewBookings
-                    </span>
-                </div>
+                <a asp-action="NewBookings" asp-controller="AdminOperations">
+                    <div class="dash-block">
+                        <h5>New Bookings</h5>
+                        <span class="dash-count">
+                            @Model.NewBookings
+                        </span>
+                    </div>
+                    </a>
             </div>
             <div class="col-md-4">
-                <div class="dash-block">
-                    <h5>Total Bookings</h5>
-                    <span class="dash-count">
-                        @Model.TotalBookings  
-                    </span>
-                </div>
+                <a asp-action="NewBookings" asp-controller="AdminOperations">
+                    <div class="dash-block">
+                        <h5>Total Bookings</h5>
+                        <span class="dash-count">
+                            @Model.TotalBookings
+                        </span>
+                    </div>
+                    </a>
             </div>
             <div class="col-md-4">
-                <div class="dash-block">
-                    <h5>New Blocked</h5>
-                    <span class="dash-count">
-                        @Model.NewBlockedUnits  
-                    </span>
-                </div>
+                <a asp-action="NewBookings" asp-controller="AdminOperations">
+                    <div class="dash-block">
+                        <h5>New Blocked</h5>
+                        <span class="dash-count">
+                            @Model.NewBlockedUnits
+                        </span>
+                    </div>
+                    </a>
             </div>
             <div class="col-md-4">
-                <a asp-action="Agents" asp-controller="AdminOperations">
+                <a asp-action="NewBookings" asp-controller="AdminOperations">
                     <div class="dash-block mt-md-4 mt-4">
                         <h5>Total Blocked</h5>
                         <span class="dash-count">
@@ -61,12 +67,14 @@
                 </a>
             </div>
             <div class="col-md-4">
-                <div class="dash-block mt-md-4 mt-4">
-                    <h5>My Bookings</h5>
-                    <span class="dash-count">
-                        12
-                    </span>
-                </div>
+                <a asp-action="MyBookings" asp-controller="AdminOperations">
+                    <div class="dash-block mt-md-4 mt-4">
+                        <h5>My Bookings</h5>
+                        <span class="dash-count">
+                            12
+                        </span>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

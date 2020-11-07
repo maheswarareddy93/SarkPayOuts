@@ -11,9 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="~/css/create-agents.css"  />
+    
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/mybooking.css">
     <link rel="shortcut icon" href="/img/sark.ico">
     @RenderSection("Styles", required: true)
 </head>
@@ -56,12 +55,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Booking</a>
-                                    <ul class="dropdown-menu">
-                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Current Booking</a>
-                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Previous Booking</a>
-                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Cancel Booking</a>
-                                    </ul>
+                                    <a class="nav-link" asp-action="MyBookings" asp-controller="AdminOperations">My Booking</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" asp-action="NewBookings" asp-controller="AdminOperations">NewBookings</a>
@@ -70,14 +64,15 @@
                                     <a class="nav-link" asp-action="Agents" asp-controller="AdminOperations">Agents</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-action="Logout" asp-controller="AdminLogin">Logout</a>
-                                </li>                                
-                                <li class="nav-item">
                                     <a class="nav-link" asp-action="AddLayOutData" asp-controller="AdminOperations">Add layout</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link active" asp-action="ViewLayout" asp-controller="AdminOperations">Layout Data</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="Logout" asp-controller="AdminLogin">Logout</a>
+                                </li>
+
                             </ul>
                         </nav>
 
@@ -111,15 +106,8 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Booking</a>
-                                    <ul class="dropdown-menu">
-                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Current Booking</a>
-                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Previous Booking</a>
-                                        <a class="dropdown-item" asp-action="Mybookings" asp-controller="AdminOperations">Cancel Booking</a>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="Logout" asp-controller="AdminLogin">Logout</a>
+                                    
+                                    <a class="nav-link" asp-action="MyBookings" asp-controller="AdminOperations">My Booking</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" asp-action="AddLayOutData" asp-controller="AdminOperations">Add layout</a>
@@ -127,6 +115,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" asp-action="ViewLayout" asp-controller="AdminOperations">Layout Data</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="Logout" asp-controller="AdminLogin">Logout</a>
+                                </li>
+
                             </ul>
                         </nav>
                     </div>
@@ -168,7 +160,7 @@
                 @RenderBody()
         </section>
         
-        <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="/js/jquery-3.5.1.min.js"></script>
         <script src="/js/popper.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
 
@@ -230,8 +222,6 @@
                         $(".hamburger").toggleClass("is-active");
                     }
                 });
-
-
             });
         </script>
         @RenderSection("Scripts", required: true)

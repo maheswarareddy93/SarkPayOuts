@@ -4,7 +4,10 @@
     CultureInfo provider = CultureInfo.InvariantCulture;
     Layout = "/Views/Shared/_AdminLayout.cshtml";
 }
-@section Styles{ }
+@section Styles{
+
+    <link rel="stylesheet" href="~/css/mybooking.css" />
+ }
     <section class="booking-slots">
         <div class="container">
             <div class="row">
@@ -40,7 +43,7 @@
                                                     <h3 class="sub-title">@data.ProjectName</h3>
                                                     <hr> @foreach (var dataite in data.UnitsData)
                                                     {
-                                                        if (dataite.Status == "Blocked")
+                                                        if (dataite.Status == "Reserved")
                                                         {
                                                             <input type="hidden" id="createdDate" value="" />
                                                             DateTime createdDate = DateTime.Parse(dataite.CreatedDate);
@@ -50,6 +53,7 @@
                                                             {
                                                                 <div class="layout-1">
                                                                     <span class="layout-1-unit">@dataite.UnitNumber </span>
+
                                                                     <div class="timer-block">
                                                                         <div id="timer">
 
@@ -68,6 +72,7 @@
                                                         }
                                                     }
                                                 </div>
+                                                <br />
                                             }
                                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
@@ -116,23 +121,23 @@
                                                 @foreach (var data in Model.lstBooked)
                                                 {
 
-                                                    <div class="block-1">
-                                                        <h3 class="sub-title">@data.ProjectName </h3>
-                                                        <hr>
-                                                        @foreach (var dataite in data.UnitsData)
+                                                <div class="block-1">
+                                                    <h3 class="sub-title">@data.ProjectName </h3>
+                                                    <hr>
+                                                    @foreach (var dataite in data.UnitsData)
                                                         {
-                                                            @if (dataite.Status == "Booked")
+                                                    @if (dataite.Status == "Booked")
                                                             {
-                                                                <div class="layout-1">
-                                                                    <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
-                                                                    <div class="date-display">
-                                                                        <span>@dataite.StatusConfiredDate </span>
-                                                                    </div>
-                                                                </div>
+                                                    <div class="layout-1">
+                                                        <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
+                                                        <div class="date-display">
+                                                            <span>@dataite.StatusConfiredDate </span>
+                                                        </div>
+                                                    </div>
                                                             }
                                                         }
-                                                    </div>
-
+                                                </div>
+                                                <br />
                                                 }
                                             </div>
                                         </div>
@@ -160,22 +165,24 @@
                                         <div class="card-body">
                                             @foreach (var data in Model.lstRejected)
                                             {
-                                                <div class="block-1">
-                                                    <h3 class="sub-title">@data.ProjectName</h3>
-                                                    <hr>
-                                                    @foreach (var dataite in data.UnitsData)
+                                            <div class="block-1">
+                                                <h3 class="sub-title">@data.ProjectName</h3>
+                                                <hr>
+                                                @foreach (var dataite in data.UnitsData)
                                                     {
-                                                        @if (dataite.Status == "Rejected")
+                                                @if (dataite.Status == "Rejected")
                                                         {
-                                                            <div class="layout-1">
-                                                                <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
-                                                                <div class="time-out">
-                                                                    <span>Time Out</span>
-                                                                </div>
-                                                            </div>
+                                                <div class="layout-1">
+                                                    <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
+                                                    <div class="time-out">
+                                                        <span>Time Out</span>
+                                                    </div>
+                                                </div>
+                                                <br />
                                                         }
                                                     }
-                                                </div>
+                                            </div>
+                                            <br />
                                             }
                                         </div>
                                     </div>

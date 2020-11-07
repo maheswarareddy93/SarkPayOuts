@@ -13,9 +13,11 @@
 
 }
 @section Styles{
+    <meta http-equiv="refresh" content="60" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
     <link href="/css/prime-01.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/create-agents.css" />
 }
 @if (Model.Type == "Admin")
 {
@@ -1946,8 +1948,8 @@
 
                                         <div class="block-info mt-5">
                                             <button class="btn  book-btn" onclick="DataBinding()">Booking</button>
-                                            <p class="book-text"><i class="fas fa-check-circle book-icon mr-3"></i>Booking Successfully....</p>
-                                            <button class="btn  cancel-btn ml-0">Cancel Booking</button>
+                                            <p class="book-text"><i class="fas fa-check-circle book-icon mr-3"></i></p>
+                                            <button class="btn  cancel-btn ml-0" id="btnCancel" onclick="RefreshPage()">Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1970,10 +1972,11 @@
 <input type="hidden" id="hdnProjectId" />
 <input type="hidden" id="hdnexpiryDate" />
 @section Scripts{
-    <script src="/js/custom.js">
-    </script>
     <script src="/js/jquery-3.5.1.min.js">
     </script>
+    <script src="/js/custom.js">
+    </script>
+    
     <script src="/js/popper.min.js">
     </script>
     <script src="/js/bootstrap.min.js">
@@ -2011,7 +2014,7 @@
         if (response.length > 0) {
         for (var i = 0; i <= response.length - 1; i++) {
         if (response[i] != null) {
-        if (response[i].status == "Blocked") {
+        if (response[i].status == "Reserved") {
         $("#" + response[i].projectName.toLowerCase() + "-" + response[i].unitNumber).addClass("st35 bg-red");
         }
         if (response[i].status == "Booked") {
@@ -2036,12 +2039,14 @@
         url: "/ProjectLayout/GetUnitDetails",
         data: { "id": id },
         success: function (response) {
+        var status;
         $("#hdnProjectId").val(response.projectId);
         if (response.status == "Available" || response.status == null) {
         $("#plotNo").html("<span id='spnplot'>Plot No:</span>&nbsp;&nbsp;" + response.unitNumber + "");
         $("#Size").html("<span id='spnsize'>Size:</span>&nbsp;&nbsp;" + response.unitSize + "");
         $("#Facing").html("<span id='spnFacing'>Facing:</span>&nbsp;&nbsp;" + response.facing + "");
         $("#BlockModal1").modal('show');
+
         } else { alert("Unit Already '" + response.status + "' by SomeOne"); }
         },
         failure: function (response) {
@@ -2060,24 +2065,21 @@
         var projectId = $("#hdnProjectId").val();
         var id = plotNo + "," + Size + "," + Facing + "," + projectName + "," + projectId;
         var type = $("#Type").val();
-        alert(type);
+
         if (type == "Admin") {
         $.ajax({
         type: "POST",
         url: "/AdminOperations/AdminsDataIntoDb",
         data: { "id": id },
         success: function (response) {
-        debugger
         alert(convertToJavaScriptDate(response.unitData.expiryDate));
         $("#hdnexpiryDate").val(response.unitData.expiryDate);
         },
         failure: function (response) {
-        debugger
         alert(response.responseText);
         },
         error: function (response) {
-        debugger
-        alert(response.responseText);
+        //alert(response.responseText);
         }
         });
         } else if (type == "Agent") {
@@ -2090,11 +2092,11 @@
         $("#hdnexpiryDate").val(response.expiryDate);
         },
         failure: function (response) {
-        debugger
+        GetUnitsData();
         //alert(response.responseText);
         },
         error: function (response) {
-        debugger
+        GetUnitsData();
         //alert(response.responseText);
         }
         });
@@ -2106,6 +2108,9 @@
         var results = pattern.exec(value);
         var dt = new Date(parseFloat(results[1]));
         return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+        }
+        function RefreshPage() {
+        GetUnitsData();
         }
     </script>
 }

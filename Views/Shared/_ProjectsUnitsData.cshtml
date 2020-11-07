@@ -2,15 +2,14 @@
 @if (Model != null)
 {
     <div class="text-center">
-        <h3 ><b id="headerText"></b></h3>
+        <h3 ><b></b></h3>
     </div>
     <table id="layout-table" class="display responsive" style="width:100%">
         <thead>
             <tr>
                 <th>UNIT NO</th>
                 <th>AREA</th>
-                <th>FACING</th>
-                <th>MORTAGAGE</th>
+                <th>FACING</th>                
                 <th>STATUS</th>
             </tr>
         </thead>
@@ -20,13 +19,12 @@
                 <tr>
                     <td>@unit.UnitNumber</td>
                     <td>@unit.UnitSize</td>
-                    <td>@unit.Facing</td>
-                    <td>@unit.Mortigaze</td>
+                    <td>@unit.Facing</td>                   
                     @if (unit.status == "Booked")
                     {
                         <td><span class="badge badge-danger">@unit.status </span></td>
                     }
-                    else if (unit.status == "Blocked")
+                    else if (unit.status == "Reserved")
                     {
                         <td><span class="badge badge-warning">@unit.status</span></td>
                     }
@@ -34,7 +32,7 @@
                     {
                         <td><span class="badge badge-success">@unit.status</span></td>
                     }
-
+                    else{}
                 </tr>
             }
         </tbody>
@@ -45,7 +43,7 @@
 }
 <script src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
-<script src="/js/jquery.dataTables.js"></script>
+<script src="/js/jquery-3.5.1.min.js"></script>
 <script>
    
         $(document).ready(function () {

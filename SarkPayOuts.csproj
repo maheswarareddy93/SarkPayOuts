@@ -29,6 +29,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\ApplicationDocs\UnitsData\" />
-  </ItemGroup>
+  </ItemGroup>  
 
 </Project>

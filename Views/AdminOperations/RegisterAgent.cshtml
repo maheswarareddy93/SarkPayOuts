@@ -1,4 +1,4 @@
-﻿@model RegistrationModel  
+﻿@model RegistrationModel
 @{
     ViewData["Title"] = "RegisterAgent";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css">
     <link rel="stylesheet" href="/css/agents.css">
+    <link rel="stylesheet" href="/css/create-agents.css">
 }
 <section class="new-book">
     <div class="container">
@@ -40,7 +41,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="label-text">PanCard</label>
-                            <input type="text" asp-for="PAN" class="form-control custom-form" placeholder="PanCard" style="text-transform:uppercase" >
+                            <input type="text" asp-for="PAN" class="form-control custom-form" placeholder="PanCard" style="text-transform:uppercase">
                             <span asp-validation-for="PAN" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-6">

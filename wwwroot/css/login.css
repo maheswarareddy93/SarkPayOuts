@@ -1,9 +1,10 @@
-.login {
+.login 
+{
     background-image: url('../img/bg-login.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100vh;
+    height:100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +24,7 @@
     padding-left: 36px;
     border-radius: 5px;
     border: 1px solid #fff;
-    color: #fff;
+    color: black;
     font-weight: 600;
 }
 .custom-form :hover 
@@ -104,4 +105,20 @@
 {
     color: #fff;
     text-decoration: none;
+}
+
+.back-btn-login{
+    text-align: center;
+}
+.back-bbttnn{
+    background: #fff;
+    border: none;
+    font-size: 25px;
+    border-radius: 125px;
+    height: 45px;
+    line-height: 1px;
+    width: 45px;
+}
+button:focus{
+    outline: none;
 }

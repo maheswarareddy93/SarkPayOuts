@@ -5,6 +5,7 @@
     List<NewBookingViewModel> lst = Model;
 }
 @section Styles{
+    <meta http-equiv="refresh" content="10">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css">
     <link rel="stylesheet" href="/css/new-booking.css">
@@ -38,28 +39,32 @@
                         {
                             foreach (var data in lst) {
                                 string type = string.Empty;
-                                @if(data.AgentName=="Self")
+                        @if(data.AgentName== "SarkProject")
                                 {
                                     type = "Admin";
                                 }
                                 else { type = "Agent"; }
-                            <tr>
-                                <td>@data.ProjectName</td>
-                                <td>@data.UnitNumber </td>
-                                <td>@data.UnitSize</td>
-                                <td>@data.AgentName</td>
-                                <td>@data.Status</td>
-                                @if (data.Status=="Booked" || data.Status=="Rejected")
+                        <tr>
+                            <td>@data.ProjectName</td>
+                            <td>@data.UnitNumber </td>
+                            <td>@data.UnitSize</td>
+                            <td>@data.AgentName</td>
+                            @if(data.Status=="Booked"){
+                            <td><span class="badge badge-success">@data.Status</span></td>
+}else if(data.Status=="Rejected"){
+                            <td><span class="badge badge-danger">@data.Status</span></td>
+}
+                            @if (data.Status=="Booked" || data.Status=="Rejected")
                                 {
-                                    <td></td>
+                            <td></td>
                                 }
-                                else { 
-                                <td>
-                                    <button class="btn custom-table-btn btn-success ml-md-0 ml-1" onclick="UpdateStatus('@data.AgentId','@data.ProjectId','@data.UnitNumber','Confirmed','@type')">Confirm</button>
-                                    <button class="btn custom-table-btn btn-danger ml-md-3 ml-1" onclick="UpdateStatus('@data.AgentId','@data.ProjectId','@data.UnitNumber','Rejected','@type')">Reject</button>
-                                </td>
+                                else {
+                            <td>
+                                <button class="btn custom-table-btn btn-success ml-md-0 ml-1" onclick="UpdateStatus('@data.AgentId','@data.ProjectId','@data.UnitNumber','Confirmed','@type')">Confirm</button>
+                                <button class="btn custom-table-btn btn-danger ml-md-3 ml-1" onclick="UpdateStatus('@data.AgentId','@data.ProjectId','@data.UnitNumber','Rejected','@type')">Reject</button>
+                            </td>
                                 }
-                            </tr>
+                        </tr>
                             }
                         }
                         else {
@@ -81,11 +86,11 @@
                 responsive: true
             });
         });
-        function UpdateStatus(aid, pid,un,status,type) {
+        function UpdateStatus(aid, pid, un, status, type) {
             $.ajax({
                 type: "POST",
                 url: "/AdminOperations/UpdateBookingStatus",
-                data: { "aid":aid, "pid":pid, "un":un,"state":status,"type":type},
+                data: { "aid": aid, "pid": pid, "un": un, "state": status, "type": type },
                 success: function (response) {
                     result = response;
                     alert(result);
@@ -96,6 +101,6 @@
                 },
             });
         }
-       
+
     </script>
 }

@@ -23,10 +23,19 @@ namespace SarkPayOuts.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AdminUUID")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("BlockedUnits")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("BookingConfirmed")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("Email")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Mobile")
@@ -34,6 +43,13 @@ namespace SarkPayOuts.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("RejectedUnits")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("password")
+                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasMaxLength(10);
 
                     b.HasKey("AdminId");
 
@@ -109,10 +125,19 @@ namespace SarkPayOuts.Migrations
                     b.Property<string>("Aadhar")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<string>("AccountHolderName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("AgetName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("BankAccountNumber")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("BlockedUnits")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("BookingConfirmed")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("CreatedDate")
@@ -142,9 +167,130 @@ namespace SarkPayOuts.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<string>("RejectedUnits")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
+
                     b.HasKey("AgentId");
 
                     b.ToTable("AgentRegistration");
+                });
+
+            modelBuilder.Entity("SarkPayOuts.Models.DbModels.AutharityData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AccountMailId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("AccountMobile")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("AdminMailId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("AdminMobile")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LeadsMailCc")
+                        .HasColumnType("varchar(45) CHARACTER SET utf8mb4")
+                        .HasMaxLength(45);
+
+                    b.Property<string>("LeadsMailTo")
+                        .HasColumnType("varchar(45) CHARACTER SET utf8mb4")
+                        .HasMaxLength(45);
+
+                    b.Property<string>("SuperAdminMailId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AutharityData");
+                });
+
+            modelBuilder.Entity("SarkPayOuts.Models.DbModels.CommonSetting", b =>
+                {
+                    b.Property<int>("SettingID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.Property<byte>("IsSSL")
+                        .HasColumnType("tinyint unsigned");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
+                        .HasMaxLength(20);
+
+                    b.Property<int>("Port")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SMTPServer")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SiteURL")
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
+
+                    b.HasKey("SettingID");
+
+                    b.ToTable("CommonSetting");
+                });
+
+            modelBuilder.Entity("SarkPayOuts.Models.DbModels.MailTemplate", b =>
+                {
+                    b.Property<int>("TemplateID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("TemplateName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("TemplateID");
+
+                    b.ToTable("MailTemplate");
                 });
 
             modelBuilder.Entity("SarkPayOuts.Models.DbModels.ProjectUnitsData", b =>
@@ -153,8 +299,8 @@ namespace SarkPayOuts.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AdminId")
-                        .HasColumnType("int");
+                    b.Property<string>("AgentId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("BlockedDate")
                         .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
@@ -178,8 +324,12 @@ namespace SarkPayOuts.Migrations
                     b.Property<string>("PaymentStatus")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("Projectuuid")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("StatusConfiredDate")
+                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
+                        .HasMaxLength(60);
 
                     b.Property<string>("UnitNumber")
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
@@ -207,6 +357,9 @@ namespace SarkPayOuts.Migrations
                     b.Property<string>("ProjectName")
                         .HasColumnType("varchar(70) CHARACTER SET utf8mb4")
                         .HasMaxLength(70);
+
+                    b.Property<string>("projectuuid")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("status")
                         .HasColumnType("varchar(20) CHARACTER SET utf8mb4")

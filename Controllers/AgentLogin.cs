@@ -33,7 +33,7 @@ namespace SarkPayOuts.Controllers
             LoginViewModel model = new LoginViewModel();
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString(SessionAgentId)))
             {
-                return RedirectToAction("MyBookings", "AgentOperations");
+                return RedirectToAction("Dashboard", "AgentOperations");
             }
             return View(model);
         }

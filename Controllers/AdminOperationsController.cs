@@ -136,7 +136,7 @@ namespace SarkPayOuts.Controllers
             {
                 //_emailService.SendEmail("maheswarareddyk93@gmail.com", "", "Excel Upload", ex.ToString(), null);
             }
-            return RedirectToAction("","");
+            return RedirectToAction("ViewLayout","AdminOperations");
         }
         public IActionResult MyBookings()
         {
@@ -165,6 +165,7 @@ namespace SarkPayOuts.Controllers
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
                 List<NewBookingViewModel> lstDetails = _operation.GetNewBookings(HttpContext.Session.GetString("AdminId"));
+                lstDetails = lstDetails.OrderByDescending(item => item.CreatedDate ).ToList();
                 return View(lstDetails);
             }
             return RedirectToAction("Index", "AdminLogin");

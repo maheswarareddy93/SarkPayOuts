@@ -10,6 +10,7 @@ namespace SarkPayOuts.Enums
         Blocked,
         Available,
         Booked,
-        Rejected
+        Rejected,
+        Reserved
     }
 }

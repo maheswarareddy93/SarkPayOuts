@@ -362,14 +362,13 @@ border-radius: 50%;
 {
     color: #fff; 
 }
-.custom-form 
-{
+.custom-form {
     background: #fff;
     min-height: 44.8px;
     padding-left: 15px;
     border-radius: 5px;
     border: 1px solid #203A43;
-    color: #fff;
+    color: black;
     font-weight: 600;
 }
 .custom-form :hover 

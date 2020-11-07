@@ -42,7 +42,7 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString ("AdminId")))
             {
-                return RedirectToAction("MyBookings", "AdminOperations");
+                return RedirectToAction("Dashboard", "AdminOperations");
             }
             if (ModelState.IsValid)
             {
@@ -53,7 +53,7 @@ namespace SarkPayOuts.Controllers
                     HttpContext.Session.SetString(SessionEmail,agent.UserName);
                     HttpContext.Session.SetString ("AdminId", agent.AdminId);
                     HttpContext.Session.SetString(SessionType,"Admin");
-                    return RedirectToAction("MyBookings", "AdminOperations");
+                    return RedirectToAction("Dashboard", "AdminOperations");
                 }
                 else
                 {

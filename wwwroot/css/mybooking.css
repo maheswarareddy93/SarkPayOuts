@@ -44,17 +44,19 @@
 {
   width: 220px;
   position: fixed;
-  top: 70px;
+  top: 74px;
   height: calc(100vh - 80px);
-  box-shadow: 0 4px 20px 1px rgba(0, 0, 0, .06), 0 1px 4px rgba(0, 0, 0, .08);
+  /* box-shadow: 0 4px 20px 1px rgba(0, 0, 0, .06), 0 1px 4px rgba(0, 0, 0, .08); */
   left: 0;
   transition: 0.6s all;
   padding: 15px;
-  background: #0F2027;
+  /* background: #0F2027;
   background: -webkit-linear-gradient(to bottom, #2C5364, #203A43, #0F2027);  
-  background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027);
+  background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027); */
+  box-shadow: 0px 0px 6px 2px #2c536465;
   transform: translateX(-220px);
   z-index: 999;
+  background-color: #fff;
 }
 .three 
 {
@@ -144,15 +146,19 @@
 .booking-sub-title 
 {
   font-size:15px;
+  color: #0F2027;
+    font-weight: 600;
 }
 .booking-title 
 {
-  font-size: 17px;
+    color: #0F2027;
+    font-weight: 600;
+    font-size: 16px;
 }
-.booking-title,.booking-sub-title 
+/* .booking-title,.booking-sub-title 
 {
   color: #fff;
-}
+} */
 .current,
 .previous,
 .cancel
@@ -207,7 +213,7 @@ padding: 10px 0px;
 {
   color: #fff;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 14px;
 }
 .navbar-nav > .nav-item > .nav-link:hover,
 .navbar-nav > .nav-item > .nav-link:focus  
@@ -255,7 +261,10 @@ ul > li
     align-items: baseline;
 }
 
-
+.active 
+{
+  color:#4E8902 !important;
+}
 
 .section-title-block 
 {
@@ -560,6 +569,11 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
   .logo-main 
   {
     margin-left: 15px;
+    width: 180px;
+  }
+  .navbar-nav > .nav-item > .nav-link 
+  {
+    font-size: 10px;
   }
 }
 @media screen and (max-width: 767px)
@@ -572,6 +586,7 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
   .logo-main 
   {
     margin-left: 0px;
+    width: 180px;
   }
 
   ::-webkit-scrollbar {
@@ -611,6 +626,24 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
   .navbar-nav > .nav-item > .nav-link:focus 
   {
     color: #000;
+  }
+  .nav-item {
+    flex-basis: 125px;
+  }
+  .navbar-nav > .nav-item > .nav-link 
+  {
+    font-size: 18px;
+  }
+  .navbar-nav > .nav-item:not(:last-child)
+  {
+    margin-right: 0px;
+  }
+.mobile-menu 
+  {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
   }
 }
 @media screen and (max-width: 414px)

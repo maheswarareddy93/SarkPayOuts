@@ -134,7 +134,7 @@ namespace SarkPayOuts.Repository
                     reg.BankAccountNumber = model.BankAccountNumber;
                     reg.IFSCCode = model.IFSCCode;
                     reg.CreatedDate = DateTime.Now.ToString("dd-MM-yyyy");
-                    reg.IsActive = false;
+                    reg.IsActive = true;
                     reg.Status = false;
                     _context.AgentRegistration.Add(reg);
                     _context.SaveChanges();
@@ -268,7 +268,7 @@ namespace SarkPayOuts.Repository
             units.CreatedDate = DateTime.Now.ToString("MM-dd-yyyy hh:mm tt");
             units.ExpiryDate = DateTime.Now.AddDays(2).ToString("MM-dd-yyyy hh:mm tt");
             units.AgentId = model.AgentId;
-            units.Status = StatusEnum.Blocked.ToString();
+            units.Status = StatusEnum.Reserved.ToString();
             units.ProjectName = model.ProjectName;
             projectDetails.ProjectName = model.ProjectName;
             lstunits.Add(units);
@@ -360,7 +360,7 @@ namespace SarkPayOuts.Repository
                         {
                             NewBookingViewModel agentDetails = new NewBookingViewModel();
                             agentDetails.AgentId = admins.AdminUUID;
-                            agentDetails.AgentName = "Self";
+                            agentDetails.AgentName = "SarkProject";
                             agentDetails.UnitSize = unit.UnitSize;
                             agentDetails.CreatedDate = unit.CreatedDate;
                             agentDetails.UnitNumber = unit.UnitNumber;
@@ -381,7 +381,7 @@ namespace SarkPayOuts.Repository
                         {
                             NewBookingViewModel agentDetails = new NewBookingViewModel();
                             agentDetails.AgentId = admins.AdminUUID;
-                            agentDetails.AgentName = "Self";
+                            agentDetails.AgentName = "SarkProject";
                             agentDetails.UnitSize = unit.UnitSize;
                             agentDetails.CreatedDate = unit.CreatedDate;
                             agentDetails.UnitNumber = unit.UnitNumber;
@@ -492,7 +492,7 @@ namespace SarkPayOuts.Repository
                     List<BlockedUnits> lstBookedUnits = new List<BlockedUnits>();
                     List<ProjectDetails> lstNewBookedUnits = new List<ProjectDetails>();                   
                     ProjectDetails  project= lstDetails.Where(x=>x.ProjectId==pid).FirstOrDefault();
-                    BlockedUnits  unit = project.UnitsData.Where(y=>y.UnitNumber==un).FirstOrDefault();
+                    BlockedUnits  unit = project.UnitsData.Where(y=>y.UnitNumber==un.Trim()).FirstOrDefault();
                     if (status =="Confirmed") {
                         BookedProject.ProjectId = project.ProjectId;
                         BookedProject.ProjectName = project.ProjectName;
@@ -606,8 +606,9 @@ namespace SarkPayOuts.Repository
             var units=_context.ProjectUnitsData.ToList();
             model.Agents= _context.AgentRegistration.ToList().Count();
             model.TotalBookings= units.Where(x => x.status == "Booked").Count();
-            model.TotalBlocked = units.Where(x => x.status == "Blocked").Count();            
-            model.NewBookings = units.Where(x => x.status == "Blocked" && x.BlockedDate==DateTime.Now.ToString()).Count();
+            model.TotalBlocked = units.Where(x => x.status == "Reserved").Count();            
+            model.NewBlockedUnits  = units.Where(x => x.status == "Reserved" && x.BlockedDate.Contains(DateTime.Now.ToString("MM/dd/yyyy"))).Count();
+            model.NewBookings = units.Where(x => x.status =="Booked" && x.StatusConfiredDate.Contains(DateTime.Now.ToString("MM/dd/yyyy"))).Count();
             return model;
         }
         public List<ViewLayoutModel> GetAllUnitsData(string id)

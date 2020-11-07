@@ -1,12 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
 namespace SarkPayOuts
 {
     public class Program
@@ -21,7 +14,7 @@ namespace SarkPayOuts
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                    .UseUrls("http://0.0.0.0:5020")
+                    .UseUrls("http://0.0.0.0:5021")
                     .UseStartup<Startup>();
                 });
     }
