@@ -1,99 +1,105 @@
 ﻿@using System.Globalization;
 @model MyBookinsViewModel
 @{
+    ViewData["Title"] = "MyBookings";
     CultureInfo provider = CultureInfo.InvariantCulture;
     Layout = "/Views/Shared/_AdminLayout.cshtml";
 }
 @section Styles{
-
+    <meta http-equiv="refresh" content="30" />
     <link rel="stylesheet" href="~/css/mybooking.css" />
- }
-    <section class="booking-slots">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-title-block mb-4 mt-3">
-                        <h4 class="section-title">My Bookings</h4>
-                    </div>
+}
+<section class="booking-slots">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title-block mb-4 mt-3">
+                    <h4 class="section-title">My Bookings</h4>
                 </div>
             </div>
-            <div class="row mb-5">
-                @if (Model != null)
+        </div>
+        <div class="row mb-5">
+            @if (Model != null)
+            {
+                if (Model.lstBlocked != null && Model.lstBlocked.Count > 0)
                 {
-                    if (Model.lstBlocked != null && Model.lstBlocked.Count > 0)
-                    {
-                        <div class="col-md-12 col-lg-4">
-                            <div class="accordion my-4 mt-lg-0" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                                    data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                                Bookings Blocked<i class="fas fa-caret-down"></i>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-                                         data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            @foreach (var data in Model.lstBlocked)
-                                            {
-                                                <div class="block-1">
-                                                    <h3 class="sub-title">@data.ProjectName</h3>
-                                                    <hr> @foreach (var dataite in data.UnitsData)
+                    <div class="col-md-12 col-lg-4">
+                        <div class="accordion my-4 mt-lg-0" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                            Reserved Bookings<i class="fas fa-caret-down"></i>
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        @foreach (var data in Model.lstBlocked)
+                                        {
+                                            <div class="block-1">
+                                                <h3 class="sub-title">@data.ProjectName</h3>
+                                                <hr> @foreach (var dataite in data.UnitsData)
+                                                {
+                                                    if (dataite.Status == "Reserved")
                                                     {
-                                                        if (dataite.Status == "Reserved")
-                                                        {
-                                                            <input type="hidden" id="createdDate" value="" />
-                                                            DateTime createdDate = DateTime.Parse(dataite.CreatedDate);
-                                                            DateTime expiryDate = DateTime.Parse(dataite.ExpiryDate);
-                                                            TimeSpan tp = expiryDate.Subtract(createdDate);
-                                                            @if (DateTime.Now <= expiryDate)
-                                                            {
-                                                                <div class="layout-1">
-                                                                    <span class="layout-1-unit">@dataite.UnitNumber </span>
 
-                                                                    <div class="timer-block">
-                                                                        <div id="timer">
+                                                        <input type="hidden" id="createdDate" value="" />
+                                                        DateTime createdDate = DateTime.Parse(dataite.CreatedDate);
+                                                        DateTime expiryDate = DateTime.Parse(dataite.ExpiryDate);
+                                                        TimeSpan tp = expiryDate.Subtract(createdDate);
+                                                        @*@if (DateTime.Now <= expiryDate)
+                                                        {*@
+                                                            <div class="layout-1">
+                                                                <span class="layout-1-unit">@dataite.UnitNumber</span>
 
-                                                                            @expiryDate.Subtract(createdDate)
-
-                                                                        </div>
+                                                                <div class="timer-block">
+                                                                    <div id="timer" style="display:block">
+                                                                        <span id="days_@dataite.UnitNumber"></span>
+                                                                        <span id="hours_@dataite.UnitNumber"></span>
+                                                                        <span id="minutes_@dataite.UnitNumber"></span>
+                                                                        <span id="seconds_@dataite.UnitNumber"></span>
                                                                     </div>
-
-                                                                    <div class="cancel">
-                                                                        <button class="btn cancel-btn"  onclick="UpdateStatus('@dataite.AgentId','@data.ProjectId','@dataite.UnitNumber ','Rejected','Admin')">Cancel</button>
-                                                                    </div>
-
                                                                 </div>
-                                                            }
-                                                            else { }
-                                                        }
-                                                    }
-                                                </div>
-                                                <br />
-                                            }
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header cancel-modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Cancel Conformation...</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body cancel-modal-body">
-                                                            <div class="cancel-popup">
-                                                                <i class="far fa-window-close modal-close"></i>
+                                                                <div class="cancel">
+                                                                    <button class="btn cancel-btn" onclick="UpdateStatus('@dataite.AgentId','@data.ProjectId','@dataite.UnitNumber ','Rejected','Admin',@dataite.customerName)">Cancel</button>
+                                                                </div>
                                                             </div>
-                                                            <h4>Your Booking Cancel Successfully..!</h4>
-                                                        </div>
-                                                        <!-- <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                                    </div> -->
+                                                            <br />
+                                                        //}
+                                                        //else
+                                                        //{
+                                                        //}
+
+                                                    }
+
+                                                }
+                                                
+                                            </div>
+                                            <br />
+                                        }
+
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header cancel-modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Cancel Conformation...</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
+                                                    <div class="modal-body cancel-modal-body">
+                                                        <div class="cancel-popup">
+                                                            <i class="far fa-window-close modal-close"></i>
+                                                        </div>
+                                                        <h4>Your Booking Cancel Successfully..!</h4>
+                                                    </div>
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -101,103 +107,111 @@
                                 </div>
                             </div>
                         </div>
-                    }
-                    if (Model.lstBooked != null && Model.lstBooked.Count > 0)
-                    {
-                        <div class="col-md-12 col-lg-4">
-                            <div class="accordion my-4 mt-lg-0" id="accordionExample2">
-                                <div class="card">
-                                    <div class="card-header" id="headingTwo">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                                    data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-                                                    aria-controls="collapseTwo">
-                                                Confirm Booking<i class="fas fa-caret-down"></i>
-                                            </button>
-                                        </h2>
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                             data-parent="#accordionExample2">
-                                            <div class="card-body">
-                                                @foreach (var data in Model.lstBooked)
-                                                {
+                    </div>
+                }
+                if (Model.lstBooked != null && Model.lstBooked.Count > 0)
+                {<div class="col-md-12 col-lg-4">
+                        <div class="accordion my-4 mt-lg-0" id="accordionExample2">
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+                                                aria-controls="collapseTwo">
+                                            Confirm Booking<i class="fas fa-caret-down"></i>
+                                        </button>
+                                    </h2>
+                                </div>
 
-                                                <div class="block-1">
-                                                    <h3 class="sub-title">@data.ProjectName </h3>
-                                                    <hr>
-                                                    @foreach (var dataite in data.UnitsData)
-                                                        {
+                                <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                                     data-parent="#accordionExample2">
+                                    <div class="card-body">
+                                        @foreach (var data in Model.lstBooked)
+                                        {
+
+                                            <div class="block-1">
+                                                <h3 class="sub-title">@data.ProjectName </h3>
+                                                <hr>
+                                                @foreach (var dataite in data.UnitsData)
+                                                {
                                                     @if (dataite.Status == "Booked")
-                                                            {
-                                                    <div class="layout-1">
-                                                        <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
-                                                        <div class="date-display">
-                                                            <span>@dataite.StatusConfiredDate </span>
+                                                    {
+                                                        <div class="layout-1">
+                                                            <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
+                                                            <div class="date-display">
+                                                                <span>@dataite.StatusConfiredDate </span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                            }
-                                                        }
-                                                </div>
-                                                <br />
+                                                        <br />
+                                                    }
                                                 }
                                             </div>
-                                        </div>
+                                            <br />
+                                            <br />
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    }
-                    if (Model.lstRejected != null && Model.lstRejected.Count > 0)
-                    {
-                        <div class="col-md-12 col-lg-4">
-                            <div class="accordion my-4 mt-lg-0" id="accordionExample3">
-                                <div class="card">
-                                    <div class="card-header" id="headingThree">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                                    data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
-                                                    aria-controls="collapseThree">
-                                                Rejected Booking<i class="fas fa-caret-down"></i>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                         data-parent="#accordionExample3">
-                                        <div class="card-body">
-                                            @foreach (var data in Model.lstRejected)
-                                            {
+
+                    </div>
+                }
+                else
+                { <b></b>
+                }
+                if (Model.lstRejected != null && Model.lstRejected.Count > 0)
+                {
+                    <div class="col-md-12 col-lg-4">
+                        <div class="accordion my-4 mt-lg-0" id="accordionExample3">
+                            <div class="card">
+                                <div class="card-header" id="headingThree">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+                                                aria-controls="collapseThree">
+                                            Rejected Booking<i class="fas fa-caret-down"></i>
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree"
+                                     data-parent="#accordionExample3">
+                                    <div class="card-body">
+                                        @foreach (var data in Model.lstRejected)
+                                        {
                                             <div class="block-1">
                                                 <h3 class="sub-title">@data.ProjectName</h3>
                                                 <hr>
                                                 @foreach (var dataite in data.UnitsData)
+                                                {
+                                                    @if (dataite.Status == "Rejected")
                                                     {
-                                                @if (dataite.Status == "Rejected")
-                                                        {
-                                                <div class="layout-1">
-                                                    <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
-                                                    <div class="time-out">
-                                                        <span>Time Out</span>
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                        }
+                                                        <div class="layout-1">
+                                                            <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
+                                                            <div class="time-out">
+                                                                <span>Time Out</span>
+                                                            </div>
+                                                        </div>
+                                                        <br />
                                                     }
+                                                }
+
                                             </div>
-                                            <br />
-                                            }
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    }
+                    </div>
                 }
-            </div>
+            }
         </div>
-    </section>
+    </div>
+</section>
 @section Scripts{
     <script>
         $(document).ready(function () {
-           // CheckingBlockingUnits();
+            // CheckingBlockingUnits();
             function makeTimer() {
                 var endTime = new Date("29 April 2020 9:56:00 GMT+01:00");
                 endTime = (Date.parse(endTime) / 1000);
@@ -234,7 +248,7 @@
                 url: "/AdminOperations/UpdatingBlockingUnitsStatus",
                 data: {},
                 success: function (response) {
-                                 },
+                },
                 failure: function (response) {
                 },
                 error: function (response) {
@@ -242,11 +256,11 @@
                 }
             });
         }
-        function UpdateStatus(aid, pid, un, status, type) {
+        function UpdateStatus(aid, pid, un, status, type,name) {
             $.ajax({
                 type: "POST",
                 url: "/AdminOperations/UpdateBookingStatus",
-                data: { "aid": aid, "pid": pid, "un": un, "state": status, "type": type },
+                data: { "aid": aid, "pid": pid, "un": un, "state": status, "type": type, "name":name },
                 success: function (response) {
                     $("#exampleModal").modal('show');
                 },

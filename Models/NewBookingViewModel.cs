@@ -9,6 +9,6 @@ namespace SarkPayOuts.Models
     {
         public string AgentName { get; set; }
         public string CreatedDate { get; set; }
-        public string Status { get; set; }
+        
     }
 }

@@ -1,234 +1,236 @@
-﻿
-@using System.Globalization;
+﻿@using System.Globalization;
 @model MyBookinsViewModel
 @{
+    ViewData["Title"] = "MyBookings";
     CultureInfo provider = CultureInfo.InvariantCulture;
+    int i = 0;
 }
-@section Styles{ }
-<section class="booking-slots">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-title-block mb-4 mt-3">
-                    <h4 class="section-title">My Bookings</h4>
-                </div>
-            </div>
-        </div>
-        <div class="row mb-5">
-            @if (Model != null)
-            {
-                if (Model.lstBlocked != null && Model.lstBlocked.Count > 0)
-                {
-            <div class="col-md-12 col-lg-4">
-                <div class="accordion my-4 mt-lg-0" id="accordionExample">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                        data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                        aria-controls="collapseOne">
-                                    Bookings Reserved<i class="fas fa-caret-down"></i>
-                                </button>
-                            </h2>
+@section Styles{<meta http-equiv="refresh" content="30" />
+    <link rel="stylesheet" href="/css/mybooking.css">; }
+
+
+<body>
+
+    <section class="main-body">
+        <section class="booking-slots">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title-block mb-4 mt-3">
+                            <h4 class="section-title">My Bookings</h4>
                         </div>
-                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-                             data-parent="#accordionExample">
-                            <div class="card-body">
-                                @foreach (var data in Model.lstBlocked)
-                                        {
-                                <div class="block-1">
-                                    <h3 class="sub-title">@data.ProjectName</h3>
-                                    <hr> @foreach (var dataite in data.UnitsData)
-                                                {
-                                                    if (dataite.Status == "Reserved")
-                                                    {
-                                    <input type="hidden" id="createdDate" value="" />
-                                                        DateTime createdDate = DateTime.Parse(dataite.CreatedDate);
-                                                        DateTime expiryDate = DateTime.Parse(dataite.ExpiryDate);
-                                                        TimeSpan tp = expiryDate.Subtract(createdDate);
-                                    @if (DateTime.Now <= expiryDate)
-                                                        {
-                                    <div class="layout-1">
-                                        <span class="layout-1-unit">@dataite.UnitNumber </span>
-
-                                        <div class="timer-block">
-                                            <div id="timer">
-                                                @expiryDate.Subtract(createdDate)
-                                            </div>
-                                        </div>
-
-                                        <div class="cancel">
-                                            <button class="btn cancel-btn" onclick="UpdateStatus('@dataite.AgentId','@data.ProjectId','@dataite.UnitNumber ','Rejected','Agent')">Cancel</button>
-                                        </div>
-
-                                    </div>
-                                                        }
-                                                        else {
-
-                                    <b>No,Reserved Bookings</b>
-                                                }
-                                                    }
-                                                }
-                                </div>
-                                <br />
-                                        }
-
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header cancel-modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Cancel Conformation...</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    @if (Model != null)
+                    {
+                        if (Model.lstBlocked != null && Model.lstBlocked.Count > 0)
+                        {
+                            <div class="col-md-12 col-lg-4">
+                                <div class="accordion my-4 mt-lg-0" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                        data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                                        aria-controls="collapseOne">
+                                                    Reserved Bookings<i class="fas fa-caret-down"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body cancel-modal-body">
-                                                <div class="cancel-popup">
-                                                    <i class="far fa-window-close modal-close"></i>
-                                                </div>
-                                                <h4>Your Booking Cancel Successfully..!</h4>
-                                            </div>
-                                            <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div> -->
+                                            </h2>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                        </div>
-                    </div>
-                </div>
-            </div>
-                }
-                if (Model.lstBooked != null && Model.lstBooked.Count > 0)
-                {
-            <div class="col-md-12 col-lg-4">
-                <div class="accordion my-4 mt-lg-0" id="accordionExample2">
-                    <div class="card">
-                        <div class="card-header" id="headingTwo">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                        data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-                                        aria-controls="collapseTwo">
-                                    Confirm Booking<i class="fas fa-caret-down"></i>
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                 data-parent="#accordionExample2">
-                                <div class="card-body">
-                                    @foreach (var data in Model.lstBooked)
-                                            {
 
-                                    <div class="block-1">
-                                        <h3 class="sub-title">@data.ProjectName </h3>
-                                        <hr>
-                                        @foreach (var dataite in data.UnitsData)
-                                                    {
-                                        @if (dataite.Status == "Booked")
-                                                        {
-                                        <div class="layout-1">
-                                            <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
-                                            <div class="date-display">
-                                                <span>@dataite.StatusConfiredDate </span>
-                                            </div>
-                                        </div>
-                                                        }
-                                                    }
-                                    </div>
-                                    <br />
-                                    <br />
-                                            }
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                }
-                if (Model.lstRejected != null && Model.lstRejected.Count > 0)
-                {
-            <div class="col-md-12 col-lg-4">
-                <div class="accordion my-4 mt-lg-0" id="accordionExample3">
-                    <div class="card">
-                        <div class="card-header" id="headingThree">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
-                                        data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
-                                        aria-controls="collapseThree">
-                                    Rejected Booking<i class="fas fa-caret-down"></i>
-                                </button>
-                            </h2>
-                        </div>
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                             data-parent="#accordionExample3">
-                            <div class="card-body">
-                                @foreach (var data in Model.lstRejected)
-                                        {
-                                <div class="block-1">
-                                    <h3 class="sub-title">@data.ProjectName</h3>
-                                    <hr>
-                                    @foreach (var dataite in data.UnitsData)
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                             data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                @foreach (var data in Model.lstBlocked)
                                                 {
-                                    @if (dataite.Status == "Rejected")
-                                                    {
-                                    <div class="layout-1">
-                                        <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
-                                        <div class="time-out">
-                                            <span>Time Out</span>
+                                                    <div class="block-1">
+                                                        <h3 class="sub-title">@data.ProjectName</h3>
+                                                        <hr> @foreach (var dataite in data.UnitsData)
+                                                        {
+                                                            if (dataite.Status == "Reserved")
+                                                            {
+
+                                                                <input type="hidden" id="createdDate" value="" />
+                                                                DateTime createdDate = DateTime.Parse(dataite.CreatedDate);
+                                                                DateTime expiryDate = DateTime.Parse(dataite.ExpiryDate);
+                                                                TimeSpan tp = expiryDate.Subtract(createdDate);
+                                                                @if (DateTime.Now <= expiryDate)
+                                                                {
+                                                                    <div class="layout-1">
+                                                                        <input type="hidden" id="@i" value="@dataite.UnitNumber@@@dataite.CreatedDate" />
+                                                                        <span class="layout-1-unit">@dataite.UnitNumber</span>
+
+                                                                        <div class="timer-block">
+                                                                            <div id="timer" style="display:block">
+                                                                                <span id="days_@dataite.UnitNumber"></span>
+                                                                                <span id="hours_@dataite.UnitNumber"></span>
+                                                                                <span id="minutes_@dataite.UnitNumber"></span>
+                                                                                <span id="seconds_@dataite.UnitNumber"></span>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="cancel">
+                                                                            <button class="btn cancel-btn" onclick="UpdateStatus('@dataite.AgentId','@data.ProjectId','@dataite.UnitNumber ','Rejected','Agent',@dataite.customerName)">Cancel</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <br />
+
+                                                                    i = i + 1;
+                                                                }
+                                                                else
+                                                                {
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                        <input type="hidden" id="count" value="@i" />
+                                                    </div>
+                                                    <br />
+                                                }
+
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header cancel-modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Cancel Conformation...</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" onclick="RefreshPage();" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body cancel-modal-body">
+                                                                <div class="cancel-popup">
+                                                                    <i class="far fa-window-close modal-close"></i>
+                                                                </div>
+                                                                <h4>Your Booking Cancel Successfully..!</h4>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                                    }
-                                                }
                                 </div>
-                                <br />
-                                        }
                             </div>
-                            <br />
-                        </div>
-                    </div>
+                        }
+                        if (Model.lstBooked != null && Model.lstBooked.Count > 0)
+                        {<div class="col-md-12 col-lg-4">
+                                <div class="accordion my-4 mt-lg-0" id="accordionExample2">
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                        data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+                                                        aria-controls="collapseTwo">
+                                                    Confirm Booking<i class="fas fa-caret-down"></i>
+                                                </button>
+                                            </h2>
+                                        </div>
+
+                                        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                                             data-parent="#accordionExample2">
+                                            <div class="card-body">
+                                                @foreach (var data in Model.lstBooked)
+                                                {
+
+                                                    <div class="block-1">
+                                                        <h3 class="sub-title">@data.ProjectName </h3>
+                                                        <hr>
+                                                        @foreach (var dataite in data.UnitsData)
+                                                        {
+                                                            @if (dataite.Status == "Booked")
+                                                            {
+                                                                <div class="layout-1">
+                                                                    <span class="layout-1-unit-confirm">@dataite.UnitNumber</span>
+                                                                    <div class="date-display">
+                                                                        <span>@dataite.StatusConfiredDate </span>
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <br />
+                                                    <br />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        { <b></b>
+                        }
+                        if (Model.lstRejected != null && Model.lstRejected.Count > 0)
+                        {
+                            <div class="col-md-12 col-lg-4">
+                                <div class="accordion my-4 mt-lg-0" id="accordionExample3">
+                                    <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left accordian-btn" type="button"
+                                                        data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+                                                        aria-controls="collapseThree">
+                                                    Rejected Booking<i class="fas fa-caret-down"></i>
+                                                </button>
+                                            </h2>
+                                        </div>
+
+                                        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree"
+                                             data-parent="#accordionExample3">
+                                            <div class="card-body">
+                                                @foreach (var data in Model.lstRejected)
+                                                {
+                                                    <div class="block-1">
+                                                        <h3 class="sub-title">@data.ProjectName</h3>
+                                                        <hr>
+                                                        @foreach (var dataite in data.UnitsData)
+                                                        {
+                                                            @if (dataite.Status == "Rejected")
+                                                            {
+                                                                <div class="layout-1">
+                                                                    <span class="layout-1-unit-reject">@dataite.UnitNumber</span>
+                                                                    <div class="time-out">
+                                                                        <span>Time Out</span>
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
-                }
-            }
-        </div>
-    </div>
-</section>
+        </section>
+    </section>
+</body>
+
 @section Scripts{
     <script>
         $(document).ready(function () {
             // CheckingBlockingUnits();
-            function makeTimer() {
-                var endTime = new Date("29 April 2020 9:56:00 GMT+01:00");
-                endTime = (Date.parse(endTime) / 1000);
-
-                var now = new Date();
-                now = (Date.parse(now) / 1000);
-
-                var timeLeft = endTime - now;
-
-                var days = Math.floor(timeLeft / 86400);
-                var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
-                var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600)) / 60);
-                var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
-
-                if (hours < "10") { hours = "0" + hours; }
-                if (minutes < "10") { minutes = "0" + minutes; }
-                if (seconds < "10") { seconds = "0" + seconds; }
-                for (var i = 0; i < 10; i++) {
-
-                    $("#hours" + i).html(hours + "&nbsp;:");
-                    $("#minutes" + i).html(minutes + "&nbsp;:");
-                    $("#seconds" + i).html(seconds + "");
-                }
-                // $("#days").html(days + "<span>Days</span>");
-
-
-            }
-            //setInterval(function () { makeTimer(); }, 1000);
+            $(".collapse").on('show.bs.collapse', function () {
+                $(this).prev(".card-header").find(".fas").removeClass("fa-caret-up").addClass("fa-caret-down");
+            }).on('hide.bs.collapse', function () {
+                $(this).prev(".card-header").find(".fas").removeClass("fa-caret-down").addClass("fa-caret-up");
+            });
+            timer();
         });
+        setInterval(function () { timer(); }, 1000);
         //setInterval(function () { CheckingBlockingUnits(); },1000000);
         function CheckingBlockingUnits() {
             $.ajax({
@@ -244,11 +246,11 @@
                 }
             });
         }
-        function UpdateStatus(aid, pid, un, status, type) {
+        function UpdateStatus(aid, pid, un, status, type,name) {
             $.ajax({
                 type: "POST",
-                url: "/AdminOperations/UpdateBookingStatus",
-                data: { "aid": aid, "pid": pid, "un": un, "state": status, "type": type },
+                url: "/AgentOperations/UpdateBookingStatus",
+                data: { "aid": aid, "pid": pid, "un": un, "state": status, "type": type,"name":name},
                 success: function (response) {
                     $("#exampleModal").modal('show');
                 },
@@ -257,6 +259,58 @@
                     alert(result);
                 },
             });
+        }
+        function GettingBlockedUnits() {
+            $.ajax({
+                type: "POST",
+                url: "/AgentOperations/GettingBlockedUnitsData",
+                data: { "id": id },
+                success: function (response) {
+                    debugger
+
+                },
+                failure: function (response) {
+                },
+                error: function (response) {
+                }
+            });
+        }
+        function timer() {
+            var count = $("#count").val();
+            for (var i = 0; i <= count; i++) {
+                console.log(i);
+                var data = $("#" + i).val();
+                if (data != undefined) {
+                    var tt = data.split('@@');
+                    makeTimer(tt[0], tt[1]);
+
+                }
+            }
+        }
+        function makeTimer(un, dat) {
+            var startDate = new Date(Date.parse(dat));
+            var endTime = new Date();
+            endTime.setDate(startDate.getDate() + 2);
+            endTime = (Date.parse(endTime) / 1000);
+            startDate = (Date.parse(startDate) / 1000);
+            var timeLeft = endTime - startDate;
+            var days = Math.floor(timeLeft / 86400);
+            var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+            var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600)) / 60);
+            var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+            if (hours < "10") { hours = "0" + hours; }
+            if (minutes < "10") { minutes = "0" + minutes; }
+            if (seconds < "10") { seconds = "0" + seconds; }
+
+            $("#days_" + un).html(days + "&nbsp;:");
+            $("#hours_" + un).html(hours + "&nbsp;:");
+            $("#minutes_" + un).html(minutes + "&nbsp;:");
+            $("#seconds_" + un).html(seconds + "");
+
+            // $("#days").html(days + "<span>Days</span>");
+        }        
+        function RefreshPage() {
+            location.reload();
         }
     </script>
 }

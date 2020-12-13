@@ -1,11 +1,10 @@
-﻿@model List<NewBookingViewModel>
+﻿@model BookingNewViewModel  
 @{
     ViewData["Title"] = "NewBookings";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    List<NewBookingViewModel> lst = Model;
+    List<NewBookingViewModel> lst = Model.lstBookings;
 }
 @section Styles{
-    <meta http-equiv="refresh" content="10">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css">
     <link rel="stylesheet" href="/css/new-booking.css">
@@ -26,20 +25,23 @@
                 <table id="new-book" class="display responsive" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Layout 1</th>
+                            <th>Layout</th>
                             <th>Unit No</th>
                             <th>Size</th>
                             <th>Agent Name</th>
+                            <th>Customer Name</th>
+                            <th>Date</th>
                             <th>Status</th>
-                            <th>Booking</th>
+                            <th style="text-align:center">Booking</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (lst != null && lst.Count > 0)
                         {
-                            foreach (var data in lst) {
+                            foreach (var data in lst)
+                            {
                                 string type = string.Empty;
-                        @if(data.AgentName== "SarkProject")
+                                @if (data.AgentName == "SarkProject")
                                 {
                                     type = "Admin";
                                 }
@@ -49,29 +51,115 @@
                             <td>@data.UnitNumber </td>
                             <td>@data.UnitSize</td>
                             <td>@data.AgentName</td>
-                            @if(data.Status=="Booked"){
-                            <td><span class="badge badge-success">@data.Status</span></td>
-}else if(data.Status=="Rejected"){
-                            <td><span class="badge badge-danger">@data.Status</span></td>
-}
-                            @if (data.Status=="Booked" || data.Status=="Rejected")
-                                {
-                            <td></td>
-                                }
-                                else {
-                            <td>
-                                <button class="btn custom-table-btn btn-success ml-md-0 ml-1" onclick="UpdateStatus('@data.AgentId','@data.ProjectId','@data.UnitNumber','Confirmed','@type')">Confirm</button>
-                                <button class="btn custom-table-btn btn-danger ml-md-3 ml-1" onclick="UpdateStatus('@data.AgentId','@data.ProjectId','@data.UnitNumber','Rejected','@type')">Reject</button>
-                            </td>
-                                }
+                            <td>@data.customerName</td>
+                            <td>@data.StatusConfiredDate</td>
+                            @if (data.Status == "Booked")
+                            {
+                                <td><span class="badge badge-success">@data.Status</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge badge-danger">@data.Status</span></td>
+                            }
+                            @if (data.Status == "Booked" || data.Status == "Rejected")
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <button class="btn custom-table-btn btn-success ml-md-0 ml-1" onclick="ConfirmModelShow('@data.AgentId','@data.ProjectId','@data.UnitNumber','Confirmed','@type','@data.AdminId','@data.customerName')">Confirm</button>
+                                    <button class="btn custom-table-btn btn-danger ml-md-3 ml-1" onclick="ConfirmModelShow('@data.AgentId','@data.ProjectId','@data.UnitNumber','Rejected','@type','@data.AdminId','@data.customerName')">Reject</button>
+                                </td>
+                            }
                         </tr>
                             }
                         }
-                        else {
-                        <tr>No Bookings Found</tr>
+                        else
+                        {
+                            <tr>No Bookings Found</tr>
                         }
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal2 js-modal-trigger">
+        <div class="modal fade" id="BlockModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sark.regital.in says</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="RefreshPage()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="info">
+                            <div class="plot-info">
+                                <span id="content">Are You Sure Want to Confirm Booking</span>
+                            </div>
+                            <hr class="info-hr">
+                            <div class="block-info" id="btns">
+                                <button class="ladda-button02 green ladda-button expand-right btn-success" id="btnYes" value=""><span class="ladda-label label-custom" onclick="YesSubmit()">Yes</span></button>
+                                <button class="ladda-button02 green ladda-button expand-right btn-danger"><span class="ladda-label label-custom" onclick="RefreshPage()">No</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="pid" value="" />
+    <input type="hidden" id="unber" value="" />
+    <input type="hidden" id="status" value="" />
+    <input type="hidden" id="type" value="" />
+    <input type="hidden" id="adid" value="" />
+    <div class="modal1">
+        <div class="modal fade" id="BlockModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Plot Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="info">
+                            <div class="plot-info">
+                                <ul class="plot-info-ul">
+                                    <li id="plotNo"></li>
+                                    <li id="Size"></li>
+                                    <li id="Facing"></li>
+                                </ul>
+                            </div>
+                            <form id="user-form">
+                                <div class="form-group" id="agentsddl">
+                                    <label class="label-text">Choose Agent</label>
+                                    <select class="form-control" id="ddlAgentsData">
+                                        <option value="SelectAgent">Select Agent</option>
+                                        @if (Model.lstAgents != null)
+                                        {
+                                            foreach (var agent in Model.lstAgents)
+                                            {
+                                                <option value="@agent.AgentId">@agent.AgentName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group" id="pwd">
+                                    <label class="label-text">Customer Name</label>
+                                    <input type="text" id="txtCustomer" class="form-control custom-form">
+                                </div>
+                            </form>
+                            <div class="block-info mt-3 mt-sm-2">
+                                <button class="ladda-button02 green ladda-button expand-right btn-success"><span class="ladda-label label-custom" onclick="ConfirmationModelShow()">Booking</span></button>
+                                <button class="btn confirm-btn btn-danger">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -86,21 +174,65 @@
                 responsive: true
             });
         });
-        function UpdateStatus(aid, pid, un, status, type) {
+        function UpdateStatus(aid, pid, un, status, type,name) {            
             $.ajax({
                 type: "POST",
                 url: "/AdminOperations/UpdateBookingStatus",
-                data: { "aid": aid, "pid": pid, "un": un, "state": status, "type": type },
+                data: { "aid": aid, "pid": pid, "un": un, "state": status, "type": type,"name":name },
                 success: function (response) {
                     result = response;
-                    alert(result);
+                    $("#content").html(result);
+                    $("#BlockModal").modal('show');
                 },
                 error: function (error) {
                     result = error;
-                    alert(result);
+                    $("#content").html(result);
+                    $("#BlockModal").modal('show');
                 },
             });
         }
-
+        function RefreshPage() {
+            window.location.reload();
+        }
+        function ConfirmModelShow(aid, pid, un, status, type, adid, name) {
+            $("#txtCustomer").val(name);
+            $("#pid").val(pid);
+            $("#unber").val(un);
+            $("#status").val(status);
+            $("#type").val(type);
+            $("#adid").val(adid);
+            $("#ddlAgentsData").val(aid);
+            if (status == "Rejected") {
+                $("#BlockModal2").modal("show");
+            } else {
+            if (aid !="") {
+                $("#agentsddl").css("display","none");
+            }
+                $("#BlockModal1").modal('show');
+            }
+            //$("#btnYes").val(aid + "," + pid + "," + un + "," + status + "," + type + "");
+            
+        }
+        function YesSubmit() {
+            $("#BlockModal1").modal("hide");
+            //var data =$("#btnYes").val().split(",");
+            $("#btnYes").val().split(",");
+            var agent = $("#ddlAgentsData").val();
+            var custoer = $("#txtCustomer").val();
+            UpdateStatus(agent, $("#pid").val(), $("#unber").val(), $("#status").val(), $("#type").val(), custoer);
+            $("#btns").css("display","none");
+        }
+        function ConfirmationModelShow() {
+            var agent = $("#ddlAgentsData").val();
+            if (agent == "SelectAgent") {
+                alert("select agent");
+                return false;
+            } else {
+                
+                $("#BlockModal2").modal("show");
+                return true;
+            }
+            
+        }
     </script>
 }

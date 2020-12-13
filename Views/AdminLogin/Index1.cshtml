@@ -1,0 +1,112 @@
+﻿
+@model LoginViewModel ;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link href="~/css/login.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/img/sark.ico">
+</head>
+
+<body>
+    <section class="login">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <div class="login-block mb-3">
+                        <div class="login-title">
+                            <h3 class="titleh3">Welcome Administrator</h3>
+                        </div>
+                        <div class="form my-5">
+                            <form method="post" asp-controller="AdminLogin" asp-action="Index">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group" id="fname">
+                                    <label class="label-text">Login ID</label>
+                                    <input type="text" asp-for="UserName" class="form-control custom-form" placeholder="abc@example.com">
+                                    <i class="fas fa-user user-icon"></i>
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" id="pwd">
+                                    <label class="label-text">Password</label>
+                                    <input type="password" asp-for="Password" class="form-control custom-form" placeholder="Password">
+                                    <i class="fas fa-lock user-pwd"></i>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group email-group" id="email">
+                                    <label class="label-text">Email</label>
+                                    <input type="text" class="form-control custom-form" placeholder="Email ID" id="userName" required>
+                                    <i class="fas fa-lock user-pwd"></i>
+                                </div>
+                                <div class="forgot-block">
+                                    <a href="javascript:void(0)" class="forgot">Forgot Password</a>
+                                </div>
+                                <button id="login-btn" type="submit" class="btn custom-btn my-3">Login</button>
+                                <a  id="submit" class="btn custom-btn my-3" onclick="ForgotPasswordSend()">Submit</a>
+                                <div class="back-btn-login">
+                                    <button id="back" class="back-bbttnn" type="submit"><i class="fas fa-arrow-circle-left"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="~/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#email").hide();
+            $("#submit").hide();
+            $("#back").hide();
+            $(".forgot").click(function () {
+                $("#fname").hide();
+                $("#pwd").hide();
+                $("#login-btn").hide();
+                $("#email").show();
+                $("#submit").show();
+                $("#back").show();
+            });
+            $("#back").click(function () {
+                $("#fname").show();
+                $("#pwd").show();
+                $("#login-btn").show();
+                $("#email").hide();
+                $("#submit").hide();
+                $("#back").hide();
+            });
+        });
+        function ForgotPasswordSend() {            
+            var email = $("#userName").val();
+            alert(email);
+            if(email=="") {
+                alert("Please Enter Email");
+                return false;
+            }
+            $.ajax({
+                type:"POST",
+                url: "/AdminLogin/ForgotPassword",
+                data: { "id": email},
+                success: function (response) { },
+                error: function (error) { },
+            });
+        }
+    </script>
+</body>
+</html>

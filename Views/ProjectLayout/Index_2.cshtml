@@ -1,6 +1,6 @@
 ﻿@model LayOutViewModel
 @{
-    ViewData["Title"] = "Index_2";
+    ViewData["Title"] = Model.Name;
     @if (!string.IsNullOrEmpty(Model.Type))
     {
         string type = Model.Type;
@@ -12,8 +12,7 @@
     }
 
 }
-@section Styles{
-    <meta http-equiv="refresh" content="60" />
+@section Styles{   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
     <link href="/css/prime-01.css" rel="stylesheet" />
@@ -1954,10 +1953,41 @@
                                     </div>
                                 </div>
                                 <!-- <div class="modal-footer">
-                                     <div class="user-details">
-                                          <h4>Your Name : ..........</h4>
-                                     </div>
-                                </div> -->
+                         <div class="user-details">
+                              <h4>Your Name : ..........</h4>
+                         </div>
+                    </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal2 js-modal-trigger">
+                    <div class="modal fade" id="BlockModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Sark.regital.in says</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="RefreshPage()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="info">
+                                        <div class="plot-info">
+                                            <p class="book-text"><i class="fas fa-check-circle book-icon mr-3"></i></p>
+                                            <span id="contentent"></span>
+                                        </div>
+                                        <hr class="info-hr" />
+                                        <div class="block-info">
+
+                                            <!-- <button class="ladda-button green expand-right"><span class="label-custom" data-size="xs">Submit</span> <span class="spinner"></span></button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <button type="button" class="btn ">Save changes</button>
+                    </div> -->
                             </div>
                         </div>
                     </div>
@@ -2047,7 +2077,7 @@
         $("#Facing").html("<span id='spnFacing'>Facing:</span>&nbsp;&nbsp;" + response.facing + "");
         $("#BlockModal1").modal('show');
 
-        } else { alert("Unit Already '" + response.status + "' by SomeOne"); }
+        } else { $("#contentent").html("Unit Already '" + response.status + "' by SomeOne");$("#BlockModal2").modal('show'); }
         },
         failure: function (response) {
         alert(response.responseText);
@@ -2078,7 +2108,8 @@
         failure: function (response) {
         alert(response.responseText);
         },
-        error: function (response) {
+        error: function (response) {$("#BlockModal1").modal('hide');
+        $("#contentent").html("This Unit Reserved Successfully..."); $("#BlockModal2").modal('show');
         //alert(response.responseText);
         }
         });
@@ -2096,8 +2127,8 @@
         //alert(response.responseText);
         },
         error: function (response) {
-        GetUnitsData();
-        //alert(response.responseText);
+        $("#BlockModal1").modal('hide');
+        $("#contentent").html("This Unit Reserved Successfully..."); $("#BlockModal2").modal('show');
         }
         });
         } else { }

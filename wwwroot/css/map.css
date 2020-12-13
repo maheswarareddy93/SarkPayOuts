@@ -247,8 +247,20 @@ ul > li
   font-weight: 500;
   color: #47404f;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   font-size: 18px;
+}
+/* profile-icon */
+.sign-icon-cus{
+  font-size: 30px;
+}
+.header-user-dropdown{
+  /* left: -135px !important; */
+  transform: translate3d(-100px, 48px, 0px) !important;
+}
+
+.user-icon-width{
+  max-width: 35px;
 }
 
 /* ============================================================= */
@@ -349,6 +361,9 @@ ul > li
   {
     left: 0;
   }
+
+  /* new drop down */
+
 } 
 @media screen and (max-width:1024px)
 {
@@ -361,7 +376,7 @@ ul > li
 {
     .navbar-nav 
     {
-      align-items: flex-end;
+      align-items: center;
     }
     .nav-item:not(:last-child) {
       margin-right: 0px;
@@ -383,7 +398,7 @@ ul > li
     }
     .navbar-nav > .nav-item > .nav-link 
     {
-      font-size: 16px;
+      font-size: 10px;
     }
     .logo-main 
     {
@@ -411,14 +426,14 @@ ul > li
 }
 @media screen and (max-width: 767px)
 {
-  nav 
-  {
-    flex-direction: column;
-    justify-content: center;
-  }
+    /* nav 
+    {
+      flex-direction: column;
+      justify-content: center;
+    } */
   .logo-main 
   {
-    margin-left: 0px;
+    margin-left: 40px;
   }
   .sidebar 
   {
@@ -432,11 +447,25 @@ ul > li
   {
     display: block;
     color: #000;
+    width: 100%;
+    text-align: center;
   }
   .navbar-nav > .nav-item > .nav-link 
   {
     color: #000;
   }
+  .header-user-dropdown-mobile{
+    /* left: -135px !important; */
+    transform: translate3d(-135px, 48px, 0px) !important;
+  }
+  .navbar-nav > .nav-item > .nav-link:hover, .navbar-nav > .nav-item > .nav-link:focus {
+    color: #000;
+    outline: none;
+}
+.navbar-nav > .nav-item > .nav-link 
+{
+  font-size: 12px;
+}
 }
 @media screen and (max-width: 576px)
 {
@@ -446,7 +475,7 @@ ul > li
   }
   .navbar-nav > .nav-item > .nav-link 
   {
-    font-size: 16px;
+    font-size: 10px;
     color: #000;
   }
   .navbar-nav > .nav-item > .nav-link:hover, 
@@ -499,7 +528,7 @@ ul > li
   {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content:  space-between;
     align-items: center;
   }
 }
@@ -556,6 +585,9 @@ ul > li
 
 @media screen and (max-width: 375px) 
 {
+  .logo-main {
+    margin-left: 40px;
+}
   .map
   {
     max-width: 360px;
@@ -564,7 +596,7 @@ ul > li
   {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
   }
   .nav-item {

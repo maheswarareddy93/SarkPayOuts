@@ -74,6 +74,7 @@ namespace SarkPayOuts.Repository
                 if (!string.IsNullOrEmpty (unitDetails.BlockedUnits))
                 {
                   List<ProjectDetails> unitsData =JsonSerializer.Deserialize<List<ProjectDetails>>(unitDetails.BlockedUnits);
+                    
                     lstDetails = unitsData;
                    unitsData=unitsData.Where(x=>x.ProjectId ==model.ProjectId).ToList ();
                     if (unitsData != null && unitsData.Count>0)
@@ -117,17 +118,83 @@ namespace SarkPayOuts.Repository
                 {
                     if (!string.IsNullOrEmpty (list.BlockedUnits))
                     {
+                        List<BlockedUnits> lstNewunits = new List<BlockedUnits>();
                         List<ProjectDetails> lstblockedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.BlockedUnits);
-                        units.lstBlocked = lstblockedUnits;
+                        List<ProjectDetails> lstNewblockedUnits = new List<ProjectDetails>();
+                        foreach (var unit in lstblockedUnits)
+                        {
+                            BlockedUnits unis = new BlockedUnits();
+                            ProjectDetails newObj = new ProjectDetails();
+                            unis.ProjectId = unit.ProjectId;
+                            unis.ProjectName = unit.ProjectName;
+                            foreach (var project in unit.UnitsData)
+                            {
+                                unis.ProjectId = unit.ProjectId;
+                                unis.ProjectName = unit.ProjectName;
+                                unis.UnitNumber = project.UnitNumber;
+                                unis.UnitSize = project.UnitSize;
+                                unis.Status = project.Status;
+                                unis.AgentId = project.AgentId;
+                                unis.CreatedDate = project.CreatedDate;
+                            }
+                            lstNewunits.Add(unis);
+                            newObj.UnitsData = lstNewunits;
+                            lstNewblockedUnits.Add(newObj);
+                        }
+                        units.lstBlocked = lstNewblockedUnits;
                     }
                     if (!string.IsNullOrEmpty(list.RejectedUnits))
                     {
+                        List<BlockedUnits> lstNewunits = new List<BlockedUnits>();
                         List<ProjectDetails> lstrejectedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.RejectedUnits);
+                        List<ProjectDetails> lstNewrejectedUnits = new List<ProjectDetails>();
+                        foreach (var unit in lstrejectedUnits)
+                        {
+                            BlockedUnits unis = new BlockedUnits();
+                            ProjectDetails newObj = new ProjectDetails();
+                            unis.ProjectId = unit.ProjectId;
+                            unis.ProjectName = unit.ProjectName;
+                            foreach (var project in unit.UnitsData)
+                            {
+                                unis.ProjectId = unit.ProjectId;
+                                unis.ProjectName = unit.ProjectName;
+                                unis.UnitNumber = project.UnitNumber;
+                                unis.UnitSize = project.UnitSize;
+                                unis.Status = project.Status;
+                                unis.AgentId = project.AgentId;
+                                unis.CreatedDate = project.CreatedDate;
+                            }
+                            lstNewunits.Add(unis);
+                            newObj.UnitsData = lstNewunits;
+                            lstNewrejectedUnits.Add(newObj);
+                        }
                         units.lstRejected = lstrejectedUnits;
                     }
                     if (!string.IsNullOrEmpty(list.BookingConfirmed ))
                     {
+                        List<BlockedUnits> lstNewunits = new List<BlockedUnits>();
                         List<ProjectDetails> lstBookedUnits = JsonSerializer.Deserialize<List<ProjectDetails>>(list.BookingConfirmed);
+                        List<ProjectDetails> lstNewBookedUnits = new List<ProjectDetails>();
+                        foreach (var unit in lstBookedUnits)
+                        {
+                            BlockedUnits unis = new BlockedUnits();
+                            ProjectDetails newObj = new ProjectDetails();
+                            unis.ProjectId = unit.ProjectId;
+                            unis.ProjectName = unit.ProjectName;
+                            foreach (var project in unit.UnitsData)
+                            {
+                                unis.ProjectId = unit.ProjectId;
+                                unis.ProjectName = unit.ProjectName;
+                                unis.UnitNumber = project.UnitNumber;
+                                unis.UnitSize = project.UnitSize;
+                                unis.Status = project.Status;
+                                unis.AgentId = project.AgentId;
+                                unis.CreatedDate = project.CreatedDate;
+                            }
+                            lstNewunits.Add(unis);
+                            newObj.UnitsData = lstNewunits;
+                            lstNewBookedUnits.Add(newObj);
+                        }
                         units.lstBooked = lstBookedUnits;
                     }
                 }
@@ -146,11 +213,12 @@ namespace SarkPayOuts.Repository
         public DashboardViewModel DashboardData(string id)
         {
             DashboardViewModel model = new DashboardViewModel();
+
             var units = _context.ProjectUnitsData.ToList();
             model.TotalBookings = units.Where(x => x.status == "Booked" && x.AgentId==id).Count();
             model.TotalBlocked = units.Where(x => x.status == "Reserved" && x.AgentId == id).Count();
-            model.NewBlockedUnits = units.Where(x => x.status == "Reserved" && x.BlockedDate.Contains(DateTime.Now.ToString("MM/dd/yyyy")) && x.AgentId == id).Count();
-            model.NewBookings = units.Where(x => x.status == "Booked" && x.StatusConfiredDate.Contains(DateTime.Now.ToString("MM/dd/yyyy")) && x.AgentId == id).Count();
+            model.NewBlockedUnits = units.Where(x => x.status == "Reserved" && x.BlockedDate.Contains(DateTime.Now.ToString("MM-dd-yyyy")) && x.AgentId == id).Count();
+            model.NewBookings = units.Where(x => x.status == "Booked" && x.StatusConfiredDate.Contains(DateTime.Now.ToString("MM-dd-yyyy")) && x.AgentId == id).Count();
             return model;
         }
     }

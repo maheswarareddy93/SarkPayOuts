@@ -1,9 +1,13 @@
-﻿@model SarkPayOuts.Models.DbModels.DashboardViewModel
+﻿@model SarkPayOuts.Models.DbModels.DashboardViewModel;
+@inject SarkPayOuts.Interface.IProjectsData layoutData;
+@using SarkPayOuts.Models;
 @{
-    ViewData["Title"] = "DashBoard";    
+    ViewData["Title"] = "DashBoard";
+    List<LayOutViewModel> lst = layoutData.GetProjectUnitsStatusCount();
 }
-@section Styles{
+@section Styles{<meta http-equiv="refresh" content="30" />
     <link rel="stylesheet" href="/css/Dashboard.css">
+    <link rel="stylesheet" href="/css/mybooking.css">
 }
 <section class="dashboard my-5">
     <div class="container">
@@ -23,7 +27,7 @@
                             @Model.NewBookings
                         </span>
                     </div>
-                    </a>
+                </a>
             </div>
             <div class="col-md-4">
                 <a asp-action="MyBookings" asp-controller="AgentOperations">
@@ -43,7 +47,7 @@
                             @Model.NewBlockedUnits
                         </span>
                     </div>
-                    </a>
+                </a>
             </div>
             <div class="col-md-4">
                 <a asp-action="MyBookings" asp-controller="AgentOperations">
@@ -51,6 +55,28 @@
                         <h5>Total Blocked</h5>
                         <span class="dash-count">
                             @Model.TotalBlocked
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <a asp-action="MyBookings" asp-controller="AgentOperations">
+                    <div class="dash-block">
+                        <h5>Total Bookings</h5>
+                        <span class="dash-count">
+                            @Model.TotalBookings
+                        </span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a asp-action="MyBookings" asp-controller="AgentOperations">
+                    <div class="dash-block">
+                        <h5>Total Bookings</h5>
+                        <span class="dash-count">
+                            @Model.TotalBookings
                         </span>
                     </div>
                 </a>

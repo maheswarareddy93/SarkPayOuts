@@ -233,7 +233,7 @@ ul > li
   font-weight: 500;
   color: #47404f;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   font-size: 18px;
 }
 
@@ -244,6 +244,18 @@ ul > li
 .active 
 {
   color:#4E8902 !important;
+}
+
+/* profile-icon */
+.sign-icon-cus{
+  font-size: 30px;
+}
+.header-user-dropdown{
+  /* left: -135px !important; */
+  transform: translate3d(-100px, 48px, 0px) !important;
+}
+.user-icon-width{
+  max-width: 35px;
 }
 /* ============================================================= */
 /* ===========HEADER Design End From Here======================*/
@@ -267,13 +279,41 @@ ul > li
 }
 
 
-
+@media screen and (max-width:1200px) 
+{
+   
+   .map 
+  {
+    width: 1000px;
+  }
+  .block-info 
+  {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .map 
+  {
+    width: 1000px;
+    height: 1500px;
+    overflow: auto;
+    margin: 0px auto;
+  } 
+  svg 
+  {
+    width: 1920px;
+  }
+  .three 
+  {
+    left: 0;
+  }
+} 
 
 @media screen and (max-width:991px) 
 {
     .navbar-nav 
     {
-      align-items: flex-end;
+      align-items: center;
     }
     .nav-item:not(:last-child) {
       margin-right: 0px;
@@ -293,6 +333,12 @@ ul > li
     {
       flex-direction: row;
     }
+    .logo-main {
+      width: 180px;
+  }
+  .navbar-nav > .nav-item > .nav-link {
+    font-size: 10px;
+}
 }
 @media screen and (max-width: 768px)
 {
@@ -315,14 +361,14 @@ ul > li
 }
 @media screen and (max-width: 767px)
 {
-  nav 
+  /* nav 
   {
     flex-direction: column;
     justify-content: center;
-  }
+  } */
   .logo-main 
   {
-    margin-left: 0px;
+    margin-left: 40px;
   }
   .sidebar 
   {
@@ -336,11 +382,27 @@ ul > li
   {
     display: block;
     color: #000;
+    width: 100%;
+    text-align: center;
   }
   .navbar-nav > .nav-item > .nav-link 
   {
     color: #000;
   }
+  .navbar-nav > .nav-item > .nav-link 
+  {
+    color: #000;
+  }
+  .navbar-nav > .nav-item > .nav-link:hover, 
+  .navbar-nav > .nav-item > .nav-link:focus 
+  {
+    color: #000;
+  }
+  .navbar-nav > .nav-item > .nav-link 
+  {
+    font-size: 12px;
+  }
+
 }
 @media screen and (max-width: 576px)
 {
@@ -385,7 +447,7 @@ ul > li
   {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content:  space-between;
     align-items: center;
   }
 }

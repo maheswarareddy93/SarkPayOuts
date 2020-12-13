@@ -1,0 +1,10 @@
+.profile-layout-new{
+    border: 1px solid;
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.profile-layout-new label{
+    margin: 0px;
+}

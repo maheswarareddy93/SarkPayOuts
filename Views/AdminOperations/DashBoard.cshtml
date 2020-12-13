@@ -1,6 +1,6 @@
-﻿@model SarkPayOuts.Models.DbModels.DashboardViewModel 
+﻿@model SarkPayOuts.Models.DbModels.DashboardViewModel
 @{
-    ViewData["Title"] = "DashBoard";
+    ViewData["Title"]= "DashBoard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 @section Styles{
@@ -24,7 +24,7 @@
                             @Model.NewBookings
                         </span>
                     </div>
-                    </a>
+                </a>
             </div>
             <div class="col-md-4">
                 <a asp-action="NewBookings" asp-controller="AdminOperations">
@@ -34,7 +34,7 @@
                             @Model.TotalBookings
                         </span>
                     </div>
-                    </a>
+                </a>
             </div>
             <div class="col-md-4">
                 <a asp-action="NewBookings" asp-controller="AdminOperations">
@@ -44,7 +44,7 @@
                             @Model.NewBlockedUnits
                         </span>
                     </div>
-                    </a>
+                </a>
             </div>
             <div class="col-md-4">
                 <a asp-action="NewBookings" asp-controller="AdminOperations">
@@ -54,7 +54,7 @@
                             @Model.TotalBlocked
                         </span>
                     </div>
-                    </a>
+                </a>
             </div>
             <div class="col-md-4">
                 <a asp-action="Agents" asp-controller="AdminOperations">

@@ -268,20 +268,22 @@ namespace SarkPayOuts.Repository
             units.CreatedDate = DateTime.Now.ToString("MM-dd-yyyy hh:mm tt");
             units.ExpiryDate = DateTime.Now.AddDays(2).ToString("MM-dd-yyyy hh:mm tt");
             units.AgentId = model.AgentId;
+            units.AdminId = model.AdminId;
             units.Status = StatusEnum.Reserved.ToString();
+            units.customerName = model.customerName;
             units.ProjectName = model.ProjectName;
             projectDetails.ProjectName = model.ProjectName;
             lstunits.Add(units);
             projectDetails.UnitsData = lstunits;
             projectDetails.ProjectId = model.ProjectId;
-            var unitDetails = _context.AdminDetails.Where(x => x.AdminUUID == model.AgentId).FirstOrDefault();
+            var unitDetails = _context.AdminDetails.Where(x => x.AdminUUID == model.AdminId).FirstOrDefault();
             var unitDetailsStatus = _context.ProjectUnitsData.Where(x => x.UnitNumber == model.UnitNumber && x.Projectuuid == model.ProjectId).FirstOrDefault();
             if (unitDetailsStatus != null || unitDetailsStatus.status == StatusEnum.Available.ToString())
             {
-                unitDetailsStatus.status = StatusEnum.Blocked.ToString();
+                unitDetailsStatus.status = StatusEnum.Reserved.ToString();
                 unitDetailsStatus.BlockedDate = units.CreatedDate;
                 unitDetailsStatus.ExpiredDate = units.ExpiryDate;
-                unitDetailsStatus.AgentId = model.AgentId;
+                unitDetailsStatus.AgentId = model.AdminId;  
             }
 
             if (unitDetails != null)
@@ -318,7 +320,7 @@ namespace SarkPayOuts.Repository
             return null;
         }
         //Getting the NewBookings Data 
-        public List<NewBookingViewModel> GetNewBookings(string id)
+        public BookingNewViewModel  GetNewBookings(string id)
         {
             List<NewBookingViewModel> lst = new List<NewBookingViewModel>();
             List<ProjectDetails> lstProjectDetails = new List<ProjectDetails>();
@@ -328,6 +330,8 @@ namespace SarkPayOuts.Repository
             List<ProjectDetails> lstadbookedProjectDetails = new List<ProjectDetails>();
             List<ProjectDetails> lstRejectesProjectDetails = new List<ProjectDetails>();
             var admins = _context.AdminDetails.Where(x=>x.AdminUUID==id).FirstOrDefault();
+            BookingNewViewModel ObjModel = new BookingNewViewModel();
+            
             if (admins !=null)
             {
                 if (!string.IsNullOrEmpty(admins.BlockedUnits))
@@ -338,7 +342,7 @@ namespace SarkPayOuts.Repository
                         foreach (var unit in projectData.UnitsData)
                         {
                             NewBookingViewModel agentDetails = new NewBookingViewModel();
-                            agentDetails.AgentId = admins .AdminUUID;
+                            agentDetails.AdminId = admins .AdminUUID;
                             agentDetails.AgentName = "SarkProject";
                             agentDetails.UnitSize = unit.UnitSize;
                             agentDetails.CreatedDate = unit.CreatedDate;
@@ -347,6 +351,10 @@ namespace SarkPayOuts.Repository
                             agentDetails.ProjectId = projectData.ProjectId;
                             agentDetails.ProjectName = projectData.ProjectName;
                             agentDetails.Status = unit.Status;
+                            agentDetails.StatusConfiredDate = unit.StatusConfiredDate;
+                            agentDetails.customerName = unit.customerName;
+                            agentDetails.AgentId = unit.AgentId;
+                            agentDetails.customerName = unit.customerName;
                             lst.Add(agentDetails);
                         }
                     }
@@ -368,6 +376,7 @@ namespace SarkPayOuts.Repository
                             agentDetails.ProjectId = projectData.ProjectId;
                             agentDetails.ProjectName = projectData.ProjectName;
                             agentDetails.Status = unit.Status;
+                            agentDetails.customerName = unit.customerName;
                             lst.Add(agentDetails);
                         }
                     }
@@ -388,6 +397,8 @@ namespace SarkPayOuts.Repository
                             agentDetails.Facing = unit.Facing;
                             agentDetails.ProjectId = projectData.ProjectId;
                             agentDetails.ProjectName = projectData.ProjectName;
+                            agentDetails.StatusConfiredDate = unit.StatusConfiredDate;
+                            agentDetails.customerName = unit.customerName;
                             agentDetails.Status = unit.Status;
                             lst.Add(agentDetails);
                         }
@@ -413,6 +424,8 @@ namespace SarkPayOuts.Repository
                             agentDetails.Facing = unit.Facing;
                             agentDetails.ProjectId  = projectData.ProjectId;
                             agentDetails.ProjectName  = projectData.ProjectName;
+                            agentDetails.StatusConfiredDate = unit.StatusConfiredDate;
+                            agentDetails.customerName = unit.customerName;
                             agentDetails.Status = unit.Status;
                             lst.Add(agentDetails);
                         }
@@ -434,7 +447,9 @@ namespace SarkPayOuts.Repository
                             agentDetails.Facing = unit.Facing;
                             agentDetails.ProjectId = projectData.ProjectId;
                             agentDetails.ProjectName = projectData.ProjectName;
+                            agentDetails.StatusConfiredDate = unit.StatusConfiredDate;
                             agentDetails.Status = unit.Status;
+                            agentDetails.customerName = unit.customerName;
                             lst.Add(agentDetails);
                         }
                     }
@@ -455,31 +470,38 @@ namespace SarkPayOuts.Repository
                             agentDetails.Facing = unit.Facing;
                             agentDetails.ProjectId = projectData.ProjectId;
                             agentDetails.ProjectName = projectData.ProjectName;
+                            agentDetails.StatusConfiredDate = unit.StatusConfiredDate;
+                            agentDetails.customerName = unit.customerName;
                             agentDetails.Status = unit.Status;
                             lst.Add(agentDetails);
                         }
+
                     }
                 }
             }
-            return lst;
+            ObjModel.lstBookings = lst;
+            return ObjModel;
         }
         //Here Updating the Status of Unit either Confir or Rejected
-        public bool UpdateStatusOfBooking(string aid,string pid,string un,string status,string type)
+        public bool UpdateStatusOfBooking(string aid,string pid,string un,string status,string type,string nae,string adid)
         {
             dynamic  agentDetails=null;
+            dynamic unitDetails = null;
             if (type == "Admin")
             {
-               agentDetails= _context.AdminDetails.Where(x => x.AdminUUID == aid).FirstOrDefault();
+               agentDetails= _context.AdminDetails.Where(x => x.AdminUUID == adid).FirstOrDefault();
+                unitDetails = _context.ProjectUnitsData.Where(x => x.AgentId == adid && x.Projectuuid == pid && x.UnitNumber == un.TrimEnd()).FirstOrDefault();
             }
             else if(type=="Agent") {
                 agentDetails = _context.AgentRegistration.Where(x => x.AgentId == aid).FirstOrDefault();
+                unitDetails = _context.ProjectUnitsData.Where(x => x.AgentId == aid && x.Projectuuid == pid && x.UnitNumber == un.TrimEnd()).FirstOrDefault();
             }
             else
             {
                 return false;
             }
            
-          var unitDetails = _context.ProjectUnitsData.Where(x => x.AgentId == aid && x.Projectuuid == pid && x.UnitNumber == un).FirstOrDefault();
+           
             List<ProjectDetails> lstbookedData = new List<ProjectDetails>();
             List<ProjectDetails> lstrejectedData = new List<ProjectDetails>();
             List<ProjectDetails> lstNewrejectedData = new List<ProjectDetails>();
@@ -497,9 +519,11 @@ namespace SarkPayOuts.Repository
                         BookedProject.ProjectId = project.ProjectId;
                         BookedProject.ProjectName = project.ProjectName;
                         unit.Status = StatusEnum.Booked.ToString();
-                        unit.StatusConfiredDate = DateTime.Now.ToString();
+                        unit.StatusConfiredDate = DateTime.Now.ToString("MM-dd-yyyy");
                         unitDetails.status= StatusEnum.Booked.ToString();
                         unitDetails.StatusConfiredDate = DateTime.Now.ToString();
+                        unit.customerName = nae;
+                        unit.AgentId = aid;
                         lstBookedUnits.Add(unit);
                         BookedProject.UnitsData =lstBookedUnits ;                    
                         if (!string.IsNullOrEmpty(agentDetails.BookingConfirmed)) {
@@ -528,7 +552,7 @@ namespace SarkPayOuts.Repository
                         BookedProject.ProjectId = project.ProjectId;
                         BookedProject.ProjectName = project.ProjectName;
                         unit.Status = StatusEnum.Rejected.ToString();
-                        unit.StatusConfiredDate = DateTime.Now.ToString();
+                        unit.StatusConfiredDate = DateTime.Now.ToString("MM-dd-yyyy");
                         unitDetails.status = StatusEnum.Available.ToString();
                         lstBookedUnits.Add(unit);
                         BookedProject.UnitsData = lstBookedUnits;
@@ -600,15 +624,15 @@ namespace SarkPayOuts.Repository
             return false;
         }
 
-        public DashboardViewModel DashboardData()
+        public DashboardViewModel DashboardData(string id)
         {
             DashboardViewModel model = new DashboardViewModel();
-            var units=_context.ProjectUnitsData.ToList();
-            model.Agents= _context.AgentRegistration.ToList().Count();
-            model.TotalBookings= units.Where(x => x.status == "Booked").Count();
-            model.TotalBlocked = units.Where(x => x.status == "Reserved").Count();            
-            model.NewBlockedUnits  = units.Where(x => x.status == "Reserved" && x.BlockedDate.Contains(DateTime.Now.ToString("MM/dd/yyyy"))).Count();
-            model.NewBookings = units.Where(x => x.status =="Booked" && x.StatusConfiredDate.Contains(DateTime.Now.ToString("MM/dd/yyyy"))).Count();
+            model.Agents = _context.AgentRegistration.ToList().Count();
+            var units = _context.ProjectUnitsData.ToList();
+            model.TotalBookings = units.Where(x => x.status == "Booked" && x.AgentId == id).Count();
+            model.TotalBlocked = units.Where(x => x.status == "Reserved" && x.AgentId == id).Count();
+            model.NewBlockedUnits = units.Where(x => x.status == "Reserved" && x.BlockedDate.Contains(DateTime.Now.ToString("MM-dd-yyyy")) && x.AgentId == id).Count();
+            model.NewBookings = units.Where(x => x.status == "Booked" && x.StatusConfiredDate.Contains(DateTime.Now.ToString("MM-dd-yyyy")) && x.AgentId == id).Count();
             return model;
         }
         public List<ViewLayoutModel> GetAllUnitsData(string id)
@@ -647,6 +671,10 @@ namespace SarkPayOuts.Repository
                 lst.Add(obj);
             }
             return lst;
+        }
+        public AdminDetails GetAdminDetails(string  adminId) {
+            AdminDetails ObjAdminDetails=  _context.AdminDetails.Where(x => x.AdminUUID  == adminId).FirstOrDefault();
+            return ObjAdminDetails; 
         }
     }
 }

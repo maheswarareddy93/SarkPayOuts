@@ -4,11 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using SarkPayOuts.Interface;
 using SarkPayOuts.Models;
 using SarkPayOuts.Models.DbModels;
@@ -164,9 +162,10 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
-                List<NewBookingViewModel> lstDetails = _operation.GetNewBookings(HttpContext.Session.GetString("AdminId"));
-                lstDetails = lstDetails.OrderByDescending(item => item.CreatedDate ).ToList();
-                return View(lstDetails);
+                BookingNewViewModel  obj = _operation.GetNewBookings(HttpContext.Session.GetString("AdminId"));
+                obj.lstBookings = obj.lstBookings.OrderByDescending(item => item.CreatedDate ).ToList();
+                obj.lstAgents = _operation.GetAgentsData();
+                return View(obj);
             }
             return RedirectToAction("Index", "AdminLogin");
         }
@@ -174,7 +173,7 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
-                DashboardViewModel model=_operation.DashboardData();
+                DashboardViewModel model=_operation.DashboardData(HttpContext.Session.GetString("AdminId"));
                 return View(model);
             }
             return RedirectToAction("Index", "AdminLogin");
@@ -222,22 +221,24 @@ namespace SarkPayOuts.Controllers
                 model.UnitNumber = arr[0].Split(":  ")[1];
                 model.UnitSize = arr[1].Split(":  ")[1];
                 model.Facing = arr[2].Split(":  ")[1];
-                model.AgentId = adminId;
+                model.AdminId = adminId;
                 model.ProjectName = arr[3].Split("-")[0].ToUpper();
                 model.ProjectId = arr[4];
+                model.customerName = arr[5];
+                model.AgentId = arr[6];
                 ProjectDetails units = _operation.AddBlockedUnitsToDb(model);
                 return Json("", units);
             }
             return RedirectToAction("Index", "AdminLogin");
         }
         //Updating Booking Status either "Booked" or "Rejected" based on Admin Action
-        public IActionResult UpdateBookingStatus(string aid, string pid, string un, string state, string type)
+        public IActionResult UpdateBookingStatus(string aid, string pid, string un, string state, string type,string name)
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
             {
                 if (!string.IsNullOrEmpty(aid) && !string.IsNullOrEmpty(pid) && !string.IsNullOrEmpty(un))
                 {
-                    if (_operation.UpdateStatusOfBooking(aid, pid, un, state, type))
+                    if (_operation.UpdateStatusOfBooking(aid, pid, un, state, type,name, HttpContext.Session.GetString("AdminId")))
                     {
                         if (state  =="Confirmed")
                         {
@@ -284,6 +285,20 @@ namespace SarkPayOuts.Controllers
         {
             List<ViewLayoutModel> model = _operation.GetAllUnitsData(id);
             return PartialView("_ProjectsUnitsData",model);
+        }
+        public IActionResult Profile()
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("AdminId")))
+            {
+              AdminDetails model=_operation.GetAdminDetails(HttpContext.Session.GetString("AdminId"));
+                return View(model);
+            }
+            return RedirectToAction("Index", "AdminLogin");
+        }
+
+        public IActionResult NewBookings1()
+        {
+            return View();
         }
     }
 }

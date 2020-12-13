@@ -9,13 +9,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Booking</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/mybooking.css">
+   
     <link rel="shortcut icon" href="/img/sark.ico">
+    <title>@ViewData["Title"]</title>
     @RenderSection("Styles", required: true)
 </head>
 
@@ -36,11 +36,11 @@
                     <div class="col-md-12">
                         <nav>
                             <img src="/img/logo.png" class="img-fluid logo-main">
-                            <ul class="navbar-nav ml-md-auto ml-0 desktop-menu">
-                                <li class="nav-item">
+                            <ul class="navbar-nav ml-md-auto ml-0">
+                                <li class="nav-item desktop-menu">
                                     <a class="nav-link" asp-action="Dashboard" asp-controller="AgentOperations">Home</a>
                                 </li>
-                                <li class="nav-item dropdown">
+                                <li class="nav-item dropdown desktop-menu">
                                     <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Layouts</a>
                                     <ul class="dropdown-menu">
                                         @if (_repo.GetProjectsData() != null && _repo.GetProjectsData().Count > 0)
@@ -54,11 +54,15 @@
                                         }
                                     </ul>
                                 </li>
-                                <li class="nav-item dropdown">
+                                <li class="nav-item dropdown desktop-menu">
                                     <a class="nav-link" asp-action="MyBookings" asp-controller="AgentOperations">My Booking</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="Logout" asp-controller="AgentLogin">Logout</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/img/user.png" class="user-icon-width"></a>
+                                    <ul class="dropdown-menu header-user-dropdown">
+                                        <a class="dropdown-item" asp-action="Profile" asp-controller="AgentOperations">Profile</a>
+                                        <a class="dropdown-item" asp-action="Logout" asp-controller="AgentLogin">Sign out</a>
+                                    </ul>
                                 </li>
                             </ul>
                         </nav>
@@ -93,10 +97,6 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link" asp-action="MyBookings" asp-controller="AgentOperations">My Booking</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="Logout" asp-controller="AgentLogin">Logout</a>
-                                </li>
-
                             </ul>
                         </nav>
                     </div>
@@ -112,10 +112,11 @@
                 if (model != null)
                 {
                     List<ProjectDetails> lst = new List<ProjectDetails>();
-                    if (model.lstBlocked!=null && model.lstBlocked.Count>0) {
+                    if (model.lstBlocked != null && model.lstBlocked.Count > 0)
+                    {
                         lst.AddRange(model.lstBlocked);
                     }
-                    if (model.lstBooked  != null && model.lstBooked.Count > 0)
+                    if (model.lstBooked != null && model.lstBooked.Count > 0)
                     {
                         lst.AddRange(model.lstBooked);
                     }
@@ -133,17 +134,20 @@
                         </div>
                     </div>
                     <div class="previous">
-                        @if(lst!=null && lst.Count > 0) { 
-                        @foreach (var data in lst) {
-                            <h5 class="booking-sub-title">@data.ProjectName </h5>
-                            <div class="unit-number-block">
-                                @foreach (var unit in data.UnitsData) {
-                                <span class="unit-square">@unit.UnitNumber </span>
-                                }
-                            </div>
+                        @if (lst != null && lst.Count > 0)
+                        {
+                            @foreach (var data in lst)
+                            {
+                                <h5 class="booking-sub-title">@data.ProjectName </h5>
+                                <div class="unit-number-block">
+                                    @foreach (var unit in data.UnitsData)
+                                    {
+                                        <span class="unit-square">@unit.UnitNumber </span>
+                                    }
+                                </div>
+                            }
                         }
-                        }
-                        </div>
+                    </div>
                 }
             }
 
@@ -154,7 +158,7 @@
     <script src="/js/jquery-3.5.1.min.js"></script>
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-
+    <script src="/js/custom.js"></script>
     <script>
         $(document).ready(function () {
             $(".hamburger").click(function () {

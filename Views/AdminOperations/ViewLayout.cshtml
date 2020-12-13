@@ -1,9 +1,9 @@
 ﻿@using SarkPayOuts.Models.DbModels;
 @inject SarkPayOuts.Interface.IAdminOperations repo;
 @{
-    ViewData["Title"] = "ViewLayout";
+    ViewData["Title"] = "UnitLists";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    List<ProjectsData> lst = repo.GetProjectsData();
+    List<ProjectsData> lst= repo.GetProjectsData();    
 }
 @section Styles{
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
@@ -33,12 +33,13 @@
                                 </div>
                                 <select class="form-control layouts-data-dropdown" id="ddlProjects">
                                     @if (lst != null && lst.Count > 0)
-                                            {
-                                    <option value="">Select Project</option>
-                                                foreach (var project in lst) {
-                                    <option value="@project.projectuuid">@project.ProjectName</option>
-                                                }
-                                            }
+                                    {
+                                        <option value="">Select Project</option>
+                                        foreach (var project in lst)
+                                        {
+                                            <option value="@project.projectuuid">@project.ProjectName</option>
+                                        }
+                                    }
 
                                 </select>
                             </div>
@@ -59,7 +60,7 @@
     <script src="/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready(function () {
-            $('#layout-table').DataTable();
+           // $('#layout-table').DataTable();
             GetUnits();
         });
         $("#ddlProjects").change(function () {
@@ -68,7 +69,6 @@
             var id = selectedText + "/" + selectedValue;
             $("#SelectedId").val(id);
             GetUnits();
-            
         });
         function GetUnits() {
             var id = $("#SelectedId").val();
@@ -77,6 +77,7 @@
                 url: "/AdminOperations/GetUnits",
                 data: { "id": id },
                 success: function (response) {
+                    debugger
                     if (id != null) { $("#headerText").text(id.split("/")[0]); } else { $("#headerText").text("All  Layouts Data"); }
                     $("#unitsData").html(response);
                 },

@@ -5,16 +5,18 @@ using SarkPayOuts.Interface;
 using SarkPayOuts.Models;
 using SarkPayOuts.Models.DbModels;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SarkPayOuts.Controllers
 {
     public class AgentOperationsController : Controller
     {
         private readonly IAgentInterface _agentOperations;
-        
-        public AgentOperationsController(ApplicationDBContext context, IAgentInterface agentOperations)
+        private readonly IAdminOperations _operations;
+        public AgentOperationsController(ApplicationDBContext context, IAgentInterface agentOperations,IAdminOperations operations )
         {
             _agentOperations = agentOperations;
+            _operations = operations;
         }
         public IActionResult Index()
         {
@@ -39,7 +41,6 @@ namespace SarkPayOuts.Controllers
             }
             return RedirectToAction("Index", "AgentLogin");
         }
-
         public IActionResult MyBookings()
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_AgentId")))
@@ -62,6 +63,47 @@ namespace SarkPayOuts.Controllers
             }
             return RedirectToAction("Index", "AdminLogin");
         }
-        
+        public IActionResult UpdateBookingStatus(string aid, string pid, string un, string state, string type,string name)
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_AgentId")))
+            {
+                if (!string.IsNullOrEmpty(aid) && !string.IsNullOrEmpty(pid) && !string.IsNullOrEmpty(un))
+                {
+                    if (_operations.UpdateStatusOfBooking(aid, pid, un, state, type,name,""))
+                    {
+                        if (state == "Confirmed")
+                        {
+                            return Json("Unit " + un + " Booked  Successfully");
+                        }
+                        else if (state == "Rejected")
+                        {
+                            return Json("Unit " + un + " Rejected Please Contact Admin...");
+                        }
+                        else { return Json(""); }
+                    }
+                }
+            }
+            return RedirectToAction("Index", "AdminLogin");
+        }
+        public IActionResult Profile()
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_AgentId")))
+            {
+                List<AgentModel> lst = _operations.GetAgentsData();
+               AgentModel model =lst.Where(x => x.AgentId == HttpContext.Session.GetString("_AgentId").ToString()).FirstOrDefault();
+                return View(model);
+            }
+            return RedirectToAction("Index", "AgentLogin");
+        }
+        public JsonResult GettingBlockedUnitsData()
+        {
+            string id = HttpContext.Session.GetString("_AgentId");
+            MyBookinsViewModel units = _agentOperations.GetAgentsUnits(id,"Agent");
+            List<ProjectDetails> lstUnits = units.lstBlocked.ToList();
+           
+            
+           
+            return Json(lstUnits);
+        }
     }
 }

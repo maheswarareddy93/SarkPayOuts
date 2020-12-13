@@ -17,12 +17,13 @@ namespace SarkPayOuts.Controllers
         private readonly IAgentInterface _agent;
         private readonly ApplicationDBContext _context;
         private readonly IEmailSender _sender;
+        
         MessageCreater cs = new MessageCreater();
         const string SessionName = "_Name";
         const string SessionEmail = "_Age";
         const string SessionAgentId = "_AgentId";
         const string SessionType = "_Type";
-        public AgentLogin(IAgentInterface agent, ApplicationDBContext context,IEmailSender sender)
+        public AgentLogin(IAgentInterface agent, ApplicationDBContext context, IEmailSender sender)
         {
             _context = context;
             _agent = agent;
@@ -42,7 +43,7 @@ namespace SarkPayOuts.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString(SessionAgentId)))
             {
-                return RedirectToAction("MyBookings", "AgentOperations");
+                return RedirectToAction("Dashboard", "AgentOperations");
             }
             if (ModelState.IsValid)
             {
@@ -50,10 +51,10 @@ namespace SarkPayOuts.Controllers
                 if (agent != null)
                 {
                     HttpContext.Session.SetString(SessionName, agent.AgentName);
-                    HttpContext.Session.SetString(SessionEmail,agent.UserName);
+                    HttpContext.Session.SetString(SessionEmail, agent.UserName);
                     HttpContext.Session.SetString(SessionAgentId, agent.AgentId);
                     HttpContext.Session.SetString(SessionType, "Agent");
-                    return RedirectToAction("MyBookings", "AgentOperations");
+                    return RedirectToAction("Dashboard", "AgentOperations");
                 }
                 else
                 {
@@ -78,8 +79,8 @@ namespace SarkPayOuts.Controllers
         }
         public IActionResult Logout()
         {
-            HttpContext.Session.SetString(SessionAgentId,"");
-            return RedirectToAction("Index","AgentLogin");
+            HttpContext.Session.SetString(SessionAgentId, "");
+            return RedirectToAction("Index", "AgentLogin");
         }
         public JsonResult ForgotPassword(string id)
         {
@@ -99,5 +100,6 @@ namespace SarkPayOuts.Controllers
             }
             return Json("Please Enter Email Id");
         }
+        
     }
 }

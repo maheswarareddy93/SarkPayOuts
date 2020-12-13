@@ -13,50 +13,63 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="~/css/bootstrap.min.css">
-    <link href="~/css/login.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/login02.css">
     <link rel="shortcut icon" href="/img/sark.ico">
 </head>
 
 <body>
-    <section class="login">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-7">
-                    <div class="login-block mb-3">
-                        <div class="login-title">
-                            <h3 class="titleh3">Login</h3>
-                        </div>
-                        <div class="form my-5">
-                            <form method="post" asp-controller="AgentLogin" asp-action="Index">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <div class="form-group" id="fname">
-                                    <label class="label-text">Login ID</label>
-                                    <input type="text" asp-for="UserName" class="form-control custom-form" placeholder="abc@example.com">
-                                    <i class="fas fa-user user-icon"></i>
-                                    <span asp-validation-for="UserName" class="text-danger"></span>
+
+
+    <section>
+        <div class="container-fluid">
+            <div class="limiter">
+                <div class="container-login100">
+                    <div class="wrap-login100">
+
+                        <form class="login100-form validate-form" method="post" asp-controller="AdminLogin" asp-action="Index">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="new-add-parts">
+                                <div class="logo-login">
+                                    <img src="/img/logo2.png">
                                 </div>
-                                <div class="form-group" id="pwd">
-                                    <label class="label-text">Password</label>
-                                    <input type="password" asp-for="Password" class="form-control custom-form" placeholder="Password">
-                                    <i class="fas fa-lock user-pwd"></i>
-                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                <div class="space-betwin-login">
+                                    <span class="login100-form-title p-b-43 l-s-m-b">
+                                        Sign In
+                                    </span>
+                                    <span class="welcome p-b-43 l-s-m-b">
+                                        Welcome to SarkProjects.
+                                    </span>
                                 </div>
-                                <div class="form-group email-group" id="email">
-                                    <label class="label-text">Email</label>
-                                    <input type="text" class="form-control custom-form" placeholder="Email ID" id="userName" required>
-                                    <i class="fas fa-lock user-pwd"></i>
+                                <div class="space-betwin-login">
+                                    <div class="form-group" id="fname">
+                                        <input type="text" asp-for="UserName" class="form-control custom-form" placeholder="abc@example.com">
+                                        <span asp-validation-for="UserName" class="text-danger"></span><i class="fas fa-user user-icon"></i>
+                                    </div>
+                                    <div class="form-group" id="pwd">
+                                        <input type="password" asp-for="Password" class="form-control custom-form" placeholder="Password">
+                                        <span asp-validation-for="Password" class="text-danger"></span><i class="fas fa-lock user-pwd"></i>
+                                    </div>
+                                    <div class="form-group email-group" id="email">
+                                        <label class="label-text">Email</label>
+                                        <input type="text" class="form-control custom-form" placeholder="Email ID" id="userName" required>
+                                        <i class="fas fa-lock user-pwd"></i>
+                                    </div>
+
+                                    <div class="forgot-password ">
+                                        <span class="login-content"><a href="javascript:void(0)" class="forgot">Forgot Password</a></span>
+                                    </div>
                                 </div>
-                                <div class="forgot-block">
-                                    <a href="javascript:void(0)" class="forgot">Forgot Password</a>
+                                <div class="container-login100-form-btn l-s-m-b">
+                                    <button id="login-btn" type="submit" class="login-btn">Login</button>
+                                    <button id="submit" class="login-btn" onclick="ForgotPasswordSend()">Submit</button>
+                                    <div class="back-btn-login mt-3">
+                                        <button id="back" class="back-bbttnn" type="submit"><i class="fas fa-arrow-circle-left"></i></button>
+                                    </div>
                                 </div>
-                                <button id="login-btn" type="submit" class="btn custom-btn my-3">Login</button>
-                                <a href="#" id="submit" class="btn custom-btn my-3" onclick="ForgotPasswordSend()">Submit</a>
-                                <div class="back-btn-login">
-                                    <button id="back" class="back-bbttnn" type="submit"><i class="fas fa-arrow-circle-left"></i></button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
+                        <div class="login100-more" style="background-image: url('/img/login.jpg');"></div>
                     </div>
                 </div>
             </div>
@@ -69,7 +82,6 @@
     <script src="~/jquery-validation/dist/additional-methods.min.js"></script>
     <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $("#email").hide();
@@ -108,5 +120,6 @@
             });
         }
     </script>
+
 </body>
 </html>

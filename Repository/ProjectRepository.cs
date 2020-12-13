@@ -23,7 +23,6 @@ namespace SarkPayOuts.Repository
             var details = _context.ProjectsData.Where(x => x.ProjectName == name.ToUpper()).FirstOrDefault();
             return details.projectuuid;
         }
-
         public UnitModel GetUnitdetailsByProjectId(string projectId, string unitno)
         {
             if (!string.IsNullOrEmpty(projectId))
@@ -85,7 +84,7 @@ namespace SarkPayOuts.Repository
         public List<BlockedUnits> GetUnitsDataForView(string id)
         {
             List<BlockedUnits> lstUnits = new List<BlockedUnits>();
-            var units = _context.ProjectUnitsData.Where(x=>x.Projectuuid==id).ToList();
+            var units = _context.ProjectUnitsData.Where(x=>x.Projectuuid==id && (x.status=="Booked"|| x.status=="Reserved")).ToList();
             foreach (var data in units)
             {
                 BlockedUnits unit = new BlockedUnits();
@@ -106,10 +105,28 @@ namespace SarkPayOuts.Repository
             if (lstUnits!=null && lstUnits.Count >0) {
                 objData.BolckedUnits = lstUnits.Count();
                 objData.AvailableUnits = lstUnits.Where(x => x.status == StatusEnum.Available.ToString() || x.status == null).Count();
-                objData.BolckedUnits = lstUnits.Where(x => x.status == StatusEnum.Blocked.ToString()).Count();
+                objData.BolckedUnits = lstUnits.Where(x => x.status == StatusEnum.Reserved.ToString()).Count();
                 objData.BookedUnits = lstUnits.Where(x => x.status == StatusEnum.Booked.ToString()).Count();
                 return objData;
             }
+            return null;
+        }
+        public List<LayOutViewModel> GetProjectUnitsStatusCount()
+        {
+            List<LayOutViewModel> lstData = new List<LayOutViewModel>();
+            List<ProjectsData> lstProjects= _context.ProjectsData.ToList();
+            if (lstProjects!=null && lstProjects.Count>0)
+            {
+                foreach (var data in lstProjects)
+                {
+                    LayOutViewModel objData = new LayOutViewModel();
+                    objData= GetProjectUnitsStatusCount(data.projectuuid);
+                    objData.Name = data.ProjectName;
+                    objData.ProjectId = data.projectuuid;
+                    lstData.Add(objData);
+                }
+                return lstData;
+            }           
             return null;
         }
     }

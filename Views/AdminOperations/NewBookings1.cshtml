@@ -1,0 +1,440 @@
+﻿
+@{
+    ViewData["Title"] = "LayoutView";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css">
+    <!-- <link rel="stylesheet" href="css/jquery.dataTables.css"> -->
+    <link rel="stylesheet" href="/css/create-agents.css">
+    <link rel="stylesheet" href="/css/Layout-data.css">
+}
+
+<section class="new-book">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title-block mb-md-4 mt-md-5 mb-2 mt-2">
+                    <h4 class="section-title">Layout Data</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <form>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text  name-select-layout">Select Layout</div>
+                                </div>
+                                <select class="form-control layouts-data-dropdown" id="exampleFormControlSelect1">
+                                    <option>Layout 1</option>
+                                    <option>Layout 2</option>
+                                    <option>Layout 3</option>
+                                    <option>Layout 4</option>
+                                    <option>Layout 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-12 mt-5">
+                <div class="text-center">
+                    <h3><b>Layout Name</b></h3>
+                </div>
+                <table id="layout-table" class="display responsive" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>UNIT NO</th>
+                            <th>AREA</th>
+                            <th>FACING</th>
+                            <th>MORTAGAGE</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>230</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>230</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>230</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>230</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>230</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>230</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>230</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>230</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>230</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>310</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>310</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>310</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td>310</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>310</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>310</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>310</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>17</td>
+                            <td>310</td>
+                            <td>East</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>18</td>
+                            <td>380</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>380</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td>310</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>21</td>
+                            <td>380</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>22</td>
+                            <td>380</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>23</td>
+                            <td>380</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>24</td>
+                            <td>310</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>25</td>
+                            <td>380</td>
+                            <td>North</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>26</td>
+                            <td>380</td>
+                            <td>North</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>27</td>
+                            <td>380</td>
+                            <td>North</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>28</td>
+                            <td>380</td>
+                            <td>North</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>29</td>
+                            <td>310</td>
+                            <td>North</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td>380</td>
+                            <td>North</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>31</td>
+                            <td>380</td>
+                            <td>East</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>32</td>
+                            <td>380</td>
+                            <td>East</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>33</td>
+                            <td>310</td>
+                            <td>East</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>34</td>
+                            <td>380</td>
+                            <td>East</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>35</td>
+                            <td>380</td>
+                            <td>East</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>36</td>
+                            <td>310</td>
+                            <td>East</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>37</td>
+                            <td>254</td>
+                            <td>NorthEast</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>38</td>
+                            <td>254</td>
+                            <td>West</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>39</td>
+                            <td>310</td>
+                            <td>West</td>
+                            <td>Yes</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>40</td>
+                            <td>310</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>41</td>
+                            <td>254</td>
+                            <td>NorthEast</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>42</td>
+                            <td>254</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>43</td>
+                            <td>254</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>44</td>
+                            <td>254</td>
+                            <td>NorthEast</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>45</td>
+                            <td>254</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>46</td>
+                            <td>254</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>47</td>
+                            <td>254</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td>48</td>
+                            <td>254</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-warning">Blocked</span></td>
+                        </tr>
+                        <tr>
+                            <td>49</td>
+                            <td>254</td>
+                            <td>NorthEast</td>
+                            <td>No</td>
+                            <td><span class="badge badge-danger">Booked</span></td>
+                        </tr>
+                        <tr>
+                            <td>50</td>
+                            <td>254</td>
+                            <td>West</td>
+                            <td>No</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                        </tr>
+
+                    <tfoot>
+                        <tr>
+                            <th>UNIT NO</th>
+                            <th>AREA</th>
+                            <th>FACING</th>
+                            <th>MORTAGAGE</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+
+
+    </div>
+</section>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#layout-table').DataTable();
+        });
+    </script> 
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script src="js/jquery.dataTables.js"></script>
+}

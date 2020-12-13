@@ -1,0 +1,70 @@
+﻿@model SarkPayOuts.Models.DbModels.AdminDetails   
+@{
+    ViewData["Title"] = "Profile";
+
+}
+@section Styles{
+    <link rel="stylesheet" href="/css/create-agents.css">
+    <link rel="stylesheet" href="/css/profile.css"> }
+<section class="new-book">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title-block mb-md-4 mt-md-5 mb-2 mt-2">
+                    <h4 class="section-title">Profile</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="profile-layout-new">
+                                <label class="label-text">Name :</label>
+                                <label>@Model.Name </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="profile-layout-new">
+                                <label class="label-text">Mobile :</label>
+                                <label>+91 @Model.Mobile </label>
+                            </div>
+                        </div>
+                        <div class="form-group email-group col-md-6" id="email">
+                            <div class="profile-layout-new">
+                                <label class="label-text">Aadhar Card :</label>
+                                <label>N/A</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="profile-layout-new">
+                                <label class="label-text">PanCard :</label>
+                                <label>N/A</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="profile-layout-new">
+                                <label class="label-text">Email ID :</label>
+                                <label>@Model.Email </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="profile-layout-new">
+                                <label class="label-text">Password :</label>
+                                <label>@Model.password  </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="text-center mt-3">
+                        <button type="submit" class="btn agent-submit-btn">Submit</button>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+@section Scripts{}

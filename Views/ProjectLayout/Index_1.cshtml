@@ -1,9 +1,10 @@
 ﻿@model LayOutViewModel
 @{
-    ViewData["Title"] = "Index_1";
+    ViewData["Title"] = Model.Name;
+    string type = string.Empty;
     @if (!string.IsNullOrEmpty(Model.Type))
     {
-        string type = Model.Type;
+        type = Model.Type;
         if (type == "Admin")
         {
             Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -29,7 +30,6 @@
                         <h4>Hold &nbsp;&nbsp;</h4>
                         <span class="counter counter-count">@Model.BolckedUnits </span>
                     </div>
-
                     <div class="available">
                         <h4>Available &nbsp;&nbsp;</h4>
                         <span class="counter counter-count">@Model.AvailableUnits</span>
@@ -53,12 +53,6 @@
                 <g>
                 <defs>
                 <polyline id="SVGID_1_" points="2,898.5 839.36,898.5 839.36,28.98 2,28.98 2,898.5   " />
-
-
-
-
-
-
 
                                 </defs>
                 <clipPath id="SVGID_2_">
@@ -9326,47 +9320,159 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-sm-6">
-                <div class="prime-modal1">
-                    <div class="modal fade" id="BlockModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
+                @if (type == "Admin")
+                {
+                    <div class="modal1">
+                        <div class="modal fade" id="BlockModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Plot Details</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="info">
+                                            <div class="plot-info">
+                                                <ul class="plot-info-ul">
+                                                    <li id="plotNo"></li>
+                                                    <li id="Size"></li>
+                                                    <li id="Facing"></li>
+                                                </ul>
+
+                                                <div id="timer">
+                                                    <!-- <div id="days"></div> -->
+                                                    <div id="hours"></div>
+                                                    <div id="minutes"></div>
+                                                    <div id="seconds"></div>
+                                                </div>
+
+                                            </div>
+
+                                            <form id="user-form" style="display:block">
+                                                <div class="form-group" id="ddlType" >
+                                                    <label class="label-text">SelectType</label>
+                                                    <select class="form-control" id="ddlTypes" >
+                                                        <option value="SelectType">SelectType</option>
+                                                        <option value="Agent">Agent</option>
+                                                        <option value="Self">Self</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" id="ddlAgents" style="display:none">
+                                                    <label class="label-text">Choose Agent</label>
+                                                    <select class="form-control" id="ddlAgentsData">
+                                                        <option value="SelectAgent">Select Agent</option>
+                                                        @if(Model.lstAgents!=null){
+                                                            foreach (var agent in Model.lstAgents) { 
+                                                        <option value="@agent.AgentId">@agent.AgentName</option>
+                                                        }
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" id="pwd">
+                                                    <label class="label-text">Customer Name</label>
+                                                    <input type="text" id="txtCustomer" class="form-control custom-form">
+                                                </div>
+                                            </form>
+
+                                            <div class="block-info mt-5">
+                                                <button class="ladda-button02 green ladda-button expand-right" onclick="DataBinding()"><span class="ladda-label label-custom">Booking</span></button>
+                                                <p class="book-text"><i class="fas fa-check-circle book-icon mr-3"></i></p>
+                                                <button class="btn  cancel-btn ml-0" id="btnCancel" onclick="RefreshPage()">Close</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="success-msg">
+                                            <i class="fas fa-check-circle book-icon mr-3"></i>
+                                            <p class="book-text">Booking Successfully....</p>
+                                        </div>
+
+                                    </div>
+                                    <!-- <div class="modal-footer">
+                             <div class="user-details">
+                                  <h4>Your Name : ..........</h4>
+                             </div>
+                        </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="prime-modal1">
+                        <div class="modal fade" id="BlockModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Plot Details</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="info">
+                                            <div class="plot-info">
+                                                <ul class="plot-info-ul">
+                                                    <li id="plotNo"></li>
+                                                    <li id="Size"></li>
+                                                    <li id="Facing"></li>
+                                                </ul>
+
+                                                <div id="timer">
+                                                    <!-- <div id="days"></div> -->
+                                                    <div id="hours"></div>
+                                                    <div id="minutes"></div>
+                                                    <div id="seconds"></div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="block-info mt-5">
+                                                <button class="ladda-button02 green ladda-button expand-right" onclick="DataBinding()"><span class="ladda-label label-custom">Booking</span></button>
+                                                <p class="book-text"><i class="fas fa-check-circle book-icon mr-3"></i></p>
+                                                <button class="btn  cancel-btn ml-0" id="btnCancel" onclick="RefreshPage()">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="modal-footer">
+                             <div class="user-details">
+                                  <h4>Your Name : ..........</h4>
+                             </div>
+                        </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="modal2 js-modal-trigger">
+                    <div class="modal fade" id="BlockModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Plot Details</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <h5 class="modal-title" id="exampleModalLabel">Sark.regital.in says</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="RefreshPage()">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="info">
                                         <div class="plot-info">
-
-                                            <ul class="plot-info-ul">
-                                                <li id="plotNo"></li>
-                                                <li id="Size"></li>
-                                                <li id="Facing"></li>
-                                            </ul>
-
-                                            <div id="timer">
-                                                <!-- <div id="days"></div> -->
-                                                <div id="hours"></div>
-                                                <div id="minutes"></div>
-                                                <div id="seconds"></div>
-                                            </div>
-
+                                           <p class="book-text"><i class="fas fa-check-circle book-icon mr-3"></i></p>
+                                            <span id="contentent"></span>
                                         </div>
+                                        <hr class="info-hr">
+                                        <div class="block-info">
 
-                                        <div class="block-info mt-5">
-                                            <button class="btn  book-btn" onclick="DataBinding()">Booking</button>
-                                            <p class="book-text"><i class="fas fa-check-circle book-icon mr-3"></i></p>
-                                            <button class="btn  cancel-btn ml-0" id="btnCancel" onclick="RefreshPage()" >Close</button>
+                                            <!-- <button class="ladda-button green expand-right"><span class="label-custom" data-size="xs">Submit</span> <span class="spinner"></span></button> -->
                                         </div>
                                     </div>
                                 </div>
                                 <!-- <div class="modal-footer">
-                                     <div class="user-details">
-                                          <h4>Your Name : ..........</h4>
-                                     </div>
-                                </div> -->
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <button type="button" class="btn ">Save changes</button>
+                    </div> -->
                             </div>
                         </div>
                     </div>
@@ -9385,7 +9491,7 @@
     <script src="/js/custom.js"></script>
 
  <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+ <script src="/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
             $("#timer").hide();
@@ -9452,7 +9558,7 @@
                         $("#Facing").html("<span id='spnFacing'>Facing:</span>&nbsp;&nbsp;" + response.facing + "");
                         $("#BlockModal1").modal('show');
                         
-                    } else { alert("Unit Already '" + response.status + "' by SomeOne"); }
+                    } else { $("#contentent").html("Unit Already '" + response.status + "' by SomeOne");$("#BlockModal2").modal('show'); }
                 },
                 failure: function (response) {
                     alert(response.responseText);
@@ -9462,60 +9568,86 @@
                 }
             });
         }
-        function DataBinding() {
+        function DataBinding() {            
             var plotNo = $("#plotNo").text();
             var Size = $("#Size").text();
             var Facing = $("#Facing").text();
             var projectName = $("#hdnProjectName").val();
             var projectId = $("#hdnProjectId").val();
-            var id = plotNo + "," + Size + "," + Facing + "," + projectName + "," + projectId;
+            var id;
             var type = $("#Type").val();
-
+            var cust = $("#txtCustomer").val();
             if (type == "Admin") {
-                $.ajax({
+                var agentTypes = $("#ddlTypes").val();
+                var agentId = $("#ddlAgentsData").val();
+                id = plotNo + "," + Size + "," + Facing + "," + projectName + "," + projectId + "," + cust;
+                if (agentTypes == "Agent" && agentId != "Select Agent") {
+                    id = id + "," + agentId;
+                } else {
+                    id = id + "," + "";
+                }
+                AdminOperation(id);
+            } else if (type == "Agent") {
+                id = plotNo + "," + Size + "," + Facing + "," + projectName + "," + projectId;
+                AgentOperation(id);
+            } else { }
+
+        } 
+        function AdminOperation(id) {
+            $.ajax({
                     type: "POST",
                     url: "/AdminOperations/AdminsDataIntoDb",
                     data: { "id": id },
                     success: function (response) {
-                        alert(convertToJavaScriptDate(response.unitData.expiryDate));
                         $("#hdnexpiryDate").val(response.unitData.expiryDate);
                     },
                     failure: function (response) {
                         alert(response.responseText);
                     },
                     error: function (response) {
-                        //alert(response.responseText);
+                        $("#BlockModal1").modal('hide');
+                        $("#contentent").html("This Unit Reserved Successfully..."); $("#BlockModal2").modal('show');
                     }
-                });
-            } else if (type == "Agent") {
-                $.ajax({
-                    type: "POST",
-                    url: "/AgentOperations/AgentsDataIntoDb",
-                    data: { "id": id },
-                    success: function (response) {
-                        alert(convertToJavaScriptDate(response.unitData.expiryDate));
-                        $("#hdnexpiryDate").val(response.expiryDate);
-                    },
-                    failure: function (response) {
-                        GetUnitsData();
-                        //alert(response.responseText);
-                    },
-                    error: function (response) {
-                        GetUnitsData();
-                        //alert(response.responseText);
-                    }
-                });
-            } else { }
+                });}
+        function AgentOperation(id) {
+            $.ajax({
+                type: "POST",
+                url: "/AgentOperations/AgentsDataIntoDb",
+                data: { "id": id },
+                success: function (response) {
+                    $("#hdnexpiryDate").val(response.expiryDate);
+                    $("#BlockModal1").modal('hide');
+                    $("#contentent").html("This Unit Reserved Successfully..."); $("#BlockModal2").modal('show');
+                },
+                failure: function (response) {
+                    $("#BlockModal1").modal('hide');
+                    $("#contentent").html("This Unit Reserved Successfully..."); $("#BlockModal2").modal('show');
 
-        }
-        function convertToJavaScriptDate(value) {
-            var pattern = /Date\(([^)]+)\)/;
-            var results = pattern.exec(value);
-            var dt = new Date(parseFloat(results[1]));
-            return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+                    GetUnitsData();
+                            },
+                error: function (response) {
+                    $("#BlockModal1").modal('hide');
+                    $("#contentent").html("This Unit Reserved Successfully..."); $("#BlockModal2").modal('show');
+                }
+            });
         }
         function RefreshPage() {
             GetUnitsData();
-        }
+        }        
+        $("#ddlTypes").change(function () {
+                 var type = this.value;
+                 
+            if (type == "Agent") {
+                     $("#ddlAgents").css("display", "block");
+            } else if (type == "SelectType") { alert("Please Select Type");}
+                     
+        }); 
+        $("#ddlAgentsData").change(function () {
+            var agent = this.value;
+            alert(agent);
+            if (agent =="Select Agent") {
+                alert("Please Select Agent");
+            }
+        });
     </script>
 }
